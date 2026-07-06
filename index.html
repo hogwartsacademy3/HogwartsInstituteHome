@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogwarts Institute</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for magical icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        magical: ['Cinzel', 'serif'],
+                        body: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        magic: {
+                            dark: '#0f172a',
+                            gold: '#d4af37',
+                            gryffindor: '#740001',
+                            slytherin: '#1a472a',
+                            ravenclaw: '#0e1a40',
+                            hufflepuff: '#eeb939'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+        }
+        .magical-border {
+            border: 2px solid #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b8962e; }
+    </style>
+</head>
+<body class="font-body min-h-screen flex flex-col">
+
+    <!-- 1. LOGIN PAGE -->
+    <div id="login-page" class="page-section active flex-1 flex items-center justify-center p-4 min-h-screen">
+        <div class="bg-black/60 p-8 rounded-xl magical-border max-w-md w-full text-center backdrop-blur-sm">
+            <i class="fa-solid fa-hat-wizard text-magic-gold text-5xl mb-4"></i>
+            <h1 class="font-magical text-3xl text-magic-gold mb-2">Hogwarts Institute</h1>
+            <p class="text-sm text-gray-400 mb-8 font-style: italic">"Draco Dormiens Nunquam Titillandus"</p>
+            
+            <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
+                <div>
+                    <input type="text" id="username" required placeholder="Nama Siswa (Ketikan 'admin' untuk Admin)" 
+                           class="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded text-white focus:outline-none focus:border-magic-gold focus:ring-1 focus:ring-magic-gold transition-colors">
+                </div>
+                <div>
+                    <input type="password" id="password" required placeholder="Kata Sandi" 
+                           class="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded text-white focus:outline-none focus:border-magic-gold focus:ring-1 focus:ring-magic-gold transition-colors">
+                </div>
+                <button type="submit" class="w-full py-3 mt-4 bg-magic-gold hover:bg-yellow-600 text-black font-magical font-bold text-lg rounded transition-all duration-300 transform hover:scale-105">
+                    Masuk ke Gerbang Utama
+                </button>
+            </form>
+            <div class="mt-6 text-xs text-gray-500">
+                <p>Info: Gunakan username <strong>admin</strong> untuk dapat mengubah poin asrama.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER (Hidden until login) -->
+    <div id="app-container" class="hidden flex-col min-h-screen">
+        
+        <!-- NAVIGATION -->
+        <nav class="bg-black/80 border-b border-magic-gold/50 sticky top-0 z-50 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
+                        <i class="fa-solid fa-bolt text-magic-gold text-xl"></i>
+                        <span class="font-magical text-magic-gold text-xl font-bold hidden sm:block">Hogwarts Institute</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4 font-magical">
+                            <button onclick="navigate('info')" class="text-gray-300 hover:text-magic-gold px-3 py-2 rounded-md text-sm transition">Sejarah</button>
+                            <button onclick="navigate('founders')" class="text-gray-300 hover:text-magic-gold px-3 py-2 rounded-md text-sm transition">Pendiri</button>
+                            <button onclick="navigate('wands')" class="text-gray-300 hover:text-magic-gold px-3 py-2 rounded-md text-sm transition">Tongkat Sihir</button>
+                            <button onclick="navigate('pets')" class="text-gray-300 hover:text-magic-gold px-3 py-2 rounded-md text-sm transition">Peliharaan</button>
+                            <button onclick="navigate('patronus')" class="text-gray-300 hover:text-magic-gold px-3 py-2 rounded-md text-sm transition">Patronus</button>
+                            <button onclick="navigate('points')" class="text-magic-gold border border-magic-gold/30 hover:bg-magic-gold/10 px-3 py-2 rounded-md text-sm transition">Poin Asrama</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span id="user-display-name" class="text-sm font-magical text-gray-300"></span>
+                        <button onclick="handleLogout()" class="text-red-400 hover:text-red-300 text-sm font-magical" title="Keluar">
+                            <i class="fa-solid fa-sign-out-alt"></i> Keluar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu (simplified) -->
+            <div class="md:hidden flex overflow-x-auto bg-gray-900/50 py-2 px-4 gap-4 font-magical text-sm scrollbar-hide">
+                 <button onclick="navigate('info')" class="whitespace-nowrap text-gray-300 hover:text-magic-gold">Sejarah</button>
+                 <button onclick="navigate('founders')" class="whitespace-nowrap text-gray-300 hover:text-magic-gold">Pendiri</button>
+                 <button onclick="navigate('wands')" class="whitespace-nowrap text-gray-300 hover:text-magic-gold">Tongkat</button>
+                 <button onclick="navigate('pets')" class="whitespace-nowrap text-gray-300 hover:text-magic-gold">Peliharaan</button>
+                 <button onclick="navigate('patronus')" class="whitespace-nowrap text-gray-300 hover:text-magic-gold">Patronus</button>
+                 <button onclick="navigate('points')" class="whitespace-nowrap text-magic-gold font-bold">Poin Asrama</button>
+            </div>
+        </nav>
+
+        <!-- CONTENT AREA -->
+        <main class="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 mt-4">
+            
+            <!-- 2. HOME SECTION -->
+            <section id="home-page" class="page-section content-box">
+                <div class="text-center py-10">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Hogwarts_coat_of_arms_colored_with_shading.svg/512px-Hogwarts_coat_of_arms_colored_with_shading.svg.png" 
+                         alt="" class="w-48 h-auto mx-auto mb-8 opacity-90 drop-shadow-2xl"
+                         onerror="this.style.display='none'; document.getElementById('alt-shield').style.display='block';">
+                    <i id="alt-shield" class="fa-solid fa-shield-halved text-7xl text-magic-gold mb-8 hidden mx-auto"></i>
+                    
+                    <h2 class="text-4xl md:text-5xl font-magical text-magic-gold mb-4">Selamat Datang di Aula Besar</h2>
+                    <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        <span id="welcome-message">Siswa</span>, selamat datang di panduan digital Hogwarts School of Witchcraft and Wizardry. Gunakan navigasi di atas untuk menjelajahi keajaiban sekolah kita tercinta.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                    <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-magic-gold transition cursor-pointer" onclick="navigate('points')">
+                        <i class="fa-solid fa-trophy text-3xl text-magic-gold mb-3"></i>
+                        <h3 class="font-magical text-xl mb-2 text-white">Piala Asrama</h3>
+                        <p class="text-sm text-gray-400">Pantau perolehan poin terkini dari keempat asrama.</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-magic-gold transition cursor-pointer" onclick="navigate('wands')">
+                        <i class="fa-solid fa-wand-sparkles text-3xl text-magic-gold mb-3"></i>
+                        <h3 class="font-magical text-xl mb-2 text-white">Tongkat Sihir</h3>
+                        <p class="text-sm text-gray-400">Pelajari anatomi dan inti magis dari tongkat sihir Anda.</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-magic-gold transition cursor-pointer" onclick="navigate('patronus')">
+                        <i class="fa-solid fa-deer text-3xl text-magic-gold mb-3"></i>
+                        <h3 class="font-magical text-xl mb-2 text-white">Mantra Patronus</h3>
+                        <p class="text-sm text-gray-400">Temukan pelindung magis yang mencerminkan jiwa Anda.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. INFO HOGWARTS -->
+            <section id="info-page" class="page-section">
+                <div class="bg-gray-900/80 p-8 rounded-xl border border-magic-gold/30 backdrop-blur-md">
+                    <h2 class="text-3xl font-magical text-magic-gold mb-6 border-b border-magic-gold/30 pb-3">Sejarah Hogwarts</h2>
+                    <div class="space-y-4 text-gray-300 leading-relaxed text-lg">
+                        <p>Hogwarts School of Witchcraft and Wizardry adalah sekolah asrama sihir Inggris, berlokasi di Dataran Tinggi Skotlandia. Sekolah ini menerima siswa magis dari Inggris Raya dan Irlandia untuk masa pendaftaran yang dimulai pada usia sebelas tahun dan berlangsung selama tujuh tahun.</p>
+                        <p>Hogwarts didirikan pada abad ke-10 oleh empat penyihir terhebat pada masanya: <strong>Godric Gryffindor, Helga Hufflepuff, Rowena Ravenclaw, dan Salazar Slytherin</strong>. Mereka membangun kastil tersebut jauh dari pandangan Muggle (non-penyihir) karena saat itu sihir sangat ditakuti oleh orang biasa, dan penyihir sering dianiaya.</p>
+                        <p class="text-magic-gold italic mt-6 text-center text-xl font-magical">"Draco Dormiens Nunquam Titillandus"</p>
+                        <p class="text-center text-sm text-gray-500">(Jangan Pernah Menggelitik Naga yang Sedang Tidur)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. FOUNDERS -->
+            <section id="founders-page" class="page-section">
+                <h2 class="text-3xl font-magical text-magic-gold mb-8 text-center">Para Pendiri Hogwarts</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Gryffindor -->
+                    <div class="bg-red-900/20 border border-[#740001] p-6 rounded-xl relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i class="fa-solid fa-cat text-9xl text-[#740001]"></i> <!-- Lion rep -->
+                        </div>
+                        <h3 class="font-magical text-2xl text-[#d4af37] mb-2">Godric Gryffindor</h3>
+                        <p class="text-gray-300 mb-4">Berasal dari tegalan liar, Godric sangat menghargai keberanian, kepahlawanan, dan tekad yang kuat. Ia adalah pemilik asli dari Topi Seleksi (Sorting Hat) dan Pedang Gryffindor.</p>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 bg-red-900/50 text-xs rounded text-gray-200">Keberanian</span>
+                            <span class="px-2 py-1 bg-red-900/50 text-xs rounded text-gray-200">Ksatria</span>
+                        </div>
+                    </div>
+                    <!-- Slytherin -->
+                    <div class="bg-green-900/20 border border-[#1a472a] p-6 rounded-xl relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i class="fa-solid fa-staff-snake text-9xl text-[#1a472a]"></i>
+                        </div>
+                        <h3 class="font-magical text-2xl text-gray-300 mb-2">Salazar Slytherin</h3>
+                        <p class="text-gray-300 mb-4">Seorang Parselmouth dari rawa-rawa, Slytherin menghargai kecerdikan, ambisi, dan kemurnian darah. Ia membangun Kamar Rahasia jauh di dalam kastil.</p>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 bg-green-900/50 text-xs rounded text-gray-200">Ambisi</span>
+                            <span class="px-2 py-1 bg-green-900/50 text-xs rounded text-gray-200">Kecerdikan</span>
+                        </div>
+                    </div>
+                    <!-- Ravenclaw -->
+                    <div class="bg-blue-900/20 border border-[#0e1a40] p-6 rounded-xl relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i class="fa-solid fa-crow text-9xl text-[#4a6b99]"></i>
+                        </div>
+                        <h3 class="font-magical text-2xl text-[#a2c8ed] mb-2">Rowena Ravenclaw</h3>
+                        <p class="text-gray-300 mb-4">Penyihir paling cemerlang di zamannya, Rowena menghargai kecerdasan, kreativitas, dan kebijaksanaan. Dipercayai bahwa ia yang merancang denah lantai kastil Hogwarts.</p>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 bg-blue-900/50 text-xs rounded text-gray-200">Kecerdasan</span>
+                            <span class="px-2 py-1 bg-blue-900/50 text-xs rounded text-gray-200">Kreativitas</span>
+                        </div>
+                    </div>
+                    <!-- Hufflepuff -->
+                    <div class="bg-yellow-900/20 border border-[#eeb939] p-6 rounded-xl relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i class="fa-solid fa-paw text-9xl text-[#eeb939]"></i>
+                        </div>
+                        <h3 class="font-magical text-2xl text-[#eeb939] mb-2">Helga Hufflepuff</h3>
+                        <p class="text-gray-300 mb-4">Terkenal dengan sifatnya yang manis dan toleran, Helga menghargai kerja keras, kesabaran, dan kesetiaan. Ia menerima semua murid yang tidak dipilih oleh pendiri lain.</p>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 bg-yellow-900/50 text-xs rounded text-gray-200">Kesetiaan</span>
+                            <span class="px-2 py-1 bg-yellow-900/50 text-xs rounded text-gray-200">Kerja Keras</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. WANDS -->
+            <section id="wands-page" class="page-section">
+                <div class="text-center mb-10">
+                    <i class="fa-solid fa-wand-magic-sparkles text-5xl text-magic-gold mb-4"></i>
+                    <h2 class="text-3xl font-magical text-magic-gold mb-2">Tongkat Sihir (Wands)</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto">"Tongkat yang memilih penyihirnya, Mr. Potter. Hal itu selalu tidak jelas bagi kita mengapa." - Garrick Ollivander</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gray-800 p-6 rounded text-center border-t-4 border-red-500">
+                        <h3 class="font-magical text-xl text-white mb-2">Serabut Jantung Naga</h3>
+                        <p class="text-sm text-gray-400">(Dragon Heartstring)</p>
+                        <p class="mt-4 text-gray-300 text-sm">Secara umum menghasilkan tongkat dengan kekuatan paling besar dan mampu menghasilkan sihir yang paling mencolok. Tongkat ini cenderung lebih cepat belajar dari jenis lainnya.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded text-center border-t-4 border-yellow-500">
+                        <h3 class="font-magical text-xl text-white mb-2">Bulu Burung Phoenix</h3>
+                        <p class="text-sm text-gray-400">(Phoenix Feather)</p>
+                        <p class="mt-4 text-gray-300 text-sm">Ini adalah jenis inti yang paling langka. Tongkat dengan bulu Phoenix mampu menghasilkan jangkauan sihir terluas, meskipun mereka butuh waktu lebih lama untuk menunjukkannya.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded text-center border-t-4 border-blue-300">
+                        <h3 class="font-magical text-xl text-white mb-2">Rambut Unicorn</h3>
+                        <p class="text-sm text-gray-400">(Unicorn Hair)</p>
+                        <p class="mt-4 text-gray-300 text-sm">Umumnya menghasilkan sihir yang paling konsisten dan sangat jarang mengalami fluktuasi. Tongkat ini paling setia dan biasanya sangat terikat pada pemilik pertamanya.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. PETS -->
+            <section id="pets-page" class="page-section">
+                <h2 class="text-3xl font-magical text-magic-gold mb-8 text-center border-b border-gray-700 pb-4">Hewan Pendamping (Pets)</h2>
+                <div class="space-y-6">
+                    <div class="flex flex-col md:flex-row bg-gray-800/60 rounded-xl overflow-hidden border border-gray-700 items-center">
+                        <div class="p-8 text-center md:text-left md:w-1/3 flex justify-center">
+                            <i class="fa-solid fa-crow text-7xl text-gray-300"></i> <!-- Owl proxy -->
+                        </div>
+                        <div class="p-6 md:w-2/3">
+                            <h3 class="text-2xl font-magical text-magic-gold mb-2">Burung Hantu (Owl)</h3>
+                            <p class="text-gray-300">Pilihan paling populer di kalangan siswa Hogwarts. Burung hantu sangat cerdas, dapat mengirimkan surat ke seluruh penjuru dunia sihir tanpa memerlukan alamat, dan sangat setia kepada pemiliknya.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row bg-gray-800/60 rounded-xl overflow-hidden border border-gray-700 items-center">
+                        <div class="p-8 text-center md:text-left md:w-1/3 flex justify-center">
+                            <i class="fa-solid fa-cat text-7xl text-orange-400"></i>
+                        </div>
+                        <div class="p-6 md:w-2/3">
+                            <h3 class="text-2xl font-magical text-magic-gold mb-2">Kucing (Cat)</h3>
+                            <p class="text-gray-300">Kucing adalah hewan peliharaan tradisional bagi penyihir. Di dunia sihir, banyak kucing memiliki keturunan Kneazle, membuat mereka lebih cerdas, mampu mendeteksi orang jahat, dan membimbing pemiliknya pulang.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row bg-gray-800/60 rounded-xl overflow-hidden border border-gray-700 items-center">
+                        <div class="p-8 text-center md:text-left md:w-1/3 flex justify-center">
+                            <i class="fa-solid fa-frog text-7xl text-green-500"></i>
+                        </div>
+                        <div class="p-6 md:w-2/3">
+                            <h3 class="text-2xl font-magical text-magic-gold mb-2">Katak (Toad)</h3>
+                            <p class="text-gray-300">Meskipun popularitasnya menurun dalam beberapa dekade terakhir karena dianggap 'kuno', katak tetap menjadi hewan peliharaan yang perawatannya mudah dan sangat terhubung dengan ramuan sihir klasik.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. PATRONUS -->
+            <section id="patronus-page" class="page-section">
+                <div class="bg-[url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center rounded-2xl p-1 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
+                    <div class="relative z-10 p-8 md:p-12 text-center">
+                        <h2 class="text-4xl font-magical text-blue-300 mb-4 drop-shadow-[0_0_10px_rgba(147,197,253,0.8)]">Expecto Patronum!</h2>
+                        <p class="text-lg text-gray-200 max-w-2xl mx-auto mb-8">
+                            Mantra Patronus adalah sihir pelindung yang sangat rumit dan sulit. Ia memunculkan kekuatan positif dan menghasilkan wujud hewan perak terang yang mewakili perlindungan bagi pemantranya.
+                        </p>
+                        
+                        <div id="patronus-result-area" class="hidden mb-8 transform transition-all duration-500 scale-95 opacity-0">
+                            <div class="inline-block p-6 rounded-full border-4 border-blue-300/50 bg-blue-900/30 shadow-[0_0_30px_rgba(147,197,253,0.4)]">
+                                <i id="patronus-icon" class="fa-solid fa-paw text-6xl text-blue-200 drop-shadow-[0_0_15px_rgba(255,255,255,0.9)]"></i>
+                            </div>
+                            <h3 class="text-2xl font-magical text-blue-100 mt-4">Patronus Anda adalah <br><span id="patronus-name" class="text-3xl text-white font-bold tracking-wider uppercase drop-shadow-md"></span></h3>
+                        </div>
+
+                        <button id="btn-discover-patronus" onclick="discoverPatronus()" class="bg-blue-600/80 hover:bg-blue-500 text-white border border-blue-300 px-8 py-3 rounded-full font-magical text-xl transition-all shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:shadow-[0_0_25px_rgba(59,130,246,0.8)]">
+                            Temukan Patronus Anda
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. HOUSE POINTS -->
+            <section id="points-page" class="page-section">
+                <div class="flex justify-between items-end mb-8 border-b border-gray-700 pb-4">
+                    <div>
+                        <h2 class="text-3xl font-magical text-magic-gold">Piala Asrama (House Points)</h2>
+                        <p class="text-gray-400 mt-1">Status poin saat ini secara Real-time.</p>
+                    </div>
+                    <div id="admin-badge" class="hidden">
+                        <span class="bg-purple-900 text-purple-200 text-xs px-3 py-1 rounded border border-purple-500 flex items-center gap-2">
+                            <i class="fa-solid fa-lock-open"></i> Akses Admin Aktif
+                        </span>
+                    </div>
+                </div>
+
+                <!-- House Points Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="house-points-container">
+                    <!-- Cards will be generated by JS -->
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center py-6 border-t border-gray-800 text-gray-500 font-magical text-sm mt-auto">
+            &copy; 2026 Hogwarts Institute. Dikembangkan melalui Sihir Web.
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- STATE MANAGEMENT ---
+        let currentUser = null; // { username: string, role: 'student' | 'admin' }
+        
+        // Initial House Points Data
+        const housePointsData = {
+            gryffindor: { name: 'Gryffindor', points: 312, color: 'text-red-500', bg: 'bg-red-900/20', border: 'border-red-700', icon: 'fa-cat' }, // cat as proxy for lion
+            slytherin: { name: 'Slytherin', points: 300, color: 'text-green-500', bg: 'bg-green-900/20', border: 'border-green-700', icon: 'fa-staff-snake' },
+            ravenclaw: { name: 'Ravenclaw', points: 280, color: 'text-blue-400', bg: 'bg-blue-900/20', border: 'border-blue-700', icon: 'fa-crow' },
+            hufflepuff: { name: 'Hufflepuff', points: 250, color: 'text-yellow-500', bg: 'bg-yellow-900/20', border: 'border-yellow-600', icon: 'fa-paw' } // badger proxy
+        };
+
+        const patronusAnimals = [
+            { name: "Rusa Jantan (Stag)", icon: "fa-deer" },
+            { name: "Anjing (Dog)", icon: "fa-dog" },
+            { name: "Kucing (Cat)", icon: "fa-cat" },
+            { name: "Kuda (Horse)", icon: "fa-horse" },
+            { name: "Burung (Bird)", icon: "fa-crow" },
+            { name: "Naga (Dragon)", icon: "fa-dragon" },
+            { name: "Berang-berang (Otter)", icon: "fa-otter" },
+            { name: "Kelinci (Hare)", icon: "fa-rabbit" } // fallbacks used
+        ];
+
+        // --- AUTHENTICATION & NAVIGATION ---
+        function handleLogin(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('username').value.trim();
+            
+            if (!usernameInput) return;
+
+            // Simple role logic
+            const role = (usernameInput.toLowerCase() === 'admin') ? 'admin' : 'student';
+            
+            currentUser = {
+                username: usernameInput,
+                role: role
+            };
+
+            // Setup UI based on user
+            document.getElementById('welcome-message').innerText = `${usernameInput}`;
+            document.getElementById('user-display-name').innerText = usernameInput;
+            
+            if(role === 'admin') {
+                document.getElementById('admin-badge').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-badge').classList.add('hidden');
+            }
+
+            // Hide Login, Show App
+            document.getElementById('login-page').classList.remove('active');
+            document.getElementById('app-container').classList.remove('hidden');
+            document.getElementById('app-container').classList.add('flex');
+            
+            // Navigate to home and render points
+            navigate('home');
+            renderHousePoints();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('app-container').classList.remove('flex');
+            document.getElementById('login-page').classList.add('active');
+            document.getElementById('login-form').reset();
+            
+            // Reset patronus UI
+            document.getElementById('patronus-result-area').classList.add('hidden');
+            document.getElementById('btn-discover-patronus').style.display = 'inline-block';
+        }
+
+        function navigate(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show target page
+            const target = document.getElementById(`${pageId}-page`);
+            if (target) {
+                target.classList.add('active');
+            }
+            
+            // Window scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- HOUSE POINTS LOGIC ---
+        function renderHousePoints() {
+            const container = document.getElementById('house-points-container');
+            container.innerHTML = ''; // clear
+
+            Object.keys(housePointsData).forEach(key => {
+                const house = housePointsData[key];
+                const isAdmin = currentUser && currentUser.role === 'admin';
+                
+                // Build admin controls if needed
+                const adminControls = isAdmin ? `
+                    <div class="mt-4 flex justify-center gap-3 border-t border-gray-700 pt-3">
+                        <button onclick="updatePoints('${key}', -10)" class="w-8 h-8 rounded-full bg-red-900/50 text-white hover:bg-red-700 transition flex items-center justify-center" title="Kurangi 10 Poin">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                        </button>
+                        <button onclick="updatePoints('${key}', 10)" class="w-8 h-8 rounded-full bg-green-900/50 text-white hover:bg-green-700 transition flex items-center justify-center" title="Tambah 10 Poin">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                ` : '';
+
+                const cardHTML = `
+                    <div class="${house.bg} border ${house.border} rounded-xl p-4 md:p-6 text-center transform transition duration-300 hover:scale-105">
+                        <i class="fa-solid ${house.icon} text-4xl md:text-5xl ${house.color} opacity-80 mb-3"></i>
+                        <h3 class="font-magical text-xl md:text-2xl text-white mb-1">${house.name}</h3>
+                        <div class="text-3xl md:text-5xl font-bold ${house.color} font-magical drop-shadow-md transition-all" id="score-${key}">
+                            ${house.points}
+                        </div>
+                        ${adminControls}
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function updatePoints(houseKey, amount) {
+            if (currentUser?.role !== 'admin') {
+                alert("Hanya Staff/Admin yang dapat mengubah poin asrama!");
+                return;
+            }
+
+            // Update state
+            housePointsData[houseKey].points += amount;
+            if(housePointsData[houseKey].points < 0) housePointsData[houseKey].points = 0; // Prevent negative
+
+            // Animate DOM update
+            const scoreElement = document.getElementById(`score-${houseKey}`);
+            scoreElement.classList.add('scale-125', 'text-white');
+            scoreElement.innerText = housePointsData[houseKey].points;
+            
+            setTimeout(() => {
+                scoreElement.classList.remove('scale-125', 'text-white');
+            }, 300);
+        }
+
+        // --- PATRONUS LOGIC ---
+        function discoverPatronus() {
+            const btn = document.getElementById('btn-discover-patronus');
+            const resultArea = document.getElementById('patronus-result-area');
+            const iconEl = document.getElementById('patronus-icon');
+            const nameEl = document.getElementById('patronus-name');
+
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sedang Berkonsentrasi...';
+            btn.disabled = true;
+
+            // Simulate loading magic
+            setTimeout(() => {
+                // Randomly select animal
+                const randomAnimal = patronusAnimals[Math.floor(Math.random() * patronusAnimals.length)];
+                
+                // Update DOM
+                btn.style.display = 'none';
+                iconEl.className = `fa-solid ${randomAnimal.icon} text-7xl text-blue-200 drop-shadow-[0_0_20px_rgba(255,255,255,1)]`;
+                nameEl.innerText = randomAnimal.name;
+                
+                // Show with animation
+                resultArea.classList.remove('hidden');
+                setTimeout(() => {
+                    resultArea.classList.remove('scale-95', 'opacity-0');
+                    resultArea.classList.add('scale-100', 'opacity-100');
+                }, 50);
+
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+
