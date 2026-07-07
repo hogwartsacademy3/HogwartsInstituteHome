@@ -3,1032 +3,1081 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hogwarts Institute - Ultimate Magical Portal</title>
-    <!-- Tailwind CSS -->
+    <title>Portal Hogwarts Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Spectral:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        body: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        magical: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            gold: '#d4af37',
+                            light: '#e2e8f0'
+                        },
+                        house: {
+                            gryffindor: '#7F0909',
+                            hufflepuff: '#FFC500',
+                            ravenclaw: '#000A90',
+                            slytherin: '#0D6217'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --gold: #D4AF37;
-            --dark: #07080A;
-            --parchment: #F0E6D2;
-            
-            --gryffindor-1: #740001; --gryffindor-2: #D3A625;
-            --slytherin-1: #1A472A; --slytherin-2: #5D5D5D;
-            --ravenclaw-1: #0E1A40; --ravenclaw-2: #946B2D;
-            --hufflepuff-1: #FFDB00; --hufflepuff-2: #000000;
-        }
-
         body {
-            margin: 0;
-            overflow-x: hidden;
-            background-color: var(--dark);
-            color: #e5e7eb;
-            font-family: 'Spectral', serif;
-            user-select: none;
-            scroll-behavior: smooth;
-        }
-
-        h1, h2, h3, h4, .font-cinzel { font-family: 'Cinzel', serif; }
-        .font-playfair { font-family: 'Playfair Display', serif; }
-        .text-gold { color: var(--gold); }
-        .bg-gold { background-color: var(--gold); }
-        .border-gold { border-color: var(--gold); }
-
-        /* Magic Particle Canvas Background */
-        #magic-canvas {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0; pointer-events: none;
-        }
-
-        /* Glassmorphism Cards */
-        .magic-card {
-            background: rgba(15, 17, 26, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 12px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .magic-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border: 1px solid rgba(212, 175, 55, 0.8);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
-        }
-        .magic-card-no-hover {
-            background: rgba(15, 17, 26, 0.8);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-            position: relative;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
         }
         
-        .shine-effect::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-            transform: skewX(-25deg);
-            animation: shine 8s infinite;
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
         }
 
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 200%; }
-            100% { left: 200%; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Screen Transitions */
-        .fade-out { animation: fadeOut 1.5s forwards; }
-        .fade-in { animation: fadeIn 1.5s forwards; }
-        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; visibility: visible; } }
-
-        /* Login Door Animation */
-        #login-screen {
-            background: radial-gradient(circle at center, #11111a 0%, #000 100%);
-            z-index: 50;
-        }
-        .gate-open {
-            transform: scale(2) translateY(-20px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: blur(10px);
+        /* Dropdown CSS */
+        .dropdown:hover .dropdown-menu {
+            display: block;
         }
 
-        /* Nav Link Hover Glow */
-        .nav-link { position: relative; transition: color 0.3s; }
-        .nav-link::after {
-            content: ''; position: absolute; width: 0; height: 2px;
-            bottom: -2px; left: 50%; transform: translateX(-50%);
-            background-color: var(--gold); transition: width 0.3s;
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .nav-link:hover { color: var(--gold); }
-        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-        .nav-link.active { color: var(--gold); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--dark); }
-        ::-webkit-scrollbar-thumb { background: #3a3a4a; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-        /* House Points Vials */
-        .vial-container {
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
         }
-        .vial {
-            width: 80px; height: 400px;
-            border-radius: 40px; border: 4px solid rgba(212, 175, 55, 0.8);
-            background: rgba(0,0,0,0.6);
-            position: relative; overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 20px rgba(212,175,55,0.2);
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
         }
-        .vial::after {
-            content:''; position: absolute; top:0; left: 15px; width: 15px; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0.3), transparent);
-            border-radius: 10px; pointer-events: none;
-        }
-        .gems {
-            position: absolute; bottom: 0; width: 100%;
-            transition: height 2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background-size: cover;
-            box-shadow: 0 0 30px currentColor;
-        }
-        .gems-gryffindor { background: linear-gradient(45deg, var(--gryffindor-1), #ff4d4d); color: var(--gryffindor-1); }
-        .gems-slytherin { background: linear-gradient(45deg, var(--slytherin-1), #2ecc71); color: var(--slytherin-1); }
-        .gems-ravenclaw { background: linear-gradient(45deg, var(--ravenclaw-1), #3498db); color: var(--ravenclaw-1); }
-        .gems-hufflepuff { background: linear-gradient(45deg, var(--hufflepuff-1), #f1c40f); color: var(--hufflepuff-1); }
-
-        /* Page Content Area */
-        .page-section { display: none; opacity: 0; animation: contentFadeIn 0.8s forwards; padding-bottom: 6rem; z-index: 10; position: relative;}
-        .page-section.active { display: block; }
-        @keyframes contentFadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Glowing text */
-        .glow-text { text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
-
-        /* Modal / Popup */
-        #interactive-modal { z-index: 100; backdrop-filter: blur(15px); }
-        .modal-content {
-            background: radial-gradient(circle at top left, #1a1c29, #050608);
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
-            max-height: 85vh; /* Allows scrolling if content is huge */
-            overflow-y: auto;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37; 
         }
 
-        /* Wand Cursor Hover effect */
-        .clickable:hover, .nav-link:hover, button:hover { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="%23D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'), auto; }
-
-        /* Float animation */
-        .float-anim { animation: floating 4s ease-in-out infinite; }
-        @keyframes floating { 0% { transform: translateY(0); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0); } }
-
-        /* Dropcap for large text */
-        .dropcap::first-letter {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
-            float: left;
-            line-height: 1;
-            padding-right: 0.5rem;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        .photo-placeholder {
+            background-color: #1a1a2e;
+            border: 2px dashed #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            text-align: center;
+            padding: 1rem;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="font-body text-magical-light overflow-x-hidden">
 
-    <!-- Canvas for Magical Background Particles -->
-    <canvas id="magic-canvas"></canvas>
+    <!-- Navigation Bar -->
+    <nav class="bg-magical-900 border-b border-magical-700/50 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('home')">
+                    <i class="fa-solid fa-hat-wizard text-magical-gold text-3xl mr-3"></i>
+                    <span class="font-heading font-bold text-2xl text-magical-gold tracking-wider">Hogwarts Institute</span>
+                </div>
 
-    <!-- 1. LOGIN SCREEN -->
-    <div id="login-screen" class="fixed inset-0 flex items-center justify-center flex-col transition-all duration-1000">
-        <div class="text-center p-10 magic-card max-w-lg w-full mx-4 shine-effect" id="login-box">
-            <div class="text-6xl mb-6 float-anim">🏰</div>
-            <h1 class="text-4xl md:text-5xl text-gold mb-3 glow-text tracking-wider">Hogwarts Institute</h1>
-            <p class="text-md text-gray-400 mb-10 italic font-playfair">Pusat Arsip dan Pengetahuan Magis Terbesar</p>
-            
-            <div class="space-y-5">
-                <input type="text" id="username" placeholder="Identifikasi Penyihir (Opsional)" class="w-full bg-black bg-opacity-60 border border-gray-600 rounded-lg px-5 py-4 text-white focus:outline-none focus:border-gold transition-colors text-center font-playfair text-lg">
-                <input type="password" id="password" placeholder="Mantra Pembuka Gerbang" class="w-full bg-black bg-opacity-60 border border-gray-600 rounded-lg px-5 py-4 text-white focus:outline-none focus:border-gold transition-colors text-center font-playfair text-lg tracking-widest">
-                <p id="login-error" class="text-red-500 text-sm h-5 hidden font-bold">Inkantasi salah. Pintu tetap tertutup.</p>
-                <button onclick="attemptLogin()" class="clickable w-full bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black font-bold py-4 px-4 rounded-lg transition-all duration-500 font-cinzel tracking-widest mt-6 text-xl shadow-[0_0_15px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.6)]">
-                    ALOHOMORA 🪄
-                </button>
-            </div>
-            <div class="mt-8 pt-6 border-t border-gray-800">
-                <p class="text-sm text-gray-500 font-playfair">"Hanya mereka yang memiliki kuncinya yang dapat mengungkap ratusan rahasia terdalam yang tersembunyi di dalam dinding ini."</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. MAIN APPLICATION (Hidden initally) -->
-    <div id="main-app" class="hidden min-h-screen flex flex-col relative z-10">
-        
-        <!-- Navbar -->
-        <nav class="bg-[#050608] bg-opacity-90 border-b border-[#2a2a35] sticky top-0 z-40 backdrop-blur-lg shadow-xl">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-20">
-                    <div class="flex-shrink-0 flex items-center gap-4 clickable" onclick="navigateTo('home')">
-                        <span class="text-4xl filter drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]">🏰</span>
-                        <span class="font-cinzel font-bold text-xl md:text-2xl text-gold glow-text hidden lg:block tracking-wide">Hogwarts Institute</span>
-                    </div>
-                    <!-- Desktop Menu -->
-                    <div class="hidden md:flex space-x-8 py-2 font-cinzel text-[15px] tracking-wider">
-                        <button onclick="navigateTo('home')" class="nav-link text-gray-300">Home</button>
-                        <button onclick="navigateTo('history')" class="nav-link text-gray-300">History</button>
-                        <button onclick="navigateTo('founders')" class="nav-link text-gray-300">Founders</button>
-                        <button onclick="navigateTo('houses')" class="nav-link text-gray-300">Houses</button>
-                        <button onclick="navigateTo('house-points')" class="nav-link text-gray-300">Points</button>
-                        <button onclick="navigateTo('academics')" class="nav-link text-gray-300">Academics</button>
-                        <button onclick="navigateTo('creatures')" class="nav-link text-gray-300">Creatures</button>
-                    </div>
-                    <!-- Mobile Menu Button -->
-                    <div class="md:hidden flex items-center">
-                        <button onclick="toggleMobileMenu()" class="text-gold focus:outline-none text-3xl">
-                            ☰
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-1 uppercase text-sm font-heading font-semibold tracking-wide">
+                    <button onclick="navigateTo('home')" class="nav-btn px-3 py-2 text-gray-300 hover:text-magical-gold transition">Home</button>
+                    
+                    <!-- About Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            About <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
                         </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-48 z-10 left-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('history')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">History</button>
+                                <button onclick="navigateTo('founders')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Founders</button>
+                                <button onclick="navigateTo('campus')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Campus</button>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Houses Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            Houses <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-48 z-10 left-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('gryffindor')" class="block w-full text-left px-4 py-2 text-red-400 hover:bg-magical-700 hover:text-red-300">Gryffindor</button>
+                                <button onclick="navigateTo('hufflepuff')" class="block w-full text-left px-4 py-2 text-yellow-400 hover:bg-magical-700 hover:text-yellow-300">Hufflepuff</button>
+                                <button onclick="navigateTo('ravenclaw')" class="block w-full text-left px-4 py-2 text-blue-400 hover:bg-magical-700 hover:text-blue-300">Ravenclaw</button>
+                                <button onclick="navigateTo('slytherin')" class="block w-full text-left px-4 py-2 text-green-400 hover:bg-magical-700 hover:text-green-300">Slytherin</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academics Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            Academics <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-48 z-10 left-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('subjects')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Subjects</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Magic Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            Magic <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-48 z-10 left-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('wands')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Wands</button>
+                                <button onclick="navigateTo('spells')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Spells</button>
+                                <button onclick="navigateTo('potions')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Potions</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explore Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            Explore <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-48 z-10 left-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('castle')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Castle</button>
+                                <button onclick="navigateTo('forest')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Forbidden Forest</button>
+                                <button onclick="navigateTo('hogsmeade')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Hogsmeade</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Life Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            Student Life <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-52 z-10 right-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('quidditch')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Quidditch</button>
+                                <button onclick="navigateTo('housecup')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">House Cup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Library Dropdown -->
+                    <div class="relative dropdown group px-3 py-2">
+                        <button class="text-gray-300 group-hover:text-magical-gold transition flex items-center">
+                            Library <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden pt-4 w-52 z-10 right-0">
+                            <div class="bg-magical-800 rounded-md shadow-lg py-1 border border-magical-700">
+                                <button onclick="navigateTo('books')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Books</button>
+                                <button onclick="navigateTo('creatures')" class="block w-full text-left px-4 py-2 hover:bg-magical-700 hover:text-magical-gold">Magical Creatures</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-magical-gold focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
                 </div>
             </div>
-            <!-- Mobile Menu Dropdown -->
-            <div id="mobile-menu" class="hidden md:hidden bg-[#0A0B10] border-b border-gray-800 absolute w-full shadow-2xl">
-                <div class="px-4 py-4 space-y-2 flex flex-col font-cinzel text-md tracking-wider">
-                    <button onclick="navigateTo('home'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 border-b border-gray-800 text-left w-full">Home</button>
-                    <button onclick="navigateTo('history'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 border-b border-gray-800 text-left w-full">History</button>
-                    <button onclick="navigateTo('founders'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 border-b border-gray-800 text-left w-full">Founders</button>
-                    <button onclick="navigateTo('houses'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 border-b border-gray-800 text-left w-full">Houses</button>
-                    <button onclick="navigateTo('house-points'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 border-b border-gray-800 text-left w-full">House Points</button>
-                    <button onclick="navigateTo('academics'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 border-b border-gray-800 text-left w-full">Academics</button>
-                    <button onclick="navigateTo('creatures'); toggleMobileMenu()" class="text-gray-300 hover:text-gold block py-3 text-left w-full">Magical Creatures</button>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Main Content Area -->
-        <main class="flex-grow max-w-[90rem] mx-auto w-full px-4 sm:px-6 lg:px-12 pt-12">
-            
-            <!-- SECTION: HOME -->
-            <section id="home" class="page-section active">
-                <div class="text-center py-16 md:py-28 relative">
-                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none"></div>
-                    <h1 class="text-5xl md:text-7xl lg:text-8xl mb-8 text-gold glow-text font-bold tracking-tight">Hogwarts Institute</h1>
-                    <h2 class="text-2xl md:text-3xl text-gray-300 font-cinzel mb-8 tracking-widest">Ensiklopedia Pengetahuan Magis</h2>
-                    <p class="text-lg md:text-2xl text-gray-400 max-w-4xl mx-auto font-playfair italic leading-relaxed mb-16 px-4">
-                        "Draco Dormiens Nunquam Titillandus." <br> Selamat datang di pusat kompilasi pengetahuan sihir paling bergengsi dan terlengkap. Jelajahi ribuan arsip mantra, temukan rahasia para pendiri, dan pelajari biologi dari makhluk magis paling langka di alam semesta.
-                    </p>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-12 px-2">
-                        <div class="magic-card p-6 flex flex-col items-center justify-center text-center shine-effect" onclick="navigateTo('spellbook')">
-                            <span class="text-5xl mb-4 text-blue-300 drop-shadow-[0_0_10px_#93c5fd]">🪄</span>
-                            <h3 class="font-cinzel text-gold text-lg">Mantra</h3>
-                        </div>
-                        <div class="magic-card p-6 flex flex-col items-center justify-center text-center shine-effect" onclick="navigateTo('potions')">
-                            <span class="text-5xl mb-4 text-green-400 drop-shadow-[0_0_10px_#4ade80]">🧪</span>
-                            <h3 class="font-cinzel text-gold text-lg">Ramuan</h3>
-                        </div>
-                        <div class="magic-card p-6 flex flex-col items-center justify-center text-center shine-effect" onclick="navigateTo('creatures')">
-                            <span class="text-5xl mb-4 text-orange-400 drop-shadow-[0_0_10px_#fb923c]">🐉</span>
-                            <h3 class="font-cinzel text-gold text-lg">Makhluk</h3>
-                        </div>
-                        <div class="magic-card p-6 flex flex-col items-center justify-center text-center shine-effect" onclick="navigateTo('library')">
-                            <span class="text-5xl mb-4 text-yellow-600 drop-shadow-[0_0_10px_#ca8a04]">📚</span>
-                            <h3 class="font-cinzel text-gold text-lg">Pustaka</h3>
-                        </div>
-                        <div class="magic-card p-6 flex flex-col items-center justify-center text-center shine-effect" onclick="navigateTo('herbology')">
-                            <span class="text-5xl mb-4 text-green-600 drop-shadow-[0_0_10px_#16a34a]">🌿</span>
-                            <h3 class="font-cinzel text-gold text-lg">Herbologi</h3>
-                        </div>
-                        <div class="magic-card p-6 flex flex-col items-center justify-center text-center shine-effect" onclick="navigateTo('history')">
-                            <span class="text-5xl mb-4 text-purple-400 drop-shadow-[0_0_10px_#c084fc]">📜</span>
-                            <h3 class="font-cinzel text-gold text-lg">Sejarah</h3>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: HISTORY -->
-            <section id="history" class="page-section">
-                <div class="max-w-5xl mx-auto">
-                    <h2 class="text-5xl text-gold mb-12 text-center border-b-2 border-[#D4AF37] pb-6 glow-text tracking-widest">Arsip Sejarah Institusi</h2>
-                    
-                    <div class="space-y-10 font-playfair text-xl leading-loose text-gray-300">
-                        <div class="magic-card-no-hover p-8 md:p-12 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 text-[15rem] opacity-5 -mt-10 -mr-10">🏰</div>
-                            <h3 class="text-3xl text-gold font-cinzel mb-6">Masa Pendirian (Abad ke-10)</h3>
-                            <p class="dropcap mb-6">
-                                Didirikan pada suatu masa di abad ke-10 di dataran tinggi pegunungan Skotlandia, Hogwarts Institute bermula sebagai aliansi dari empat penyihir terhebat dan paling dihormati di zaman itu: Godric Gryffindor, Salazar Slytherin, Rowena Ravenclaw, dan Helga Hufflepuff. Pada masa di mana sihir ditakuti oleh kaum Muggle dan para penyihir mengalami penganiayaan (Masa Inkuisisi Mengerikan), institusi ini dibangun jauh dari prying eyes sebagai tempat berlindung sekaligus pusat pelestarian ilmu sihir.
-                            </p>
-                            <p>
-                                Mereka bersama-sama merancang kastil monumental yang dilengkapi dengan seratus empat puluh dua tangga yang selalu berubah arah, puluhan lorong rahasia, dan ruangan-ruangan tersembunyi. Namun, harmoni ini tidak bertahan selamanya. Perbedaan ideologi, khususnya pandangan Salazar Slytherin mengenai kemurnian darah (Pure-blood supremacy), akhirnya memicu konflik besar yang menyebabkan kepergiannya dari institusi.
-                            </p>
-                        </div>
-
-                        <div class="flex justify-center my-10">
-                            <span class="text-6xl float-anim drop-shadow-[0_0_15px_rgba(212,175,55,0.8)]">✨</span>
-                        </div>
-
-                        <div class="magic-card-no-hover p-8 md:p-12 relative overflow-hidden">
-                            <h3 class="text-3xl text-gold font-cinzel mb-6">Arsitektur & Perlindungan Magis</h3>
-                            <p class="mb-6">
-                                Bangunan institusi dilindungi oleh pesona magis kuno yang tak terhitung jumlahnya. Mantra <em>Repello Muggletum</em> menjamin bahwa setiap Muggle yang mendekat secara tidak sengaja hanya akan melihat reruntuhan kastil tua yang berbahaya dengan tanda "DILARANG MASUK". Selain itu, institusi ini dilindungi oleh pesona Anti-Apparition, yang berarti tidak ada penyihir yang bisa ber-Apparate (berteleportasi) masuk atau keluar dari area kastil, sebuah pertahanan mutlak terhadap serangan tiba-tiba.
-                            </p>
-                            <p>
-                                Di sekeliling kastil, terhampar <strong>Danau Hitam (The Great Lake)</strong> yang dihuni oleh Selkie, Grindylow, dan Cumi-Cumi Raksasa yang jinak. Di sebelah barat kastil, berdiri tegak <strong>Hutan Terlarang (The Forbidden Forest)</strong>, sebuah ekosistem purba yang sengaja dibiarkan liar sebagai cagar alam bagi makhluk-makhluk berbahaya seperti Acromantula, Centaur, Thestral, dan Unicorn.
-                            </p>
-                        </div>
-
-                        <div class="magic-card-no-hover p-8 md:p-12 relative overflow-hidden">
-                            <h3 class="text-3xl text-gold font-cinzel mb-6">Era Modern & Visi Institute</h3>
-                            <p class="mb-6">
-                                Selama berabad-abad, Hogwarts Institute telah menjadi saksi berbagai peristiwa besar dalam sejarah sihir, mulai dari Pemberontakan Goblin hingga Perang Sihir Pertama dan Kedua melawan penyihir gelap terkelam sepanjang masa, Lord Voldemort. Institusi ini bahkan pernah menjadi medan pertempuran terakhir (Battle of Hogwarts) di mana para profesor, siswa, dan makhluk magis bersatu mempertahankan kelangsungan dunia sihir.
-                            </p>
-                            <p>
-                                Saat ini, institusi terus berdiri sebagai benteng pengetahuan. Perpustakaan kami menyimpan ribuan manuskrip langka, dari alkimia kuno hingga ilmu mantra modern. Filosofi utama kami berpusat pada pemahaman bahwa sihir bukanlah sekadar alat untuk berkuasa, melainkan kekuatan alam yang harus dipelajari dengan rasa hormat, tanggung jawab, dan kearifan tinggi.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: FOUNDERS -->
-            <section id="founders" class="page-section">
-                <h2 class="text-5xl text-gold mb-4 text-center glow-text tracking-widest">Para Pendiri Legendaris</h2>
-                <p class="text-xl text-gray-400 text-center mb-16 italic font-playfair">"Empat tiang penyangga yang membangun peradaban sihir kita."</p>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <!-- Gryffindor -->
-                    <div class="magic-card p-8 flex flex-col md:flex-row items-center gap-8 border-t-8 border-[#740001] bg-gradient-to-br from-[#1a0505] to-[#07080A]" onclick="openModal('Godric Gryffindor', 'Godric Gryffindor lahir di sebuah desa di West Country, Inggris (yang kemudian dinamai Godric\'s Hollow untuk menghormatinya). Ia digambarkan sebagai pria yang tangguh, liar, berani, dengan surai rambut merah seperti singa.<br><br>Gryffindor adalah pemegang asli dari Topi Seleksi (Sorting Hat), yang ia sihir dengan kecerdasannya sendiri dan pendiri lainnya agar dapat menyeleksi siswa bahkan setelah kematian mereka. Ia juga memiliki sebuah pedang perak bertatahkan rubi yang ditempa oleh Raja Goblin, Ragnuk yang Pertama. Pedang ini memiliki keajaiban menyerap apa pun yang membuatnya lebih kuat (seperti racun Basilisk).', '🦁', '#D3A625')">
-                        <div class="w-32 h-32 rounded-full bg-[#740001] flex-shrink-0 flex items-center justify-center text-6xl border-4 border-gold shadow-[0_0_30px_#740001]">🦁</div>
-                        <div>
-                            <h3 class="text-3xl font-cinzel text-gold mb-2">Godric Gryffindor</h3>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed line-clamp-3">Pendiri asrama Gryffindor. Berasal dari lembah luas. Dikenal karena keberaniannya, keadilannya, dan kehebatannya sebagai duelist tak tertandingi di masanya.</p>
-                            <span class="text-sm text-[#D3A625] uppercase tracking-widest mt-4 inline-block font-bold">Klik untuk membaca arsip lengkap →</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Slytherin -->
-                    <div class="magic-card p-8 flex flex-col md:flex-row items-center gap-8 border-t-8 border-[#1A472A] bg-gradient-to-br from-[#0a1a10] to-[#07080A]" onclick="openModal('Salazar Slytherin', 'Berasal dari wilayah fen (rawa-rawa) di Inggris timur. Salazar Slytherin adalah salah satu Parselmouth (pembicara bahasa ular) pertama yang tercatat dalam sejarah, serta ahli Legilimency yang sangat terampil.<br><br>Ia meyakini bahwa pembelajaran sihir harus dibatasi secara eksklusif bagi mereka yang berasal dari keluarga sihir murni (Pure-blood). Ketika ketiga pendiri lainnya menentang keras pandangan ini, ia membangun Kamar Rahasia (Chamber of Secrets) di bawah tanah kastil secara sembunyi-sembunyi, menempatkan seekor Basilisk raksasa di dalamnya, lalu meninggalkan institusi untuk selamanya. Relik terkenalnya adalah sebuah liontin emas bertatahkan huruf S berhias batu zamrud.', '🐍', '#2ecc71')">
-                        <div class="w-32 h-32 rounded-full bg-[#1A472A] flex-shrink-0 flex items-center justify-center text-6xl border-4 border-gold shadow-[0_0_30px_#1A472A]">🐍</div>
-                        <div>
-                            <h3 class="text-3xl font-cinzel text-gold mb-2">Salazar Slytherin</h3>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed line-clamp-3">Pendiri asrama Slytherin. Seorang ahli sihir pikiran dan Parselmouth. Sangat menghargai kecerdikan, ambisi, kepemimpinan, dan kemurnian darah.</p>
-                            <span class="text-sm text-[#2ecc71] uppercase tracking-widest mt-4 inline-block font-bold">Klik untuk membaca arsip lengkap →</span>
-                        </div>
-                    </div>
-
-                    <!-- Ravenclaw -->
-                    <div class="magic-card p-8 flex flex-col md:flex-row items-center gap-8 border-t-8 border-[#0E1A40] bg-gradient-to-br from-[#050a1a] to-[#07080A]" onclick="openModal('Rowena Ravenclaw', 'Berasal dari lembah Glen di Skotlandia, Rowena Ravenclaw adalah penyihir paling cemerlang di usianya. Dialah yang diyakini mencetuskan nama institusi dan merancang denah lantai kastil yang rumit serta tangga-tangganya yang bisa bergerak sendiri.<br><br>Ia memiliki seorang putri, Helena Ravenclaw (yang kelak menjadi hantu asrama The Grey Lady). Helena, yang iri pada kecerdasan ibunya, mencuri relik ibunya: Mahkota Ravenclaw (Diadem of Ravenclaw) yang konon dapat memperbesar kebijaksanaan pemakainya. Rowena meninggal dunia tak lama setelahnya, diyakini karena patah hati. Pengetuk pintu asramanya berbentuk elang yang menuntut jawaban filosofis dari sebuah teka-teki logika untuk bisa masuk.', '🦅', '#3498db')">
-                        <div class="w-32 h-32 rounded-full bg-[#0E1A40] flex-shrink-0 flex items-center justify-center text-6xl border-4 border-gold shadow-[0_0_30px_#0E1A40]">🦅</div>
-                        <div>
-                            <h3 class="text-3xl font-cinzel text-gold mb-2">Rowena Ravenclaw</h3>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed line-clamp-3">Pendiri asrama Ravenclaw. Dikenal karena kecerdasannya yang tiada tara dan kreativitasnya. Merancang struktur ajaib arsitektur kastil ini.</p>
-                            <span class="text-sm text-[#3498db] uppercase tracking-widest mt-4 inline-block font-bold">Klik untuk membaca arsip lengkap →</span>
-                        </div>
-                    </div>
-
-                    <!-- Hufflepuff -->
-                    <div class="magic-card p-8 flex flex-col md:flex-row items-center gap-8 border-t-8 border-[#FFDB00] bg-gradient-to-br from-[#1a1700] to-[#07080A]" onclick="openModal('Helga Hufflepuff', 'Berasal dari lembah-lembah luas di Wales. Helga Hufflepuff adalah lambang dari hati yang lapang, pekerja keras, dan pemaaf. Berbeda dengan ketiga pendiri lain yang menetapkan syarat ketat untuk memilih siswa (keberanian, kecerdasan, atau darah murni), Helga mendeklarasikan: \'Aku akan mengajari mereka semua, dan memperlakukan mereka secara setara.\'<br><br>Ia adalah ahli yang luar biasa dalam pesona makanan; banyak dari resep tradisional yang disajikan di pesta-pesta institut hingga hari ini adalah ciptaannya. Dialah yang pertama kali membawa Peri Rumah (House-elves) ke institut, memberikan mereka tempat berlindung yang aman dan kondisi kerja yang baik di dapur. Relikunya adalah Piala Hufflepuff, sebuah piala emas kecil yang konon memiliki berbagai sifat magis.', '🦡', '#f1c40f')">
-                        <div class="w-32 h-32 rounded-full bg-[#3d3400] flex-shrink-0 flex items-center justify-center text-6xl border-4 border-[#FFDB00] shadow-[0_0_30px_#FFDB00]">🦡</div>
-                        <div>
-                            <h3 class="text-3xl font-cinzel text-gold mb-2">Helga Hufflepuff</h3>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed line-clamp-3">Pendiri asrama Hufflepuff. Terkenal karena loyalitas, kebaikan hati, toleransi, dan penerimaannya terhadap semua murid tanpa syarat khusus.</p>
-                            <span class="text-sm text-[#f1c40f] uppercase tracking-widest mt-4 inline-block font-bold">Klik untuk membaca arsip lengkap →</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: HOUSES -->
-            <section id="houses" class="page-section">
-                <h2 class="text-5xl text-gold mb-12 text-center glow-text tracking-widest">Karakteristik Asrama</h2>
-                
-                <div class="flex flex-col gap-10">
-                    <div class="magic-card-no-hover p-10 flex flex-col xl:flex-row gap-10 items-center border-l-8 border-[#740001]">
-                        <div class="text-8xl md:text-[10rem] text-[#740001] drop-shadow-[0_0_20px_rgba(116,0,1,0.9)] flex-shrink-0 float-anim">🦁</div>
-                        <div class="w-full">
-                            <h3 class="text-4xl text-gold font-cinzel mb-4">Gryffindor</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center text-sm font-bold bg-black bg-opacity-40 p-4 rounded-lg">
-                                <div><span class="text-gray-400 block">Warna</span><span class="text-red-500">Merah & Emas</span></div>
-                                <div><span class="text-gray-400 block">Elemen</span><span class="text-orange-400">Api 🔥</span></div>
-                                <div><span class="text-gray-400 block">Hantu</span><span class="text-gray-200">Nearly Headless Nick</span></div>
-                                <div><span class="text-gray-400 block">Kepala (Historis)</span><span class="text-gray-200">Minerva McGonagall</span></div>
-                            </div>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed mb-4">
-                                Nilai utama Gryffindor adalah keberanian, kepahlawanan, keberanian bertindak, dan ksatria. Banyak anggota asrama ini sering dipandang arogan oleh asrama lain karena kecenderungan mereka yang nekat dan melanggar aturan demi apa yang mereka anggap benar.
-                            </p>
-                            <p class="text-gray-400 text-md font-playfair italic">
-                                <strong>Ruang Rekreasi (Common Room):</strong> Terletak di Menara Gryffindor di lantai tujuh, pintunya dijaga oleh lukisan Nyonya Gemuk yang membutuhkan kata sandi. Ruangannya melingkar, sangat nyaman, penuh dengan permadani merah-emas yang mewah, sofa-sofa empuk, dan perapian besar yang selalu menyala terang.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="magic-card-no-hover p-10 flex flex-col xl:flex-row-reverse gap-10 items-center border-r-8 border-[#1A472A]">
-                        <div class="text-8xl md:text-[10rem] text-[#1A472A] drop-shadow-[0_0_20px_rgba(26,71,42,0.9)] flex-shrink-0 float-anim">🐍</div>
-                        <div class="w-full text-left xl:text-right">
-                            <h3 class="text-4xl text-gold font-cinzel mb-4">Slytherin</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center text-sm font-bold bg-black bg-opacity-40 p-4 rounded-lg">
-                                <div><span class="text-gray-400 block">Warna</span><span class="text-green-500">Hijau & Perak</span></div>
-                                <div><span class="text-gray-400 block">Elemen</span><span class="text-blue-400">Air 💧</span></div>
-                                <div><span class="text-gray-400 block">Hantu</span><span class="text-gray-200">The Bloody Baron</span></div>
-                                <div><span class="text-gray-400 block">Kepala (Historis)</span><span class="text-gray-200">Severus Snape</span></div>
-                            </div>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed mb-4">
-                                Slytherin menghargai ambisi, kelicikan, kepemimpinan, dan kecerdasan yang berorientasi pada pencapaian tujuan. Topi Seleksi mengatakan bahwa di Slytherin, kamu akan menemukan teman sejati yang akan menggunakan segala cara untuk mencapai ujung yang mereka tuju. Mereka sangat loyal pada kelompok elit mereka sendiri.
-                            </p>
-                            <p class="text-gray-400 text-md font-playfair italic">
-                                <strong>Ruang Rekreasi (Common Room):</strong> Sebuah ruangan bawah tanah memanjang bak ruang penjara kastil yang megah dengan dinding batu mentah dan lampu gantung berwarna kehijauan. Jendelanya menghadap ke bagian bawah permukaan Danau Hitam, sehingga sering kali para siswa melihat Cumi-cumi Raksasa atau makhluk air lainnya berenang melintas, memberikan nuansa akuatik yang dingin nan elegan.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="magic-card-no-hover p-10 flex flex-col xl:flex-row gap-10 items-center border-l-8 border-[#0E1A40]">
-                        <div class="text-8xl md:text-[10rem] text-[#3498db] drop-shadow-[0_0_20px_rgba(52,152,219,0.7)] flex-shrink-0 float-anim">🦅</div>
-                        <div class="w-full">
-                            <h3 class="text-4xl text-gold font-cinzel mb-4">Ravenclaw</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center text-sm font-bold bg-black bg-opacity-40 p-4 rounded-lg">
-                                <div><span class="text-gray-400 block">Warna</span><span class="text-blue-400">Biru & Perunggu</span></div>
-                                <div><span class="text-gray-400 block">Elemen</span><span class="text-gray-300">Udara 💨</span></div>
-                                <div><span class="text-gray-400 block">Hantu</span><span class="text-gray-200">The Grey Lady</span></div>
-                                <div><span class="text-gray-400 block">Kepala (Historis)</span><span class="text-gray-200">Filius Flitwick</span></div>
-                            </div>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed mb-4">
-                                Ravenclaw memberikan tempat bagi mereka yang memiliki pemikiran tajam, bijaksana, inovatif, dan mencintai pembelajaran demi pengetahuan itu sendiri. Asrama ini sering melahirkan penemu mantra dan inovator sihir brilian yang terkadang dianggap eksentrik oleh asrama lainnya.
-                            </p>
-                            <p class="text-gray-400 text-md font-playfair italic">
-                                <strong>Ruang Rekreasi (Common Room):</strong> Terletak di menara tinggi dengan pemandangan pegunungan sekitarnya yang spektakuler. Dindingnya dihiasi karpet biru bertabur bintang emas dan rak buku melingkar dari lantai ke langit-langit berukir kubah. Untuk masuk, siswa tidak menggunakan kata sandi, melainkan harus menjawab pertanyaan teka-teki logika yang sulit dari patung perunggu berbentuk elang.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="magic-card-no-hover p-10 flex flex-col xl:flex-row-reverse gap-10 items-center border-r-8 border-[#f1c40f]">
-                        <div class="text-8xl md:text-[10rem] text-[#f1c40f] drop-shadow-[0_0_20px_rgba(241,196,15,0.7)] flex-shrink-0 float-anim">🦡</div>
-                        <div class="w-full text-left xl:text-right">
-                            <h3 class="text-4xl text-gold font-cinzel mb-4">Hufflepuff</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center text-sm font-bold bg-black bg-opacity-40 p-4 rounded-lg">
-                                <div><span class="text-gray-400 block">Warna</span><span class="text-yellow-400">Kuning & Hitam</span></div>
-                                <div><span class="text-gray-400 block">Elemen</span><span class="text-amber-800">Tanah 🌍</span></div>
-                                <div><span class="text-gray-400 block">Hantu</span><span class="text-gray-200">The Fat Friar</span></div>
-                                <div><span class="text-gray-400 block">Kepala (Historis)</span><span class="text-gray-200">Pomona Sprout</span></div>
-                            </div>
-                            <p class="text-gray-300 font-playfair text-lg leading-relaxed mb-4">
-                                Hufflepuff mewakili keadilan, dedikasi kerja keras, kesabaran, dan yang terpenting: kesetiaan (loyalitas). Mereka adalah asrama yang paling tidak kompetitif secara agresif dan paling ramah, namun menghasilkan banyak penyihir luar biasa yang tak kenal takut ketika melindungi orang-orang yang mereka cintai (seperti yang ditunjukkan dalam Pertempuran Hogwarts).
-                            </p>
-                            <p class="text-gray-400 text-md font-playfair italic">
-                                <strong>Ruang Rekreasi (Common Room):</strong> Diakses melalui lorong di dekat Dapur. Pintu masuk disembunyikan di tumpukan tong besar; menepuk tong yang salah akan menyiram penyusup dengan cuka. Ruangannya sangat nyaman menyerupai liang luak yang luas, penuh dengan tanaman merambat gantung dari langit-langit rendah, kursi empuk berwarna madu kuning, kayu-kayu bundar yang hangat, dengan jendela kecil melingkar sejajar dengan rumput kastil.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: HOUSE POINTS -->
-            <section id="house-points" class="page-section">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl text-gold mb-6 glow-text tracking-widest">Jam Pasir Poin Asrama</h2>
-                    <p class="text-gray-400 text-xl font-playfair italic max-w-3xl mx-auto">
-                        "Poin akan diberikan untuk pencapaian luar biasa, kemenangan pertandingan Quidditch, dan kecerdasan di kelas. Namun ingat, poin juga akan dikurangi untuk setiap pelanggaran aturan."
-                    </p>
-                </div>
-                
-                <div class="flex flex-wrap justify-center gap-10 md:gap-20 pt-8 mt-12">
-                    <!-- Gryffindor -->
-                    <div class="vial-container cursor-pointer shine-effect magic-card p-6 rounded-3xl" onclick="openModal('Poin Gryffindor', `Gryffindor mendapatkan poin mereka melalui keberanian heroik (dan kadang-kadang nekat).<br><br>Saat ini memiliki <b class='text-gold text-2xl'>${points.gryffindor}</b> poin.`, '🦁', '#740001')">
-                        <div class="text-5xl mb-4 float-anim drop-shadow-[0_0_10px_#740001]">🦁</div>
-                        <div class="vial">
-                            <div id="vial-gryffindor" class="gems gems-gryffindor" style="height: 50%;"></div>
-                        </div>
-                        <h4 class="font-cinzel text-gold mt-6 text-2xl">Gryffindor</h4>
-                        <span id="score-gryffindor" class="text-4xl font-bold font-playfair mt-2 text-white">150</span>
-                    </div>
-
-                    <!-- Slytherin -->
-                    <div class="vial-container cursor-pointer shine-effect magic-card p-6 rounded-3xl" onclick="openModal('Poin Slytherin', `Slytherin mengumpulkan poin dengan kecerdikan, ambisi untuk menjadi yang terbaik di kelas, dan tentu saja memenangkan Quidditch.<br><br>Saat ini memiliki <b class='text-gold text-2xl'>${points.slytherin}</b> poin.`, '🐍', '#1A472A')">
-                        <div class="text-5xl mb-4 float-anim drop-shadow-[0_0_10px_#1A472A]">🐍</div>
-                        <div class="vial">
-                            <div id="vial-slytherin" class="gems gems-slytherin" style="height: 48%;"></div>
-                        </div>
-                        <h4 class="font-cinzel text-gold mt-6 text-2xl">Slytherin</h4>
-                        <span id="score-slytherin" class="text-4xl font-bold font-playfair mt-2 text-white">145</span>
-                    </div>
-
-                    <!-- Ravenclaw -->
-                    <div class="vial-container cursor-pointer shine-effect magic-card p-6 rounded-3xl" onclick="openModal('Poin Ravenclaw', `Ravenclaw unggul melalui jawaban brilian di kelas, penyelesaian ujian yang sempurna, dan penelitian magis mandiri.<br><br>Saat ini memiliki <b class='text-gold text-2xl'>${points.ravenclaw}</b> poin.`, '🦅', '#3498db')">
-                        <div class="text-5xl mb-4 float-anim drop-shadow-[0_0_10px_#3498db]">🦅</div>
-                        <div class="vial">
-                            <div id="vial-ravenclaw" class="gems gems-ravenclaw" style="height: 55%;"></div>
-                        </div>
-                        <h4 class="font-cinzel text-gold mt-6 text-2xl">Ravenclaw</h4>
-                        <span id="score-ravenclaw" class="text-4xl font-bold font-playfair mt-2 text-white">165</span>
-                    </div>
-
-                    <!-- Hufflepuff -->
-                    <div class="vial-container cursor-pointer shine-effect magic-card p-6 rounded-3xl" onclick="openModal('Poin Hufflepuff', `Hufflepuff sering memenangkan poin dari perilaku teladan, kerja sama tim, herbologi, dan dedikasi pada pekerjaan sekolah.<br><br>Saat ini memiliki <b class='text-gold text-2xl'>${points.hufflepuff}</b> poin.`, '🦡', '#f1c40f')">
-                        <div class="text-5xl mb-4 float-anim drop-shadow-[0_0_10px_#f1c40f]">🦡</div>
-                        <div class="vial">
-                            <div id="vial-hufflepuff" class="gems gems-hufflepuff" style="height: 40%;"></div>
-                        </div>
-                        <h4 class="font-cinzel text-gold mt-6 text-2xl">Hufflepuff</h4>
-                        <span id="score-hufflepuff" class="text-4xl font-bold font-playfair mt-2 text-white">120</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: ACADEMICS (Hub for Spells, Potions, etc) -->
-            <section id="academics" class="page-section">
-                <h2 class="text-5xl text-gold mb-16 text-center glow-text tracking-widest">Pusat Akademis & Pengetahuan</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Cards leading to sub-sections -->
-                    <div class="magic-card p-10 text-center shine-effect" onclick="navigateTo('spellbook')">
-                        <div class="text-6xl mb-6 float-anim text-blue-300 drop-shadow-[0_0_15px_#93c5fd]">🪄</div>
-                        <h3 class="text-3xl text-gold font-cinzel mb-3">Ensiklopedia Mantra</h3>
-                        <p class="text-md text-gray-400 font-playfair leading-relaxed">Pelajari gerakan tongkat, inkantasi, kutukan, hingga pesona pelindung tingkat tinggi.</p>
-                    </div>
-                    <div class="magic-card p-10 text-center shine-effect" onclick="navigateTo('potions')">
-                        <div class="text-6xl mb-6 float-anim text-green-400 drop-shadow-[0_0_15px_#4ade80]">🧪</div>
-                        <h3 class="text-3xl text-gold font-cinzel mb-3">Seni Ramuan</h3>
-                        <p class="text-md text-gray-400 font-playfair leading-relaxed">Arsip mendalam resep ramuan legendaris yang meracuni, menyembuhkan, hingga memikat hati.</p>
-                    </div>
-                    <div class="magic-card p-10 text-center shine-effect" onclick="navigateTo('herbology')">
-                        <div class="text-6xl mb-6 float-anim text-green-600 drop-shadow-[0_0_15px_#16a34a]">🌿</div>
-                        <h3 class="text-3xl text-gold font-cinzel mb-3">Rumah Kaca Herbologi</h3>
-                        <p class="text-md text-gray-400 font-playfair leading-relaxed">Studi biologi botani mengenai tanaman magis berbahaya, mematikan, dan menyembuhkan.</p>
-                    </div>
-                    <div class="magic-card p-10 text-center shine-effect" onclick="navigateTo('library')">
-                        <div class="text-6xl mb-6 float-anim text-amber-500 drop-shadow-[0_0_15px_#f59e0b]">📚</div>
-                        <h3 class="text-3xl text-gold font-cinzel mb-3">Area Terlarang (Perpustakaan)</h3>
-                        <p class="text-md text-gray-400 font-playfair leading-relaxed">Akses ke koleksi buku paling langka dalam sejarah sihir. Diharapkan tidak membaca mantra dengan suara keras.</p>
-                    </div>
-                    <div class="magic-card p-10 text-center shine-effect" onclick="navigateTo('quidditch')">
-                        <div class="text-6xl mb-6 float-anim text-yellow-500 drop-shadow-[0_0_15px_#eab308]">🧹</div>
-                        <h3 class="text-3xl text-gold font-cinzel mb-3">Arsip Quidditch</h3>
-                        <p class="text-md text-gray-400 font-playfair leading-relaxed">Peraturan, posisi pemain, bola sihir, hingga model sapu terbang olahraga paling populer di alam semesta kita.</p>
-                    </div>
-                    <div class="magic-card p-10 text-center shine-effect" onclick="navigateTo('historical-wizard')">
-                        <div class="text-6xl mb-6 float-anim text-purple-400 drop-shadow-[0_0_15px_#c084fc]">🧙‍♂️</div>
-                        <h3 class="text-3xl text-gold font-cinzel mb-3">Tokoh & Legenda Sihir</h3>
-                        <p class="text-md text-gray-400 font-playfair leading-relaxed">Riwayat hidup penyihir terhebat, pembuat tongkat, ilmuwan magis, dan dark wizards legendaris.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SUB-SECTIONS (Injected dynamically) -->
-            <section id="spellbook" class="page-section">
-                <button onclick="navigateTo('academics')" class="text-gold mb-10 hover:underline font-cinzel text-xl tracking-widest flex items-center gap-2"><span class="text-2xl">←</span> Kembali ke Pusat Akademis</button>
-                <h2 class="text-5xl text-blue-300 mb-4 text-center font-cinzel glow-text">Buku Mantra (The Standard Book of Spells)</h2>
-                <p class="text-center text-gray-400 font-playfair text-lg italic mb-12">"Perhatikan pelafalan kalian, jangan sampai mendatangkan kerbau di punggung dada."</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="spell-container">
-                    <!-- Spells injected by JS -->
-                </div>
-            </section>
-
-            <section id="potions" class="page-section">
-                <button onclick="navigateTo('academics')" class="text-gold mb-10 hover:underline font-cinzel text-xl tracking-widest flex items-center gap-2"><span class="text-2xl">←</span> Kembali ke Pusat Akademis</button>
-                <h2 class="text-5xl text-green-400 mb-4 text-center font-cinzel drop-shadow-[0_0_10px_#4ade80]">Laboratorium Ramuan (Moste Potente Potions)</h2>
-                <p class="text-center text-gray-400 font-playfair text-lg italic mb-12">"Di sini kalian akan belajar seni yang halus namun mematikan. Mengurung ketenaran, menyeduh kejayaan, hingga menghentikan kematian."</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="potion-container">
-                    <!-- Potions injected by JS -->
-                </div>
-            </section>
-
-            <section id="herbology" class="page-section">
-                <button onclick="navigateTo('academics')" class="text-gold mb-10 hover:underline font-cinzel text-xl tracking-widest flex items-center gap-2"><span class="text-2xl">←</span> Kembali ke Pusat Akademis</button>
-                <h2 class="text-5xl text-green-600 mb-4 text-center font-cinzel drop-shadow-[0_0_10px_#16a34a]">Rumah Kaca Herbologi</h2>
-                <p class="text-center text-gray-400 font-playfair text-lg italic mb-12">"Gunakan selalu sarung tangan kulit naga kalian. Beberapa tanaman tidak segan-segan untuk mencekik atau menggigit tangan pemetiknya."</p>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6" id="herb-container">
-                    <!-- Herbs injected by JS -->
-                </div>
-            </section>
-
-            <section id="library" class="page-section">
-                <button onclick="navigateTo('academics')" class="text-gold mb-10 hover:underline font-cinzel text-xl tracking-widest flex items-center gap-2"><span class="text-2xl">←</span> Kembali ke Pusat Akademis</button>
-                <h2 class="text-5xl text-amber-500 mb-4 text-center font-cinzel drop-shadow-[0_0_15px_#f59e0b]">Perpustakaan Area Terlarang</h2>
-                <p class="text-center text-gray-400 font-playfair text-lg italic mb-12 max-w-2xl mx-auto">Terdapat ribuan manuskrip kuno. Berhati-hatilah, beberapa buku bisa menjerit jika dibuka dengan kasar, dan yang lainnya tidak pernah bisa ditutup kembali.</p>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto" id="book-container">
-                    <!-- Books injected by JS -->
-                </div>
-            </section>
-            
-            <section id="quidditch" class="page-section">
-                <button onclick="navigateTo('academics')" class="text-gold mb-10 hover:underline font-cinzel text-xl tracking-widest flex items-center gap-2"><span class="text-2xl">←</span> Kembali ke Pusat Akademis</button>
-                <h2 class="text-5xl text-yellow-500 mb-12 text-center font-cinzel drop-shadow-[0_0_15px_#eab308]">Olahraga Magis: Quidditch</h2>
-                
-                <div class="magic-card-no-hover p-12 mb-12 text-center bg-gradient-to-t from-[#1a1300] to-transparent border-t-4 border-yellow-500">
-                    <div class="text-7xl mb-6 float-anim drop-shadow-[0_0_30px_#eab308]">🟡</div>
-                    <h3 class="text-4xl text-gold font-cinzel mb-4">The Golden Snitch</h3>
-                    <p class="text-gray-300 font-playfair text-xl leading-relaxed max-w-3xl mx-auto">Bola seukuran kenari berwarna emas bersayap perak. Bola ini sangat cepat dan nyaris tidak terlihat mata. Menangkapnya akan mengakhiri pertandingan dan memberikan tim pencari <strong>150 poin</strong>. Bola ini memiliki <em>flesh memory</em> (ingatan daging) yang mengingat sentuhan orang pertama yang memegangnya untuk menyelesaikan sengketa tangkapan.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-12">
-                    <div class="magic-card p-10 flex flex-col items-center justify-center" onclick="openModal('Quaffle', 'Bola merah besar tak bersayap. Ini adalah bola utama untuk mencetak angka (10 poin) yang dioper antar Chaser dan dilempar melewati salah satu dari tiga gawang melingkar di ujung lapangan lawan. Bola ini telah dimantrai dengan Mantra Genggaman agar mudah ditangkap dengan satu tangan dan Mantra Pelambat Jatuh sehingga akan melayang jika terjatuh, tidak langsung jatuh ke tanah.', '🔴', '#e74c3c')">
-                        <span class="text-6xl mb-4 drop-shadow-[0_0_20px_#e74c3c]">🔴</span>
-                        <h4 class="text-2xl text-gold font-cinzel">Quaffle</h4>
-                    </div>
-                    <div class="magic-card p-10 flex flex-col items-center justify-center" onclick="openModal('Bludger', 'Dua bola besi hitam seukuran bola bowling yang terbang liar dan agresif. Bludger dimantrai secara otomatis untuk mengejar dan menjatuhkan pemain terdekat dari sapu terbang mereka tanpa pandang bulu. Tugas para Beater adalah memukul Bludger ini dengan tongkat pemukul khusus (club) agar menjauh dari rekan setim dan mengarahkannya ke tim lawan.', '⚫', '#555')">
-                        <span class="text-6xl mb-4 drop-shadow-[0_0_20px_#555]">⚫</span>
-                        <h4 class="text-2xl text-gold font-cinzel">Bludgers (2x)</h4>
-                    </div>
-                    <div class="magic-card p-10 flex flex-col items-center justify-center" onclick="openModal('Posisi Pemain (7 Orang)', '<ul class=\'text-left space-y-3 mt-4 ml-6 list-disc\'><li><b>3 Chaser (Penyerang):</b> Membawa dan melempar Quaffle ke gawang lawan.</li><li><b>2 Beater (Pemukul):</b> Membawa tongkat pemukul. Melindungi tim dari Bludger dan menyerang lawan dengan Bludger.</li><li><b>1 Keeper (Penjaga Gawang):</b> Menjaga tiga ring gawang agar tidak kemasukan Quaffle.</li><li><b>1 Seeker (Pencari):</b> Pemain teringan dan tercepat. Tugas utamanya hanya satu: mencari dan menangkap Golden Snitch.</li></ul>', '🧹', '#D4AF37')">
-                        <span class="text-6xl mb-4 drop-shadow-[0_0_20px_#D4AF37]">🧹</span>
-                        <h4 class="text-2xl text-gold font-cinzel">Posisi & Pemain</h4>
-                    </div>
-                </div>
-            </section>
-
-            <section id="historical-wizard" class="page-section">
-                <button onclick="navigateTo('academics')" class="text-gold mb-10 hover:underline font-cinzel text-xl tracking-widest flex items-center gap-2"><span class="text-2xl">←</span> Kembali ke Pusat Akademis</button>
-                <h2 class="text-5xl text-purple-400 mb-4 text-center font-cinzel drop-shadow-[0_0_15px_#c084fc]">Tokoh Sejarah Magis</h2>
-                <p class="text-center text-gray-400 font-playfair text-lg italic mb-12">"Mereka yang menciptakan mantra, memenangkan peperangan, dan membentuk masyarakat sihir seperti yang kita kenal sekarang."</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8" id="wizard-container">
-                    <!-- Wizards injected by JS -->
-                </div>
-            </section>
-
-            <!-- SECTION: MAGICAL CREATURES -->
-            <section id="creatures" class="page-section">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl text-gold mb-4 glow-text tracking-widest">Ensiklopedia Makhluk Magis</h2>
-                    <h3 class="text-2xl text-orange-400 font-cinzel mb-4">(Fantastic Beasts and Where to Find Them)</h3>
-                    <p class="text-gray-400 text-xl font-playfair italic max-w-4xl mx-auto">"Klasifikasi oleh Kementerian Sihir: Dari klasifikasi (X) yang membosankan hingga (XXXXX) yang dikenal sebagai pembunuh penyihir dan mustahil dijinakkan."</p>
-                </div>
-                
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" id="creature-container">
-                    <!-- Creatures injected by JS -->
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- 3. MODAL POPUP (Updated for Scrolling) -->
-    <div id="interactive-modal" class="fixed inset-0 hidden items-center justify-center p-4 sm:p-6 z-[100] transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="modal-content relative max-w-3xl w-full rounded-2xl p-8 sm:p-10 transform scale-95 transition-transform duration-300 z-10 text-center flex flex-col">
-            <button onclick="closeModal()" class="absolute top-4 right-6 text-gray-400 hover:text-white text-4xl focus:outline-none">&times;</button>
-            <div class="overflow-y-auto pr-4 custom-scrollbar">
-                <div id="modal-icon" class="text-7xl mb-6 float-anim drop-shadow-2xl">✨</div>
-                <h3 id="modal-title" class="text-4xl font-cinzel text-gold mb-6 tracking-wide">Title</h3>
-                <div id="modal-desc" class="text-gray-300 font-playfair text-xl leading-relaxed mb-6 text-left">Description goes here.</div>
-            </div>
-            <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent opacity-40 mt-6 flex-shrink-0"></div>
         </div>
-    </div>
 
-    <!-- 4. HIDDEN ADMIN PANEL -->
-    <div id="admin-panel-btn" class="fixed bottom-6 right-6 z-50 hidden">
-        <button onclick="toggleAdminPanel()" class="bg-red-900 border-2 border-gold text-white px-5 py-3 rounded-full shadow-[0_0_20px_red] hover:bg-red-700 transition-all font-bold text-lg flex items-center gap-2">
-            <span>⚙️</span> Panel Kepala Sekolah
-        </button>
-    </div>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-magical-900 border-t border-magical-700 max-h-screen overflow-y-auto pb-20">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 font-heading uppercase text-sm">
+                <button onclick="navigateTo('home')" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-magical-gold">Home</button>
+                
+                <div class="text-gray-400 px-3 py-2 text-xs mt-2 border-b border-magical-800">About</div>
+                <button onclick="navigateTo('history')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">History</button>
+                <button onclick="navigateTo('founders')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Founders</button>
+                <button onclick="navigateTo('campus')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Campus</button>
 
-    <div id="admin-panel" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#0B0C10] border-4 border-gold p-8 rounded-2xl z-[150] hidden w-[26rem] shadow-[0_0_50px_rgba(212,175,55,0.6)]">
-        <div class="flex justify-between items-center mb-6 border-b-2 border-gray-700 pb-4">
-            <h3 class="text-2xl font-cinzel text-gold drop-shadow-md">Kontrol Poin Asrama</h3>
-            <button onclick="toggleAdminPanel()" class="text-gray-400 hover:text-white text-3xl font-bold">&times;</button>
+                <div class="text-gray-400 px-3 py-2 text-xs mt-2 border-b border-magical-800">Houses</div>
+                <button onclick="navigateTo('gryffindor')" class="block w-full text-left pl-6 py-2 text-red-400">Gryffindor</button>
+                <button onclick="navigateTo('hufflepuff')" class="block w-full text-left pl-6 py-2 text-yellow-400">Hufflepuff</button>
+                <button onclick="navigateTo('ravenclaw')" class="block w-full text-left pl-6 py-2 text-blue-400">Ravenclaw</button>
+                <button onclick="navigateTo('slytherin')" class="block w-full text-left pl-6 py-2 text-green-400">Slytherin</button>
+
+                <div class="text-gray-400 px-3 py-2 text-xs mt-2 border-b border-magical-800">Academics & Magic</div>
+                <button onclick="navigateTo('subjects')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Subjects</button>
+                <button onclick="navigateTo('wands')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Wands</button>
+                <button onclick="navigateTo('spells')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Spells</button>
+                <button onclick="navigateTo('potions')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Potions</button>
+
+                <div class="text-gray-400 px-3 py-2 text-xs mt-2 border-b border-magical-800">Explore & Life</div>
+                <button onclick="navigateTo('castle')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Castle</button>
+                <button onclick="navigateTo('forest')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Forbidden Forest</button>
+                <button onclick="navigateTo('hogsmeade')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Hogsmeade</button>
+                <button onclick="navigateTo('quidditch')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Quidditch</button>
+                <button onclick="navigateTo('housecup')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">House Cup</button>
+
+                <div class="text-gray-400 px-3 py-2 text-xs mt-2 border-b border-magical-800">Library</div>
+                <button onclick="navigateTo('books')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Books</button>
+                <button onclick="navigateTo('creatures')" class="block w-full text-left pl-6 py-2 text-gray-300 hover:text-magical-gold">Magical Creatures</button>
+            </div>
         </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <div class="space-y-6 text-lg">
-            <div class="flex items-center justify-between">
-                <span class="text-[#D3A625] font-bold font-cinzel tracking-wider">Gryffindor</span>
-                <div class="flex gap-3">
-                    <button onclick="updatePoints('gryffindor', -10)" class="bg-red-900 hover:bg-red-700 px-3 py-1 rounded text-white font-bold border border-red-500 shadow-lg">-10</button>
-                    <button onclick="updatePoints('gryffindor', 10)" class="bg-green-800 hover:bg-green-600 px-3 py-1 rounded text-white font-bold border border-green-500 shadow-lg">+10</button>
-                </div>
+        <!-- ================= HOME PAGE ================= -->
+        <section id="home" class="page-section fade-in block">
+            <div class="text-center mb-12 mt-10">
+                <h1 class="font-heading text-5xl md:text-7xl font-bold text-magical-gold mb-6 drop-shadow-lg">Selamat Datang di Hogwarts Institute</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto italic">"Draco Dormiens Nunquam Titillandus" – Jangan Pernah Menggelitik Naga yang Sedang Tidur</p>
             </div>
-            <div class="flex items-center justify-between">
-                <span class="text-[#2ecc71] font-bold font-cinzel tracking-wider">Slytherin</span>
-                <div class="flex gap-3">
-                    <button onclick="updatePoints('slytherin', -10)" class="bg-red-900 hover:bg-red-700 px-3 py-1 rounded text-white font-bold border border-red-500 shadow-lg">-10</button>
-                    <button onclick="updatePoints('slytherin', 10)" class="bg-green-800 hover:bg-green-600 px-3 py-1 rounded text-white font-bold border border-green-500 shadow-lg">+10</button>
-                </div>
-            </div>
-            <div class="flex items-center justify-between">
-                <span class="text-[#3498db] font-bold font-cinzel tracking-wider">Ravenclaw</span>
-                <div class="flex gap-3">
-                    <button onclick="updatePoints('ravenclaw', -10)" class="bg-red-900 hover:bg-red-700 px-3 py-1 rounded text-white font-bold border border-red-500 shadow-lg">-10</button>
-                    <button onclick="updatePoints('ravenclaw', 10)" class="bg-green-800 hover:bg-green-600 px-3 py-1 rounded text-white font-bold border border-green-500 shadow-lg">+10</button>
-                </div>
-            </div>
-            <div class="flex items-center justify-between">
-                <span class="text-[#f1c40f] font-bold font-cinzel tracking-wider">Hufflepuff</span>
-                <div class="flex gap-3">
-                    <button onclick="updatePoints('hufflepuff', -10)" class="bg-red-900 hover:bg-red-700 px-3 py-1 rounded text-white font-bold border border-red-500 shadow-lg">-10</button>
-                    <button onclick="updatePoints('hufflepuff', 10)" class="bg-green-800 hover:bg-green-600 px-3 py-1 rounded text-white font-bold border border-green-500 shadow-lg">+10</button>
-                </div>
-            </div>
-        </div>
-        <p class="text-sm text-gray-400 mt-8 italic text-center font-playfair border-t border-gray-800 pt-4">Tinjau ulang secara teliti sebelum memberikan poin. Perubahan akan segera tercermin secara visual di tabung cairan permata layar utama.</p>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // --- 1. STATE MANAGEMENT ---
-        let isAdmin = false;
-        let points = {
-            gryffindor: 150,
-            slytherin: 145,
-            ravenclaw: 165,
-            hufflepuff: 120
-        };
-        const MAX_POINTS = 30.000;
-
-        // --- 2. MASSIVE ENCYCLOPEDIA DATA ---
-        const dataSpells = [
-            { name: "Lumos (Maxima)", desc: "Mantra penerang. Menyalakan ujung tongkat sihir layaknya obor atau senter. Varian 'Maxima' menciptakan kilatan cahaya buta yang menerangi seluruh ruangan gelap gulita.", icon: "🔦", color: "text-yellow-100" },
-            { name: "Nox", desc: "Mantra pemadam. Secara instan mematikan cahaya yang dihasilkan oleh mantra Lumos.", icon: "🌑", color: "text-gray-500" },
-            { name: "Alohomora", desc: "Mantra pencuri (Unlocking Charm). Dapat membuka kunci fisik maupun sihir tingkat rendah pada pintu atau jendela. Tidak berfungsi jika pintu dilindungi mantra pengunci anti-Alohomora tingkat tinggi.", icon: "🗝️", color: "text-yellow-400" },
-            { name: "Expelliarmus", desc: "Mantra Pelucutan Senjata. Mantra duel dasar paling esensial. Akan memancarkan kilatan cahaya merah dan mementalkan tongkat sihir lawan dari genggamannya.", icon: "⚔️", color: "text-red-500" },
-            { name: "Expecto Patronum", desc: "Mantra Pelindung tingkat tinggi dan sangat kompleks. Menyalurkan emosi paling bahagia sang perapal menjadi wujud pelindung (Patronus) perak berupa hewan. Satu-satunya mantra pertahanan melawan Dementor dan Lethifold.", icon: "🦌", color: "text-blue-200" },
-            { name: "Wingardium Leviosa", desc: "Mantra Pengapung (Levitation Charm). Membuat objek melayang di udara. Membutuhkan gerakan tongkat 'ayun dan jentik' (swish and flick).", icon: "🪶", color: "text-white" },
-            { name: "Accio", desc: "Mantra Pemanggil. Menarik objek, tak peduli seberapa jauh (asalkan perapal memiliki gambaran mental yang jelas tentang lokasinya) langsung ke tangan si perapal.", icon: "🧲", color: "text-gray-400" },
-            { name: "Protego (Maxima / Totalum)", desc: "Mantra Perisai. Menciptakan perisai magis transparan yang akan menangkis, memantulkan, atau mengurangi efek mantra fisik/kutukan. Varian Maxima/Totalum dapat melindungi area yang sangat luas (seperti seluruh tenda atau lapangan).", icon: "🛡️", color: "text-blue-400" },
-            { name: "Avada Kedavra", desc: "Kutukan Tak Termaafkan Ke-1 (Kutukan Pembunuh). Kilatan cahaya hijau menyilaukan yang seketika menyebabkan kematian tanpa bekas luka. Tidak ada mantra pelindung yang bisa menangkisnya (kecuali Pengorbanan Cinta). PENGGUNAANNYA DIHUKUM AZKABAN SEUMUR HIDUP.", icon: "☠️", color: "text-green-600" },
-            { name: "Crucio", desc: "Kutukan Tak Termaafkan Ke-2 (Kutukan Penyiksa). Menyebabkan rasa sakit fisik luar biasa yang tak tertahankan pada korban. Sang perapal harus benar-benar 'berniat' untuk menyiksa agar kutukan ini bekerja optimal.", icon: "🗡️", color: "text-red-700" },
-            { name: "Imperio", desc: "Kutukan Tak Termaafkan Ke-3 (Kutukan Pengendali). Menempatkan korban dalam keadaan trans di mana mereka akan sepenuhnya mematuhi perintah si perapal (dari hal konyol hingga pembunuhan). Membutuhkan kekuatan kemauan luar biasa dari korban untuk melawannya.", icon: "👁️", color: "text-purple-600" },
-            { name: "Obliviate", desc: "Mantra Penghapus Memori. Digunakan untuk menghapus ingatan tertentu dari pikiran seseorang. Sering digunakan oleh Kementerian Sihir pada Muggle yang tak sengaja melihat sihir.", icon: "🧠", color: "text-pink-300" },
-            { name: "Stupefy", desc: "Mantra Pembius. Kilatan cahaya merah yang membuat targetnya pingsan dan tak sadarkan diri seketika. Mantra serang utama bagi Auror.", icon: "💫", color: "text-red-400" },
-            { name: "Incendio", desc: "Mantra Api. Mengeluarkan semburan api dari ujung tongkat, berguna untuk menyalakan perapian, mengusir tanaman sihir seperti Devil's Snare, atau menyerang.", icon: "🔥", color: "text-orange-500" },
-            { name: "Sectumsempra", desc: "Kutukan ciptaan Severus Snape (Half-Blood Prince). Akan merobek target seperti tebasan pedang tak terlihat, menyebabkan pendarahan parah yang hanya bisa disembuhkan dengan mantra Vulnera Sanentur.", icon: "🩸", color: "text-red-600" },
-            { name: "Aguamenti", desc: "Mantra Pencipta Air. Menghasilkan semburan air murni yang bersih dari ujung tongkat. Berguna untuk memadamkan api atau sekadar mengisi gelas minum.", icon: "🌊", color: "text-blue-500" },
-            { name: "Petrificus Totalus", desc: "Kutukan Pengikat Tubuh Penuh. Lengan dan kaki korban akan merapat, dan tubuh mereka akan menjadi kaku seperti papan, lalu terjatuh tanpa bisa bergerak sedikitpun.", icon: "🗿", color: "text-gray-500" },
-            { name: "Riddikulus", desc: "Mantra penangkal Boggart. Membutuhkan kekuatan mental. Perapal harus memikirkan hal paling lucu untuk mengubah wujud menakutkan Boggart menjadi sesuatu yang mengundang tawa, yang akhirnya mengalahkannya.", icon: "🤡", color: "text-pink-500" },
-            { name: "Episkey", desc: "Mantra Penyembuh (minor). Digunakan untuk menyembuhkan luka relatif ringan seperti hidung patah atau bibir pecah. Pendarahan berhenti seketika.", icon: "🩹", color: "text-red-300" }
-        ];
-
-        const dataPotions = [
-            { name: "Polyjuice Potion", desc: "Ramuan tingkat tinggi yang luar biasa kompleks. Membutuhkan waktu sebulan penuh untuk diseduh. Memungkinkan peminumnya mengambil wujud fisik (termasuk suara) orang lain secara sempurna selama satu jam. Bahan terakhirnya adalah sampel fisik (sehelai rambut/kuku) dari orang yang ditiru. Rasanya dan warnanya bervariasi tergantung esensi sifat orang tersebut.", icon: "🫙", color: "text-green-500" },
-            { name: "Felix Felicis (Liquid Luck)", desc: "Ramuan berwarna emas cair (Cairan Keberuntungan). Pembuatannya butuh 6 bulan. Saat diminum, membuat peminumnya luar biasa beruntung dalam segala hal yang mereka lakukan (probabilitas alam semesta seolah berpihak pada mereka). Terlalu sering meminumnya menyebabkan kecerobohan dan over-percaya diri beracun.", icon: "🥂", color: "text-yellow-400" },
-            { name: "Amortentia", desc: "Ramuan cinta paling kuat di dunia sihir. Dikenali dari kilauan *mother-of-pearl* dan uapnya yang naik membentuk spiral. Ramuan ini TIDAK menciptakan cinta sejati (itu tidak mungkin), melainkan obsesi dan ketertarikan yang gila. Aromanya berbeda bagi setiap orang yang menghirupnya, berbau seperti hal-hal yang paling membuat mereka tertarik.", icon: "💖", color: "text-pink-500" },
-            { name: "Veritaserum", desc: "Ramuan kejujuran yang sangat kuat (Serum Kebenaran). Cairan tak berwarna dan tak berbau (seperti air biasa). Tiga tetes saja sudah cukup untuk membuat peminumnya membongkar rahasia paling gelap dan rahasia tersembunyi mereka. Penggunaannya dikontrol secara ketat oleh Kementerian Sihir.", icon: "💧", color: "text-blue-300" },
-            { name: "Draught of Living Death", desc: "Ramuan tidur yang sangat kuat. Membawa peminumnya ke dalam tidur abadi yang sangat dalam menyerupai kematian sejati (animasi tertunda). Hanya ramuan Wiggenweld yang dapat membalikkannya.", icon: "💀", color: "text-purple-700" },
-            { name: "Wolfsbane Potion", desc: "Ramuan rumit untuk Manusia Serigala (Werewolf). Tidak menyembuhkan Lycanthropy, tetapi saat diminum di minggu menjelang bulan purnama, ramuan ini menjaga pikiran rasional/manusiawi peminumnya saat mereka bertransformasi, mencegah mereka melukai siapa pun.", icon: "🐺", color: "text-gray-400" },
-            { name: "Skele-Gro", desc: "Ramuan medis mengerikan (menurut mereka yang meminumnya). Jika seseorang kehilangan tulangnya (misalnya karena mantra yang salah), ramuan ini akan menumbuhkan kembali seluruh tulang tersebut dalam semalam. Prosesnya sangat menyiksa dan rasanya membakar tenggorokan.", icon: "🦴", color: "text-white" },
-            { name: "Elixir of Life", desc: "Dihasilkan secara eksklusif dari *Batu Bertuah (Philosopher's Stone)*. Memperpanjang nyawa peminumnya tanpa batas selama mereka terus meminumnya secara rutin. Satu-satunya pembuat yang diketahui adalah Nicolas Flamel yang hidup lebih dari 600 tahun.", icon: "🔴", color: "text-red-500" },
-            { name: "Pepperup Potion", desc: "Menyembuhkan demam atau flu biasa seketika. Efek samping yang umum adalah asap akan mengepul dari telinga peminum selama berjam-jam setelah mengonsumsinya.", icon: "🌶️", color: "text-red-400" }
-        ];
-
-        const dataHerbs = [
-            { name: "Mandrake (Mandragora)", desc: "Tanaman yang akar utamanya tampak seperti tubuh bayi manusia yang cacat. Saat dewasa, jeritan Mandrake berakibat fatal (mematikan) bagi siapa pun yang mendengarnya. Mandrake muda akan membuat pingsan. Saat dipotong dan direbus, ia merupakan bahan pemulih utama untuk mereka yang terkena kutukan membatu (Petrified).", icon: "🌱", color: "text-green-300" },
-            { name: "Devil's Snare", desc: "Tanaman merambat raksasa yang menyukai kegelapan dan kelembapan. Akan melilit dan mencekik perlahan siapa pun yang menyentuhnya atau meronta. Semakin kuat korban meronta, semakin kuat lilitannya. Cara terbaik menghadapinya adalah bersantai atau menggunakan cahaya api/mantra Incendio karena ia membenci panas dan terang.", icon: "🪴", color: "text-green-800" },
-            { name: "Gillyweed", desc: "Tanaman berlendir dan mirip ekor tikus berwarna keabu-abuan. Saat dikunyah dan ditelan, tanaman ini menumbuhkan insang di leher serta selaput tebal pada jari tangan dan kaki pemakannya, memungkinkan mereka bernapas dan berenang dengan lincah di bawah air asin atau tawar selama sekitar satu jam (tergantung salinitas air).", icon: "🥬", color: "text-green-400" },
-            { name: "Whomping Willow", desc: "Spesies pohon yang sangat langka dan berbahaya (Dedalu Perkasa). Cabang-cabangnya yang tebal bertindak seperti kepalan tangan raksasa, memukul benda apa pun, hewan, atau kendaraan yang berada di sekitarnya. Terdapat sebuah simpul rahasia di pangkal batangnya; jika ditekan, pohon tersebut akan seketika membeku sementara.", icon: "🌳", color: "text-amber-700" },
-            { name: "Venomous Tentacula", desc: "Tanaman hijau mematikan dengan sulur atau tentakel panjang menjuntai berduri yang bergerak sendiri. Secara agresif akan mencoba merenggut dan menggigit makhluk hidup yang mendekat, mengeluarkan racun berbahaya. Tunasnya sering diselundupkan sebagai senjata.", icon: "🌿", color: "text-red-400" },
-            { name: "Bubotuber", desc: "Tanaman hitam aneh yang bentuknya mirip siput tanpa cangkang raksasa yang menonjol dari tanah, diliputi benjolan besar yang berkilauan. Jika benjolan itu diperas (menggunakan sarung tangan), ia mengeluarkan nanah kekuningan berbau bensin tebal, yang merupakan obat luar biasa ampuh untuk mengatasi jerawat sihir (acne parah).", icon: "🍄", color: "text-yellow-600" },
-            { name: "Dittany", desc: "Tanaman obat penyembuh yang sangat magis. Bila dikonsumsi secara utuh menyembuhkan luka dalam. Ekstraknya (Essence of Dittany), yang berwarna coklat berbau pekat, bila diteteskan pada luka parah (seperti pendarahan kutukan atau terbelah) akan mengeluarkan asap kehijauan dan menumbuhkan kulit baru seketika, mencegah infeksi dan menghentikan pendarahan.", icon: "🍀", color: "text-green-500" },
-            { name: "Dirigible Plum", desc: "Tanaman berbuah berbentuk seperti lobak melayang berwarna jingga. Menurut tradisi keluarga Lovegood, buah ini meningkatkan kemampuan untuk menerima hal-hal di luar nalar.", icon: "🍊", color: "text-orange-400" }
-        ];
-
-        const dataCreatures = [
-            { name: "Niffler (XXXX)", desc: "Makhluk mungil berbulu hitam dengan moncong panjang silang antara platipus dan tikus mondok. Mereka mendiami sarang bawah tanah sedalam 20 kaki. Sangat tertarik, bahkan terobsesi, pada segala sesuatu yang berkilauan atau bersinar (emas, perhiasan, koin). Mereka memiliki kantong perut tanpa dasar secara ajaib untuk menyimpan hasil curiannya.", icon: "🦡", color: "text-gray-800" },
-            { name: "Bowtruckle (XX)", desc: "Penjaga pohon pelindung kayu pembuatan tongkat sihir berukuran kecil (maksimal 8 inci). Berkulit menyerupai kulit kayu dan ranting berdaun kecil (berkamuflase sempurna). Sangat damai, namun jika pohon mereka ditebang atau terancam, mereka akan mengamuk, melompat ke arah penebang dan mencongkel matanya dengan jari mereka yang panjang dan tajam.", icon: "🌿", color: "text-green-500" },
-            { name: "Phoenix (XXXX)", desc: "Burung seukuran angsa megah dengan bulu merah tua dan emas yang memancarkan panas. Mereka adalah makhluk abadi—ketika tubuh mereka mulai menua, mereka meledak menjadi api dan terlahir kembali dari abu. Tangisannya memberikan keberanian pada yang baik dan ketakutan pada yang jahat. Air matanya memiliki sifat penyembuhan terkuat yang bisa menetralisir racun mematikan (seperti racun Basilisk).", icon: "🦅", color: "text-red-500" },
-            { name: "Thestral (XXXX)", desc: "Spesies kuda terbang berbadan kerangka, dengan kepala berdaging naga, mata putih tanpa pupil, dan sayap kasar seperti kelelawar raksasa. Menakutkan secara visual. Sifat mereka sebenarnya jinak dan memiliki navigasi pencarian yang tak pernah meleset. Hanya mereka yang pernah melihat langsung kematian (dan memahami maknanya) yang dapat melihat Thestral.", icon: "🐎", color: "text-gray-600" },
-            { name: "Hippogriff (XXX)", desc: "Makhluk hibrida Eropa dengan tubuh belakang, kaki belakang, dan ekor kuda, tetapi kaki depan, sayap, dan kepala elang raksasa. Hewan yang luar biasa bangga dan sensitif. Seseorang harus selalu menjaga kontak mata dan menunduk saat mendekatinya. Jika Hippogriff balas menunduk, ia memperbolehkan orang itu mendekat atau menyentuhnya.", icon: "🦅", color: "text-yellow-600" },
-            { name: "Dragon: Hungarian Horntail (XXXXX)", desc: "Naga. Spesies yang dianggap paling ganas dan berbahaya. Memiliki sisik hitam reptil kasar, mata kuning, tanduk perunggu, dan ekor raksasa yang dilengkapi paku berduri mematikan. Semburan apinya mencapai jarak 50 kaki. Telurnya memiliki warna seperti semen yang tebal.", icon: "🐉", color: "text-orange-600" },
-            { name: "Basilisk (XXXXX)", desc: "Raja Para Ular raksasa (mencapai lebih dari 50 kaki). Diciptakan dengan menetaskan telur ayam di bawah katak. Pandangan mata kuningnya mengakibatkan kematian instan pada siapa pun yang melihat secara langsung (melihat bayangannya menyebabkan membatu). Racun taringnya membunuh dalam hitungan menit dan bisa menghancurkan Horcrux. Musuh utamanya adalah ayam jantan berkokok yang berakibat fatal baginya.", icon: "🐍", color: "text-green-600" },
-            { name: "Boggart (Amortal)", desc: "Hantu yang tak memiliki bentuk wujud asli. Ia adalah penjelajah bentuk (shapeshifter) amortal yang berlindung di tempat sempit gelap (lemari, laci). Saat menghadapi seseorang, Boggart seketika berubah wujud menjadi ketakutan terburuk orang tersebut. Boggart sangat bingung jika menghadapi sekelompok orang (tidak tahu harus berubah jadi apa). Penangkalnya adalah tawa dan mantra Riddikulus.", icon: "👻", color: "text-gray-400" },
-            { name: "Acromantula (XXXXX)", desc: "Laba-laba raksasa berbulu lebat hitam, berlengan delapan dengan sepasang penjepit (capit) tajam yang bergemeretak saat mereka bersemangat atau marah. Mampu berbicara bahasa manusia. Racun mereka bernilai tinggi di pasar gelap. Mereka karnivora ekstrem yang suka mendiami hutan pekat.", icon: "🕷️", color: "text-gray-700" },
-            { name: "Centaur (XXXX)", desc: "Makhluk berbadan dan berkaki kuda bagian bawah, dengan tubuh dan kepala manusia di bagian atas (bukan setengah breed, melainkan spesies independen). Memiliki kecerdasan setara manusia namun menghindari kehidupan manusia. Mereka adalah peramal handal, pemanah tak tertandingi, dan pembaca gerakan bintang-bintang di Hutan Terlarang.", icon: "🐎", color: "text-amber-800" },
-            { name: "Dementor (Amortal)", desc: "Entitas amortal berjubah hitam berlendir, tanpa mata, yang menyedot kebahagiaan, harapan, dan kehangatan di udara sekitarnya hingga membeku. Mereka memakan emosi positif manusia. Senjata terkuat mereka adalah 'Kecupan Dementor' (Dementor's Kiss)—mereka mengisap jiwa seseorang keluar dari mulutnya, membuat tubuh korban hidup sebagai cangkang kosong (lebih buruk dari kematian).", icon: "🧥", color: "text-gray-400" },
-            { name: "Unicorn (XXXX)", desc: "Kuda liar bertanduk ajaib berwarna putih cemerlang berkilauan (anak kuda Unicorn awalnya berwarna emas murni). Hewan suci ini lebih suka sentuhan penyihir wanita dibanding pria. Darah Unicorn—yang berwarna perak cair—memiliki khasiat ajaib yang bisa memperpanjang hidup bagi orang yang meminumnya walau ia berada di ambang kematian sekalipun, namun dengan harga sebuah kutukan 'setengah hidup'.", icon: "🦄", color: "text-white" }
-        ];
-
-        const dataBooks = [
-            { name: "Hogwarts, A History", desc: "Karya sejarah paling komprehensif dari sejarawan sihir terkenal, Bathilda Bagshot. Buku tebal ini menguraikan asal-usul, pembangunan kastil institusi ini, detail perjanjian empat pendiri, keberadaan hantu-hantu asrama, hingga penjelasan detail mengapa peralatan elektronik muggle menjadi kacau bila dioperasikan di sekitar sihir berkekuatan tinggi.", icon: "📘" },
-            { name: "Fantastic Beasts and Where to Find Them", desc: "Buku panduan ensiklopedia fauna oleh Magizoologist Newton (Newt) Scamander. Buku teks yang digunakan selama puluhan tahun; mendeskripsikan secara biologis habitat satwa gaib (Kementerian Sihir klasifikasi X hingga XXXXX) dan metode pengamanannya yang ia temui pada ekspedisi keliling dunianya dari Sudan hingga Arizona.", icon: "📗" },
-            { name: "The Standard Book of Spells (Grade 1 - 7)", desc: "Seri buku teks panduan inkantasi, tongkat, dan gerakannya. Ditulis oleh penulis mantra ternama, Miranda Goshawk. Koleksi ini menjadi kitab suci bagi setiap murid—mulai dari mantra penerang sederhana hingga pesona perisai perlindungan canggih.", icon: "📕" },
-            { name: "Advanced Potion-Making", desc: "Buku teks kelas NEWT berdebu dan tua karya alkemis Libatius Borage. Memuat intruksi detail penyeduhan ramuan tingkat lanjut yang rumit. Edisi lawas tertentu konon pernah memiliki coretan modifikasi margin dari 'Half-Blood Prince' yang membuatnya jauh lebih efisien dari yang diajarkan buku itu sendiri.", icon: "📔" },
-            { name: "The Tales of Beedle the Bard", desc: "Kumpulan cerita rakyat (dongeng pengantar tidur) yang sangat populer di kalangan anak-anak penyihir berdarah murni, setara dengan dongeng Cinderella/Snow White di dunia Muggle. Ditulis dalam huruf Rune kuno. Termasuk di dalamnya kisah fenomenal mengenai 'Tiga Saudara' dan Relikui Kematian (Deathly Hallows).", icon: "📜" },
-            { name: "Quidditch Through the Ages", desc: "Ditulis oleh Kennilworthy Whisp. Panduan terlengkap mengenai sejarah olahraga Quidditch. Menceritakan evolusi permainan dari awalnya di Rawa Queerditch abad ke-11, jenis-jenis sapu kuno hingga modern, dan daftar ratusan pelanggaran wasit yang dilaporkan pernah terjadi sekaligus dalam satu turnamen final pada tahun 1473.", icon: "📙" }
-        ];
-
-        const dataWizards = [
-            { name: "Albus Dumbledore", desc: "Dianugerahi Ordo Merlin (Kelas Pertama), Penyihir Utama Wizengamot, dan Kepala Sekolah Institusi. Dianggap sebagai penyihir terhebat zaman modern. Terkenal karena duel epiknya pada tahun 1945 mengalahkan Grindelwald yang bersenjatakan Elder Wand. Juga menemukan dua belas kegunaan fungsional dari darah naga bersama rekan alkemisnya.", icon: "🧙‍♂️", color: "text-blue-300" },
-            { name: "Merlin", desc: "Pangeran Para Penyihir, penyihir terhebat sepanjang sejarah, konon merupakan bagian dari istana Raja Arthur. Ia memprakarsai Ordo Merlin, sebuah dewan yang mengatur larangan penyihir merugikan kaum Muggle. Menariknya, ia diketahui belajar sihir di institusi ini dan diseleksi ke dalam Asrama Slytherin.", icon: "🌟", color: "text-gold" },
-            { name: "Garrick Ollivander", desc: "Pengrajin tongkat sihir nomor satu dari Inggris yang tokonya telah beroperasi di Diagon Alley sejak 382 SM. Revolusioner dalam bidang ilmu <em>Wandlore</em>; ia menemukan bahwa menggabungkan hanya inti terkuat (bulu Phoenix, Serat Jantung Naga, Rambut Unicorn) ke kayu sihir menghasilkan efisiensi magis terbaik, dan mencetuskan pepatah: 'Tongkat sihir yang memilih penyihirnya.'", icon: "🪄", color: "text-gray-400" },
-            { name: "Nicholas Flamel", desc: "Alkemis masyhur berkebangsaan Perancis, satu-satunya pembuat yang diyakini berhasil menciptakan <strong>Batu Bertuah (Philosopher's Stone)</strong> yang bisa mengubah logam apapun menjadi emas dan menghasilkan <em>Elixir of Life</em>. Menjalani hidup damai bersama istrinya Perenelle hingga melampaui usia 665 tahun sebelum akhirnya batu itu ia minta untuk dihancurkan pasca insiden di institut.", icon: "⚗️", color: "text-red-400" },
-            { name: "Gellert Grindelwald", desc: "Salah satu penyihir Hitam (Dark Wizard) paling berbahaya yang pernah ada. Ia memiliki visi membangun tatanan dunia di mana penyihir mendominasi dan mengendalikan Muggle demi 'Kebaikan yang Lebih Besar' (For the Greater Good). Memiliki kemampuan persuasi lidah perak yang berhasil merekrut pasukan pengikut pan-Eropa di awal abad ke-20. Dikalahkan pada 1945 dan dipenjarakan di penjara miliknya sendiri, Nurmengard.", icon: "👁️", color: "text-purple-600" },
-            { name: "Tom Marvolo Riddle (Lord Voldemort)", desc: "Pangeran Kegelapan (Dark Lord), ditakuti begitu mendalam hingga komunitas sihir menyebutnya 'Dia-Yang-Namanya-Tak-Boleh-Disebut'. Berambisi menguasai kematian, ia mencabik jiwanya hingga tujuh bagian (Horcrux) melalui pembunuhan demi keabadian. Ia adalah pewaris Salazar Slytherin dan pembuka Kamar Rahasia.", icon: "🐍", color: "text-green-600" },
-            { name: "Newt Scamander", desc: "Lahir 1897. Magizoologist paling produktif sepanjang masa. Penulis *Fantastic Beasts*. Berkeliling ke lima benua, mendokumentasikan ribuan spesies satwa sihir dan melobi keras ke Kementerian untuk meloloskan undang-undang perlindungan makhluk hidup agar tidak diburu. Dianugerahi Ordo Merlin pada 1979.", icon: "💼", color: "text-yellow-600" },
-            { name: "Herpo the Foul", desc: "Penyihir Kegelapan Yunani Kuno dari ribuan tahun lalu. Sangat berpengaruh pada Ilmu Hitam. Dialah manusia pertama yang menemukan cara menetaskan seekor Basilisk (seekor ayam mengerami telur kodok) dan diyakini sebagai penemu konsep pembuatan Horcrux—memisahkan jiwa—yang sangat terkutuk.", icon: "☠️", color: "text-green-800" }
-        ];
-
-
-        // --- 3. INITIALIZATION & RENDERING ---
-        function initData() {
-            renderGrid(dataSpells, 'spell-container');
-            renderGrid(dataPotions, 'potion-container');
-            renderGrid(dataHerbs, 'herb-container');
-            renderGrid(dataCreatures, 'creature-container');
             
-            // Render Books (List/Card Hybrid style)
-            const bookC = document.getElementById('book-container');
-            dataBooks.forEach(b => {
-                bookC.innerHTML += `
-                    <div class="magic-card p-6 flex flex-col md:flex-row items-center gap-6 text-left shine-effect border-l-4 border-amber-600" onclick="openModal('${b.name}', '${b.desc}', '${b.icon}', '#f59e0b')">
-                        <span class="text-6xl drop-shadow-md float-anim">${b.icon}</span>
-                        <div>
-                            <h4 class="font-cinzel text-amber-500 text-2xl mb-2">${b.name}</h4>
-                            <p class="text-sm text-gray-300 font-playfair line-clamp-2 leading-relaxed">${b.desc}</p>
-                        </div>
-                    </div>`;
-            });
+            <!-- Placeholder Ilustrasi Kastel -->
+            <div class="w-full h-64 md:h-96 photo-placeholder rounded-lg shadow-2xl mb-12 bg-magical-800 border-magical-700">
+                <div>
+                    <i class="fa-solid fa-chess-rook text-4xl mb-3 text-magical-700"></i>
+                    <p class="font-heading text-xl">Ilustrasi Kastel Hogwarts Institute</p>
+                    <p class="text-sm">(Foto akan disisipkan di sini)</p>
+                </div>
+            </div>
 
-            // Render Wizards
-            renderGrid(dataWizards, 'wizard-container');
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-magical-800 p-8 rounded-lg border border-magical-700 shadow-lg">
+                    <h2 class="font-heading text-2xl text-magical-gold mb-4 border-b border-magical-700 pb-2">Tentang Kami</h2>
+                    <p class="mb-4 leading-relaxed">Hogwarts Institute adalah sekolah sihir prestisius yang didedikasikan untuk melatih penyihir muda dari seluruh penjuru dunia. Dengan warisan yang membentang berabad-abad, kami berkomitmen menjaga keseimbangan antara tradisi sihir kuno dan penemuan magis modern.</p>
+                    <button onclick="navigateTo('history')" class="text-magical-gold hover:text-yellow-300 uppercase text-sm tracking-wider font-semibold">Pelajari Lebih Lanjut &rarr;</button>
+                </div>
+
+                <div class="bg-magical-800 p-8 rounded-lg border border-magical-700 shadow-lg">
+                    <h2 class="font-heading text-2xl text-magical-gold mb-4 border-b border-magical-700 pb-2">Berita & Pengumuman Terbaru</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-magical-gold mr-3 mt-1"><i class="fa-solid fa-scroll"></i></span>
+                            <div>
+                                <h3 class="font-bold">Penerimaan Siswa Baru Dibuka</h3>
+                                <p class="text-sm text-gray-400">Burung hantu pos telah mulai mengirimkan surat penerimaan. Periksa jendela Anda malam ini!</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-magical-gold mr-3 mt-1"><i class="fa-solid fa-scroll"></i></span>
+                            <div>
+                                <h3 class="font-bold">Larangan Hutan Terlarang</h3>
+                                <p class="text-sm text-gray-400">Diingatkan kepada seluruh siswa tahun pertama bahwa Hutan Terlarang dilarang keras untuk dimasuki.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-magical-gold mr-3 mt-1"><i class="fa-solid fa-scroll"></i></span>
+                            <div>
+                                <h3 class="font-bold">Pemilihan Kapten Quidditch</h3>
+                                <p class="text-sm text-gray-400">Seleksi untuk anggota baru dan kapten tim akan diadakan akhir pekan ini di lapangan.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT: HISTORY ================= -->
+        <section id="history" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Sejarah Hogwarts Institute</h1>
+            <div class="bg-magical-800 p-8 rounded-lg shadow-lg text-lg leading-relaxed space-y-6">
+                <div class="photo-placeholder w-full h-48 md:h-64 rounded-md mb-6">
+                    <p class="font-heading">(Foto Sejarah/Artefak akan disisipkan di sini)</p>
+                </div>
+                <p>Didirikan berabad-abad yang lalu oleh 13 penyihir terhebat pada masanya, Hogwarts Institute bermula sebagai tempat perlindungan bagi mereka yang memiliki bakat sihir di tengah dunia yang penuh ketakutan dan prasangka terhadap kaum penyihir.</p>
+                <p>Berbeda dengan institusi sihir lainnya yang mungkin didirikan oleh kelompok kecil, Hogwarts Institute dibangun melalui sebuah dewan besar yang terdiri dari 13 Pendiri (The Founders). Mereka bersatu demi satu tujuan yang lebih besar dari ambisi pribadi mereka: Melestarikan dan mengajarkan ilmu magis tanpa memihak pada golongan mana pun.</p>
+                <p>Kastel ini sendiri konon diselimuti oleh mantra pertahanan kuno yang sangat kuat, dirajut dari gabungan sihir 13 pendiri tersebut. Sepanjang sejarahnya, Hogwarts Institute telah menjadi saksi bisu dari lahirnya para penyihir revolusioner, peperangan gaib, hingga era kedamaian magis.</p>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT: FOUNDERS ================= -->
+        <section id="founders" class="page-section fade-in hidden">
+            <div class="text-center mb-10">
+                <h1 class="font-heading text-4xl text-magical-gold mb-4">13 Pendiri Hogwarts Institute</h1>
+                <p class="text-gray-400 max-w-2xl mx-auto">Para pendiri kami tidak berafiliasi dengan asrama mana pun. Mereka berdiri secara netral di atas segala persaingan, mewakili puncak dedikasi ilmu sihir berwarna gelap yang elegan dan misterius.</p>
+            </div>
             
-            // Initialize points UI
-            updatePointsUI();
-        }
-
-        function renderGrid(dataArray, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            dataArray.forEach(item => {
-                let colorClass = item.color || "text-gold";
-                // extract difficulty stars for creatures
-                let displayName = item.name.replace(/\(X+\)/, '').trim();
-                let match = item.name.match(/\((X+)\)/);
-                let difficulty = match ? `<div class="text-xs text-red-500 font-bold mt-1 tracking-widest">${match[1]}</div>` : '';
-
-                container.innerHTML += `
-                    <div class="magic-card p-6 flex flex-col items-center justify-center text-center clickable shine-effect" 
-                         onclick="openModal('${item.name.replace(/'/g, "\\'")}', '${item.desc.replace(/'/g, "\\'")}', '${item.icon}', '#D4AF37')">
-                        <span class="text-6xl mb-4 drop-shadow-[0_0_15px_currentColor] float-anim ${colorClass}">${item.icon}</span>
-                        <h4 class="font-cinzel text-xl text-gold mb-1 leading-snug">${displayName}</h4>
-                        ${difficulty}
-                    </div>
-                `;
-            });
-        }
-
-        // --- 4. CORE LOGIC ---
-        function attemptLogin() {
-            const user = document.getElementById('username').value.trim().toLowerCase();
-            const pass = document.getElementById('password').value;
-            const err = document.getElementById('login-error');
-
-            if (pass === 'caputdraconis') {
-                if (user === 'headmaster') isAdmin = true;
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Founder Cards Generation via JS style for neatness, but we will write HTML directly -->
                 
-                // Animate unlock
-                document.getElementById('login-box').classList.add('gate-open');
-                err.classList.add('hidden');
+                <!-- Founder 1 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Maxine The Great</h3>
+                </div>
+                
+                <!-- Founder 2 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Naderil The Great</h3>
+                </div>
 
-                setTimeout(() => {
-                    document.getElementById('login-screen').classList.add('hidden');
-                    document.getElementById('main-app').classList.remove('hidden');
-                    document.getElementById('main-app').classList.add('fade-in');
-                    initData();
-                    initCanvas();
+                <!-- Founder 3 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Alexander The Great</h3>
+                </div>
 
-                    if(isAdmin) {
-                        document.getElementById('admin-panel-btn').classList.remove('hidden');
-                    }
-                }, 1800);
-            } else {
-                err.classList.remove('hidden');
-                document.getElementById('login-box').classList.add('animate-pulse');
-                setTimeout(()=>document.getElementById('login-box').classList.remove('animate-pulse'), 500);
-            }
-        }
+                <!-- Founder 4 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Layebi The Great</h3>
+                </div>
 
+                <!-- Founder 5 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Kibiru The Great</h3>
+                </div>
+
+                <!-- Founder 6 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Blair The Great</h3>
+                </div>
+
+                <!-- Founder 7 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Briel The Great</h3>
+                </div>
+
+                <!-- Founder 8 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Lucas The Great</h3>
+                </div>
+
+                <!-- Founder 9 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Ellfaning The Great</h3>
+                </div>
+
+                <!-- Founder 10 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Ethan The Geeat</h3>
+                </div>
+
+                <!-- Founder 11 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Cassandra The Great</h3>
+                </div>
+
+                <!-- Founder 12 -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition">
+                    <div class="photo-placeholder w-24 h-24 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-gray-200">Rect The Great</h3>
+                </div>
+
+                <!-- Founder 13 (Centered in last row depending on grid) -->
+                <div class="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center shadow-lg hover:border-gray-600 transition sm:col-span-2 md:col-span-3 lg:col-span-4 max-w-sm mx-auto w-full mt-4">
+                    <div class="photo-placeholder w-28 h-28 mx-auto rounded-full mb-4 border-2 border-gray-700" style="background-color: #1a1a1a;">
+                        <span class="text-xs">Foto</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-gray-200">Sagitarius The Metana</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT: CAMPUS ================= -->
+        <section id="campus" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Fasilitas Kampus</h1>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="photo-placeholder w-full h-80 rounded-lg">
+                    <p class="font-heading">(Peta/Foto Kampus akan disisipkan di sini)</p>
+                </div>
+                <div class="space-y-6 flex flex-col justify-center">
+                    <div>
+                        <h3 class="font-heading text-2xl text-magical-gold mb-2"><i class="fa-solid fa-utensils mr-2"></i>The Great Hall</h3>
+                        <p class="text-gray-300">Aula utama dengan langit-langit yang disihir menyerupai langit malam di luar. Tempat di mana seluruh siswa berkumpul untuk makan dan mendengarkan pengumuman.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-2xl text-magical-gold mb-2"><i class="fa-solid fa-leaf mr-2"></i>Greenhouses (Rumah Kaca)</h3>
+                        <p class="text-gray-300">Terletak di halaman kastel, tempat Profesor Herbologi mengajar tentang berbagai tanaman magis, mulai dari Mandrake hingga Venomous Tentacula.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-2xl text-magical-gold mb-2"><i class="fa-brands fa-space-awesome mr-2"></i>Astronomy Tower</h3>
+                        <p class="text-gray-300">Menara tertinggi di Hogwarts, tempat para siswa mempelajari pergerakan bintang, planet, dan fenomena langit kosmik lainnya pada tengah malam.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= HOUSES: GRYFFINDOR ================= -->
+        <section id="gryffindor" class="page-section fade-in hidden">
+            <div class="bg-[#3a0d0d] border border-red-900 rounded-xl p-10 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i class="fa-solid fa-cat text-[20rem]"></i> <!-- Using cat as a lion proxy for fontawesome -->
+                </div>
+                <div class="relative z-10">
+                    <div class="photo-placeholder w-32 h-32 mx-auto rounded-full border-4 border-red-600 mb-6 bg-red-950">
+                        <span class="text-xs text-red-300">Logo Gryffindor</span>
+                    </div>
+                    <h1 class="font-heading text-5xl font-bold text-red-500 mb-4 drop-shadow-md">Gryffindor</h1>
+                    <p class="text-xl text-red-200 mb-8 italic">"Mungkin di Gryffindor tempatmu berdiam, di mana mereka yang berhati berani tinggal."</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
+                        <div class="bg-red-950/50 p-4 rounded-lg border border-red-800">
+                            <span class="block text-red-400 font-bold mb-1">Nilai Utama</span>
+                            <span class="text-gray-200">Keberanian, Kepahlawanan, Tekad</span>
+                        </div>
+                        <div class="bg-red-950/50 p-4 rounded-lg border border-red-800">
+                            <span class="block text-red-400 font-bold mb-1">Warna</span>
+                            <span class="text-gray-200">Merah Tua dan Emas</span>
+                        </div>
+                        <div class="bg-red-950/50 p-4 rounded-lg border border-red-800">
+                            <span class="block text-red-400 font-bold mb-1">Lambang</span>
+                            <span class="text-gray-200">Singa</span>
+                        </div>
+                        <div class="bg-red-950/50 p-4 rounded-lg border border-red-800">
+                            <span class="block text-red-400 font-bold mb-1">Elemen</span>
+                            <span class="text-gray-200">Api</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= HOUSES: HUFFLEPUFF ================= -->
+        <section id="hufflepuff" class="page-section fade-in hidden">
+            <div class="bg-[#2d2407] border border-yellow-900 rounded-xl p-10 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i class="fa-solid fa-paw text-[20rem]"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="photo-placeholder w-32 h-32 mx-auto rounded-full border-4 border-yellow-500 mb-6 bg-yellow-950">
+                        <span class="text-xs text-yellow-300">Logo Hufflepuff</span>
+                    </div>
+                    <h1 class="font-heading text-5xl font-bold text-yellow-500 mb-4 drop-shadow-md">Hufflepuff</h1>
+                    <p class="text-xl text-yellow-200 mb-8 italic">"Mereka yang adil dan setia, pekerja keras yang tak kenal lelah."</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
+                        <div class="bg-yellow-900/40 p-4 rounded-lg border border-yellow-800">
+                            <span class="block text-yellow-400 font-bold mb-1">Nilai Utama</span>
+                            <span class="text-gray-200">Kesetiaan, Keadilan, Kerja Keras</span>
+                        </div>
+                        <div class="bg-yellow-900/40 p-4 rounded-lg border border-yellow-800">
+                            <span class="block text-yellow-400 font-bold mb-1">Warna</span>
+                            <span class="text-gray-200">Kuning dan Hitam</span>
+                        </div>
+                        <div class="bg-yellow-900/40 p-4 rounded-lg border border-yellow-800">
+                            <span class="block text-yellow-400 font-bold mb-1">Lambang</span>
+                            <span class="text-gray-200">Luwak (Badger)</span>
+                        </div>
+                        <div class="bg-yellow-900/40 p-4 rounded-lg border border-yellow-800">
+                            <span class="block text-yellow-400 font-bold mb-1">Elemen</span>
+                            <span class="text-gray-200">Bumi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= HOUSES: RAVENCLAW ================= -->
+        <section id="ravenclaw" class="page-section fade-in hidden">
+            <div class="bg-[#0a1128] border border-blue-900 rounded-xl p-10 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i class="fa-solid fa-crow text-[20rem]"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="photo-placeholder w-32 h-32 mx-auto rounded-full border-4 border-blue-500 mb-6 bg-blue-950">
+                        <span class="text-xs text-blue-300">Logo Ravenclaw</span>
+                    </div>
+                    <h1 class="font-heading text-5xl font-bold text-blue-400 mb-4 drop-shadow-md">Ravenclaw</h1>
+                    <p class="text-xl text-blue-200 mb-8 italic">"Kecerdasan tanpa batas adalah harta manusia yang paling berharga."</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
+                        <div class="bg-blue-950/60 p-4 rounded-lg border border-blue-800">
+                            <span class="block text-blue-400 font-bold mb-1">Nilai Utama</span>
+                            <span class="text-gray-200">Kecerdasan, Kreativitas, Kebijaksanaan</span>
+                        </div>
+                        <div class="bg-blue-950/60 p-4 rounded-lg border border-blue-800">
+                            <span class="block text-blue-400 font-bold mb-1">Warna</span>
+                            <span class="text-gray-200">Biru dan Perunggu</span>
+                        </div>
+                        <div class="bg-blue-950/60 p-4 rounded-lg border border-blue-800">
+                            <span class="block text-blue-400 font-bold mb-1">Lambang</span>
+                            <span class="text-gray-200">Elang</span>
+                        </div>
+                        <div class="bg-blue-950/60 p-4 rounded-lg border border-blue-800">
+                            <span class="block text-blue-400 font-bold mb-1">Elemen</span>
+                            <span class="text-gray-200">Udara</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= HOUSES: SLYTHERIN ================= -->
+        <section id="slytherin" class="page-section fade-in hidden">
+            <div class="bg-[#071d11] border border-green-900 rounded-xl p-10 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i class="fa-solid fa-staff-snake text-[20rem]"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="photo-placeholder w-32 h-32 mx-auto rounded-full border-4 border-green-500 mb-6 bg-green-950">
+                        <span class="text-xs text-green-300">Logo Slytherin</span>
+                    </div>
+                    <h1 class="font-heading text-5xl font-bold text-green-500 mb-4 drop-shadow-md">Slytherin</h1>
+                    <p class="text-xl text-green-200 mb-8 italic">"Mereka yang cerdik akan menggunakan segala cara untuk mencapai tujuan mereka."</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
+                        <div class="bg-green-950/60 p-4 rounded-lg border border-green-800">
+                            <span class="block text-green-400 font-bold mb-1">Nilai Utama</span>
+                            <span class="text-gray-200">Ambisi, Kecerdikan, Kepemimpinan</span>
+                        </div>
+                        <div class="bg-green-950/60 p-4 rounded-lg border border-green-800">
+                            <span class="block text-green-400 font-bold mb-1">Warna</span>
+                            <span class="text-gray-200">Hijau dan Perak</span>
+                        </div>
+                        <div class="bg-green-950/60 p-4 rounded-lg border border-green-800">
+                            <span class="block text-green-400 font-bold mb-1">Lambang</span>
+                            <span class="text-gray-200">Ular</span>
+                        </div>
+                        <div class="bg-green-950/60 p-4 rounded-lg border border-green-800">
+                            <span class="block text-green-400 font-bold mb-1">Elemen</span>
+                            <span class="text-gray-200">Air</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ACADEMICS: SUBJECTS ================= -->
+        <section id="subjects" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Mata Pelajaran Wajib</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Subject 1 -->
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700">
+                    <div class="text-3xl text-magical-gold mb-3"><i class="fa-solid fa-wand-sparkles"></i></div>
+                    <h3 class="font-heading text-xl font-bold mb-2">Mantra (Charms)</h3>
+                    <p class="text-sm text-gray-400">Seni merubah karakteristik bawaan sebuah objek tanpa mengubah wujud fisiknya, dari membuat benda melayang hingga memanggil benda.</p>
+                </div>
+                <!-- Subject 2 -->
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700">
+                    <div class="text-3xl text-magical-gold mb-3"><i class="fa-solid fa-shapes"></i></div>
+                    <h3 class="font-heading text-xl font-bold mb-2">Transfigurasi</h3>
+                    <p class="text-sm text-gray-400">Pelajaran sihir kompleks mengenai cara mengubah struktur molekul satu benda menjadi benda lain (seperti korek api menjadi jarum).</p>
+                </div>
+                <!-- Subject 3 -->
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700">
+                    <div class="text-3xl text-magical-gold mb-3"><i class="fa-solid fa-flask"></i></div>
+                    <h3 class="font-heading text-xl font-bold mb-2">Ramuan (Potions)</h3>
+                    <p class="text-sm text-gray-400">Seni meracik cairan magis yang presisi menggunakan berbagai bahan, dari tanaman ajaib hingga bagian tubuh hewan fantastis.</p>
+                </div>
+                <!-- Subject 4 -->
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700">
+                    <div class="text-3xl text-magical-gold mb-3"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="font-heading text-xl font-bold mb-2">Pertahanan Terhadap Ilmu Hitam</h3>
+                    <p class="text-sm text-gray-400">Mempelajari cara-cara magis untuk melindungi diri dari sihir gelap, kutukan, hexes, serta makhluk jahat.</p>
+                </div>
+                <!-- Subject 5 -->
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700">
+                    <div class="text-3xl text-magical-gold mb-3"><i class="fa-solid fa-seedling"></i></div>
+                    <h3 class="font-heading text-xl font-bold mb-2">Herbologi</h3>
+                    <p class="text-sm text-gray-400">Ilmu yang mempelajari tentang jamur dan tanaman magis, sifat magis mereka, serta bagaimana merawat dan memanfaatkannya.</p>
+                </div>
+                <!-- Subject 6 -->
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700">
+                    <div class="text-3xl text-magical-gold mb-3"><i class="fa-solid fa-moon"></i></div>
+                    <h3 class="font-heading text-xl font-bold mb-2">Astronomi</h3>
+                    <p class="text-sm text-gray-400">Satu-satunya cabang sihir yang mirip dengan sains Muggle, mempelajari bintang, planet, dan pergerakan objek langit kosmik.</p>
+                </div>
+            </div>
+            <div class="mt-8 photo-placeholder w-full h-40 rounded-lg">
+                <p class="font-heading">(Foto Ruang Kelas akan disisipkan di sini)</p>
+            </div>
+        </section>
+
+        <!-- ================= MAGIC: WANDS ================= -->
+        <section id="wands" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Tongkat Sihir (Wands)</h1>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/3">
+                    <div class="photo-placeholder w-full h-64 rounded-lg mb-4">
+                        <p class="font-heading">(Foto Toko Ollivanders / Deretan Tongkat)</p>
+                    </div>
+                </div>
+                <div class="md:w-2/3 space-y-6">
+                    <p class="text-lg">"Tongkat sihir yang memilih penyihirnya, Tuan Potter. Bukan sebaliknya." Tongkat adalah alat penyalur magis yang berharga, dibuat dari berbagai jenis kayu dengan inti spesifik yang kuat.</p>
+                    
+                    <h3 class="font-heading text-2xl text-magical-gold border-b border-gray-700 inline-block pb-1">Bahan Kayu Populer</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><strong class="text-white">Holly (Getah):</strong> Melambangkan perlindungan. Cocok untuk mereka yang memiliki jiwa kepemimpinan.</li>
+                        <li><strong class="text-white">Vine (Anggur):</strong> Memilih penyihir dengan pandangan tersembunyi.</li>
+                        <li><strong class="text-white">Elder (Sambucus):</strong> Kayu paling langka, sangat sulit dikendalikan namun memiliki kekuatan tanpa batas.</li>
+                    </ul>
+
+                    <h3 class="font-heading text-2xl text-magical-gold border-b border-gray-700 inline-block pb-1 mt-6">Inti Tongkat Tertinggi</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-magical-800 p-4 border border-magical-700 rounded text-center">
+                            <span class="text-2xl mb-2 block">🔥</span>
+                            <h4 class="font-bold">Bulu Burung Phoenix</h4>
+                            <p class="text-xs text-gray-400 mt-2">Menghasilkan sihir paling berjangkauan luas, namun tongkat ini sering memiliki pikirannya sendiri.</p>
+                        </div>
+                        <div class="bg-magical-800 p-4 border border-magical-700 rounded text-center">
+                            <span class="text-2xl mb-2 block">🐉</span>
+                            <h4 class="font-bold">Serabut Jantung Naga</h4>
+                            <p class="text-xs text-gray-400 mt-2">Menghasilkan tongkat paling kuat dan mudah belajar sihir baru. Cenderung condong ke Ilmu Hitam jika tidak dikendalikan.</p>
+                        </div>
+                        <div class="bg-magical-800 p-4 border border-magical-700 rounded text-center">
+                            <span class="text-2xl mb-2 block">🦄</span>
+                            <h4 class="font-bold">Rambut Unicorn</h4>
+                            <p class="text-xs text-gray-400 mt-2">Menghasilkan sihir yang paling konsisten. Paling setia pada pengguna aslinya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MAGIC: SPELLS ================= -->
+        <section id="spells" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Buku Mantra (Spells)</h1>
+            <div class="photo-placeholder w-full h-40 rounded-lg mb-8">
+                <p class="font-heading">(Foto Rapalan Mantra / Duel Sihir)</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-magical-800 p-5 rounded-lg border-l-4 border-magical-gold">
+                    <h3 class="font-heading font-bold text-xl text-white">Expelliarmus</h3>
+                    <p class="text-sm text-gray-400 italic mb-2">Mantra Pelucutan Senjata</p>
+                    <p class="text-sm">Memaksa lawan melepaskan apa pun yang sedang mereka pegang (biasanya tongkat sihir).</p>
+                </div>
+                <div class="bg-magical-800 p-5 rounded-lg border-l-4 border-magical-gold">
+                    <h3 class="font-heading font-bold text-xl text-white">Lumos & Nox</h3>
+                    <p class="text-sm text-gray-400 italic mb-2">Mantra Penerangan</p>
+                    <p class="text-sm">Lumos menyalakan cahaya di ujung tongkat; Nox digunakan untuk memadamkannya.</p>
+                </div>
+                <div class="bg-magical-800 p-5 rounded-lg border-l-4 border-blue-400">
+                    <h3 class="font-heading font-bold text-xl text-white">Expecto Patronum</h3>
+                    <p class="text-sm text-gray-400 italic mb-2">Mantra Pelindung</p>
+                    <p class="text-sm">Menciptakan manifestasi energi positif (Patronus) untuk mengusir Dementor.</p>
+                </div>
+                <div class="bg-magical-800 p-5 rounded-lg border-l-4 border-green-500">
+                    <h3 class="font-heading font-bold text-xl text-white">Avada Kedavra</h3>
+                    <p class="text-sm text-gray-400 italic mb-2">Kutukan Pembunuh (Tak Termaafkan)</p>
+                    <p class="text-sm">Menyebabkan kematian instan tanpa meninggalkan bekas fisik pada korban.</p>
+                </div>
+                <div class="bg-magical-800 p-5 rounded-lg border-l-4 border-magical-gold">
+                    <h3 class="font-heading font-bold text-xl text-white">Wingardium Leviosa</h3>
+                    <p class="text-sm text-gray-400 italic mb-2">Mantra Melayang</p>
+                    <p class="text-sm">Membuat benda terbang atau melayang. (Ingat: Levi-O-sa, bukan Levios-SA).</p>
+                </div>
+                <div class="bg-magical-800 p-5 rounded-lg border-l-4 border-magical-gold">
+                    <h3 class="font-heading font-bold text-xl text-white">Alohomora</h3>
+                    <p class="text-sm text-gray-400 italic mb-2">Mantra Pembuka Kunci</p>
+                    <p class="text-sm">Digunakan untuk membuka pintu atau gembok yang tidak dilindungi sihir tingkat tinggi.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MAGIC: POTIONS ================= -->
+        <section id="potions" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Laboratorium Ramuan</h1>
+            <div class="flex flex-col-reverse md:flex-row gap-8">
+                <div class="md:w-2/3 space-y-6">
+                    <div class="bg-magical-800 p-5 rounded-lg border border-magical-700 flex">
+                        <div class="mr-4 text-4xl text-green-500">🍵</div>
+                        <div>
+                            <h3 class="font-heading font-bold text-xl text-magical-gold">Polyjuice Potion (Ramuan Polijus)</h3>
+                            <p class="text-sm text-gray-300 mt-1">Memungkinkan peminumnya mengubah penampilan secara fisik menjadi orang lain selama satu jam. <strong>Bahan Kunci:</strong> Lacewing flies, lintah, bubuk tanduk Bicorn, dan sedikit bagian dari orang yang ingin ditiru (misal: rambut).</p>
+                        </div>
+                    </div>
+                    <div class="bg-magical-800 p-5 rounded-lg border border-magical-700 flex">
+                        <div class="mr-4 text-4xl text-yellow-500">✨</div>
+                        <div>
+                            <h3 class="font-heading font-bold text-xl text-magical-gold">Felix Felicis (Liquid Luck)</h3>
+                            <p class="text-sm text-gray-300 mt-1">Ramuan yang membuat peminumnya sangat beruntung untuk sementara waktu. Sangat rumit untuk dibuat dan berbahaya jika dikonsumsi berlebihan. Berwarna emas cair.</p>
+                        </div>
+                    </div>
+                    <div class="bg-magical-800 p-5 rounded-lg border border-magical-700 flex">
+                        <div class="mr-4 text-4xl text-pink-500">💞</div>
+                        <div>
+                            <h3 class="font-heading font-bold text-xl text-magical-gold">Amortentia</h3>
+                            <p class="text-sm text-gray-300 mt-1">Ramuan cinta paling kuat di dunia. Tidak benar-benar menciptakan cinta, melainkan obsesi yang gila. Dikenali dari kilau mutiaranya dan uap yang naik dalam bentuk spiral.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/3">
+                    <div class="photo-placeholder w-full h-full min-h-[300px] rounded-lg">
+                        <p class="font-heading">(Foto Botol Ramuan / Kuali Tembaga)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPLORE: CASTLE ================= -->
+        <section id="castle" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Tur Kastel Hogwarts</h1>
+            
+            <div class="photo-placeholder w-full h-64 rounded-lg mb-8">
+                <p class="font-heading">(Foto Lorong / Grand Staircase Kastel)</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-magical-800 rounded overflow-hidden">
+                    <div class="p-5">
+                        <h3 class="font-heading text-xl font-bold text-magical-gold mb-2">Grand Staircase</h3>
+                        <p class="text-gray-300 text-sm">Tangga besar utama kastel yang terkenal selalu berpindah-pindah sesuka hati mereka. Dikelilingi oleh ratusan lukisan bernyawa yang tak segan mengobrol dengan siswa yang lewat.</p>
+                    </div>
+                </div>
+                <div class="bg-magical-800 rounded overflow-hidden">
+                    <div class="p-5">
+                        <h3 class="font-heading text-xl font-bold text-magical-gold mb-2">Room of Requirement (Kamar Kebutuhan)</h3>
+                        <p class="text-gray-300 text-sm">Ruangan gaib tersembunyi di lantai tujuh yang hanya muncul saat seseorang benar-benar membutuhkannya. Dilengkapi dengan segala sesuatu yang diperlukan oleh sang pencari.</p>
+                    </div>
+                </div>
+                <div class="bg-magical-800 rounded overflow-hidden">
+                    <div class="p-5">
+                        <h3 class="font-heading text-xl font-bold text-magical-gold mb-2">The Dungeons (Ruang Bawah Tanah)</h3>
+                        <p class="text-gray-300 text-sm">Udara di sini selalu dingin dan lembab. Merupakan lokasi Ruang Rekreasi Slytherin dan Kelas Ramuan.</p>
+                    </div>
+                </div>
+                <div class="bg-magical-800 rounded overflow-hidden">
+                    <div class="p-5">
+                        <h3 class="font-heading text-xl font-bold text-magical-gold mb-2">Prefect's Bathroom</h3>
+                        <p class="text-gray-300 text-sm">Kamar mandi khusus Prefek di lantai lima dengan ratusan keran yang mengeluarkan gelembung dan busa magis yang berbeda-beda. Terdapat lukisan putri duyung besar di dindingnya.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPLORE: FORBIDDEN FOREST ================= -->
+        <section id="forest" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-green-700 mb-6 border-b border-magical-700 pb-4">Hutan Terlarang (Forbidden Forest)</h1>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2">
+                    <div class="photo-placeholder w-full h-full min-h-[300px] rounded-lg bg-green-950/20 border-green-900">
+                        <p class="font-heading text-green-700">(Foto Hutan Gelap/Makhluk Gaib)</p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 space-y-6">
+                    <p class="text-lg text-gray-300">Terletak di perbatasan barat halaman kastel, Hutan Terlarang adalah hutan belantara lebat dan gelap yang dilarang keras dimasuki siswa (kecuali dalam detensi bersama Hagrid atau Kelas Pemeliharaan Satwa Gaib tingkat lanjut).</p>
+                    
+                    <h3 class="font-heading text-xl text-green-600 mb-3 border-b border-gray-700 pb-1">Penghuni Hutan</h3>
+                    <ul class="space-y-4">
+                        <li class="bg-magical-800 p-3 rounded">
+                            <strong class="text-white">Centaurs (Sentaur):</strong> Makhluk setengah manusia setengah kuda yang bijaksana. Mereka suka mengamati pergerakan bintang dan hidup di bagian dalam hutan.
+                        </li>
+                        <li class="bg-magical-800 p-3 rounded">
+                            <strong class="text-white">Acromantula:</strong> Laba-laba raksasa beracun yang dapat berbicara. Sangat berbahaya dan bergerombol (seperti kawanan Aragog).
+                        </li>
+                        <li class="bg-magical-800 p-3 rounded">
+                            <strong class="text-white">Thestrals:</strong> Kuda kerangka bersayap kelelawar. Hanya bisa dilihat oleh mereka yang pernah menyaksikan kematian dengan mata kepala sendiri.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EXPLORE: HOGSMEADE ================= -->
+        <section id="hogsmeade" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Desa Hogsmeade</h1>
+            <div class="text-center mb-8">
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">Hogsmeade adalah satu-satunya pemukiman di seluruh Inggris yang hanya dihuni oleh makhluk sihir. Siswa tahun ketiga ke atas yang memiliki izin tertulis diizinkan mengunjungi desa ini pada akhir pekan tertentu.</p>
+            </div>
+            
+            <div class="photo-placeholder w-full h-56 rounded-lg mb-8">
+                <p class="font-heading">(Foto Desa Hogsmeade Tertutup Salju)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700 text-center">
+                    <i class="fa-solid fa-beer-mug-empty text-3xl text-yellow-500 mb-3"></i>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Three Broomsticks</h3>
+                    <p class="text-sm text-gray-400">Kedai minuman paling populer di Hogsmeade, terkenal akan Butterbeer hangatnya yang lezat. Tempat favorit untuk beristirahat.</p>
+                </div>
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700 text-center">
+                    <i class="fa-solid fa-candy-cane text-3xl text-pink-500 mb-3"></i>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">Honeydukes</h3>
+                    <p class="text-sm text-gray-400">Toko manisan legendaris yang menjual segala jenis permen magis: Bertie Bott's Every Flavour Beans, Cokelat Kodok, dan Drooble's Best Blowing Gum.</p>
+                </div>
+                <div class="bg-magical-800 p-6 rounded-lg border border-magical-700 text-center">
+                    <i class="fa-solid fa-bomb text-3xl text-red-500 mb-3"></i>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">Zonko's Joke Shop</h3>
+                    <p class="text-sm text-gray-400">Toko lelucon sihir. Tempat favorit Fred dan George Weasley untuk membeli Bom Kotoran, Permen Cegukan, dan barang iseng lainnya.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STUDENT LIFE: QUIDDITCH ================= -->
+        <section id="quidditch" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Quidditch</h1>
+            
+            <div class="flex flex-col-reverse md:flex-row gap-8">
+                <div class="md:w-1/2 space-y-6">
+                    <p class="text-gray-300 leading-relaxed">Quidditch adalah olahraga paling populer di dunia sihir. Dimainkan di atas sapu terbang oleh dua tim yang masing-masing terdiri dari tujuh pemain, dengan tujuan mencetak poin sebanyak-banyaknya hingga Golden Snitch ditangkap.</p>
+                    
+                    <h3 class="font-heading text-2xl text-magical-gold border-b border-gray-700 inline-block pb-1">Posisi Pemain</h3>
+                    <ul class="space-y-4">
+                        <li class="bg-magical-800 p-4 rounded border-l-4 border-red-500">
+                            <strong class="text-white block mb-1">Chaser (Pengejar) - 3 Orang</strong>
+                            <span class="text-sm text-gray-400">Bertugas membawa bola Quaffle dan melemparnya ke dalam salah satu dari tiga simpai gawang lawan untuk mencetak 10 poin.</span>
+                        </li>
+                        <li class="bg-magical-800 p-4 rounded border-l-4 border-blue-500">
+                            <strong class="text-white block mb-1">Keeper (Penjaga) - 1 Orang</strong>
+                            <span class="text-sm text-gray-400">Bertugas menjaga ketiga simpai gawang dari serangan Chaser lawan.</span>
+                        </li>
+                        <li class="bg-magical-800 p-4 rounded border-l-4 border-gray-500">
+                            <strong class="text-white block mb-1">Beater (Pemukul) - 2 Orang</strong>
+                            <span class="text-sm text-gray-400">Membawa tongkat pemukul kecil untuk melindungi rekan setim dari Bludger (bola besi ganas) dan memukulnya ke arah lawan.</span>
+                        </li>
+                        <li class="bg-magical-800 p-4 rounded border-l-4 border-yellow-500">
+                            <strong class="text-white block mb-1">Seeker (Pencari) - 1 Orang</strong>
+                            <span class="text-sm text-gray-400">Bertugas mencari dan menangkap Golden Snitch. Menangkap bola sekecil kenari ini akan memberi timnya 150 poin dan sekaligus mengakhiri pertandingan.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="photo-placeholder w-full h-full min-h-[400px] rounded-lg">
+                        <p class="font-heading">(Foto Lapangan/Pemain Quidditch)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STUDENT LIFE: HOUSE CUP ================= -->
+        <section id="housecup" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Piala Asrama (House Cup)</h1>
+            <div class="text-center mb-10">
+                <p class="text-gray-300 max-w-2xl mx-auto">Sepanjang tahun, siswa dapat memenangkan poin untuk asrama mereka atas prestasi akademik, keberanian, atau kehilangan poin karena melanggar aturan. Asrama dengan poin terbanyak di akhir tahun ajaran akan memenangkan Piala Asrama.</p>
+            </div>
+
+            <div class="photo-placeholder w-48 h-48 mx-auto rounded-full mb-10 border-4 border-magical-gold">
+                <p class="font-heading text-sm text-center">(Foto Jam Pasir Poin/Piala)</p>
+            </div>
+
+            <!-- Klasemen Poin -->
+            <div class="max-w-4xl mx-auto bg-magical-800 rounded-lg overflow-hidden shadow-2xl border border-magical-700">
+                <div class="grid grid-cols-4 bg-magical-900 border-b border-magical-700">
+                    <div class="p-4 text-center font-heading font-bold text-red-500">Gryffindor</div>
+                    <div class="p-4 text-center font-heading font-bold text-blue-400 border-l border-magical-700">Ravenclaw</div>
+                    <div class="p-4 text-center font-heading font-bold text-yellow-400 border-l border-magical-700">Hufflepuff</div>
+                    <div class="p-4 text-center font-heading font-bold text-green-500 border-l border-magical-700">Slytherin</div>
+                </div>
+                <div class="grid grid-cols-4">
+                    <div class="p-8 text-center text-3xl font-bold text-white bg-red-950/20">412</div>
+                    <div class="p-8 text-center text-3xl font-bold text-white border-l border-magical-700 bg-blue-950/20">426</div>
+                    <div class="p-8 text-center text-3xl font-bold text-white border-l border-magical-700 bg-yellow-950/20">352</div>
+                    <div class="p-8 text-center text-3xl font-bold text-white border-l border-magical-700 bg-green-950/20">472</div>
+                </div>
+            </div>
+            <p class="text-center mt-6 text-sm text-gray-500 italic">*Poin di atas adalah klasemen sementara tahun ajaran ini.</p>
+        </section>
+
+        <!-- ================= LIBRARY: BOOKS ================= -->
+        <section id="books" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Koleksi Buku Perpustakaan</h1>
+            <p class="mb-8 text-gray-300">Berikut adalah arsip literatur utama kisah bersejarah dunia magis (Koleksi Harry Potter).</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Book 1 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 1</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Batu Bertuah</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Sorcerer's Stone</p>
+                </div>
+                <!-- Book 2 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 2</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Kamar Rahasia</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Chamber of Secrets</p>
+                </div>
+                <!-- Book 3 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 3</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Tawanan Azkaban</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Prisoner of Azkaban</p>
+                </div>
+                <!-- Book 4 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 4</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Piala Api</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Goblet of Fire</p>
+                </div>
+                <!-- Book 5 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 5</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Orde Phoenix</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Order of the Phoenix</p>
+                </div>
+                <!-- Book 6 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 6</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Pangeran Berdarah Campuran</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Half-Blood Prince</p>
+                </div>
+                <!-- Book 7 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Buku 7</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Relikui Kematian</h3>
+                    <p class="text-xs text-gray-400">Harry Potter and the Deathly Hallows</p>
+                </div>
+                <!-- Book 8 -->
+                <div class="bg-magical-800 border border-magical-700 p-4 rounded text-center">
+                    <div class="photo-placeholder w-full h-48 rounded mb-4">
+                        <span class="text-xs">Cover Tambahan</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-white mb-1">Koleksi Tambahan</h3>
+                    <p class="text-xs text-gray-400">Tales of Beedle The Bard, dll.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LIBRARY: MAGICAL CREATURES ================= -->
+        <section id="creatures" class="page-section fade-in hidden">
+            <h1 class="font-heading text-4xl text-magical-gold mb-6 border-b border-magical-700 pb-4">Ensiklopedia Makhluk Ajaib</h1>
+            
+            <div class="space-y-6">
+                <!-- Creature 1 -->
+                <div class="flex flex-col md:flex-row bg-magical-800 border border-magical-700 rounded-lg overflow-hidden">
+                    <div class="md:w-1/3">
+                        <div class="photo-placeholder w-full h-full min-h-[200px] border-none bg-magical-900">
+                            <span class="font-heading">(Foto Hippogriff)</span>
+                        </div>
+                    </div>
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="font-heading text-2xl text-white mb-2">Hippogriff</h3>
+                        <p class="text-gray-300 text-sm">Makhluk dengan kaki depan, sayap, dan kepala rajawali raksasa, serta tubuh, kaki belakang, dan ekor kuda. Sangat menjunjung tinggi harga diri. Anda harus menunduk saat mendekatinya dan menunggu mereka menunduk balik sebelum menyentuhnya.</p>
+                    </div>
+                </div>
+                
+                <!-- Creature 2 -->
+                <div class="flex flex-col md:flex-row bg-magical-800 border border-magical-700 rounded-lg overflow-hidden">
+                    <div class="md:w-1/3 md:order-2">
+                        <div class="photo-placeholder w-full h-full min-h-[200px] border-none bg-magical-900">
+                            <span class="font-heading">(Foto Niffler)</span>
+                        </div>
+                    </div>
+                    <div class="md:w-2/3 p-6 md:order-1">
+                        <h3 class="font-heading text-2xl text-white mb-2">Niffler</h3>
+                        <p class="text-gray-300 text-sm">Hewan pengerat berbulu hitam halus dengan moncong panjang seperti platipus. Berasal dari Inggris. Niffler sangat tertarik pada benda apa pun yang berkilau (seperti koin dan perhiasan), membuatnya berguna untuk mencari harta karun, namun dapat menghancurkan ruangan jika dipelihara dalam rumah.</p>
+                    </div>
+                </div>
+
+                <!-- Creature 3 -->
+                <div class="flex flex-col md:flex-row bg-magical-800 border border-magical-700 rounded-lg overflow-hidden">
+                    <div class="md:w-1/3">
+                        <div class="photo-placeholder w-full h-full min-h-[200px] border-none bg-magical-900">
+                            <span class="font-heading">(Foto Bowtruckle)</span>
+                        </div>
+                    </div>
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="font-heading text-2xl text-white mb-2">Bowtruckle</h3>
+                        <p class="text-gray-300 text-sm">Makhluk penjaga pohon yang sangat sulit ditemukan karena ukurannya yang kecil (maksimal 8 inci) dan fisiknya yang menyerupai ranting dan kulit pohon dengan daun kecil di kepalanya. Mereka biasanya memakan kutu kayu dan jinak kecuali pohon mereka terancam.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-magical-900 border-t border-magical-700 py-8 mt-12 text-center text-sm text-gray-500">
+        <p class="font-heading mb-2">© 2026 Hogwarts Institute. All Rights Reserved.</p>
+        <p>This is a magical portal constructed using HTML, Tailwind CSS, & JavaScript magic.</p>
+    </footer>
+
+    <!-- JavaScript Navigation -->
+    <script>
         function navigateTo(pageId) {
             // Hide all pages
-            document.querySelectorAll('.page-section').forEach(el => {
-                el.classList.remove('active');
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('block');
             });
-            // Show target
-            document.getElementById(pageId).classList.add('active');
-            
-            // Update nav active state (Desktop)
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.nav-link')).find(el => el.innerText.toLowerCase().includes(pageId.replace('-', ' ')) || 
-                               (pageId === 'houses' && el.innerText === 'Houses') ||
-                               (pageId === 'house-points' && el.innerText === 'Points') ||
-                               (pageId === 'creatures' && el.innerText === 'Creatures') );
-            if(activeBtn) activeBtn.classList.add('active');
 
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if(targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('block');
+            }
+
+            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
         }
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // --- 5. HOUSE POINTS LOGIC ---
-        function updatePointsUI() {
-            for (let house in points) {
-                // calculate percentage (max 300 for visual scale)
-                let pct = (points[house] / MAX_POINTS) * 100;
-                if(pct > 100) pct = 100;
-                if(pct < 5) pct = 5; // leave at least 5% visual
-                
-                document.getElementById(`vial-${house}`).style.height = `${pct}%`;
-                document.getElementById(`score-${house}`).innerText = points[house];
+            if(menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
             }
         }
 
-        function updatePoints(house, amount) {
-            points[house] += amount;
-            if(points[house] < 0) points[house] = 0;
-            updatePointsUI();
-        }
-
-        function toggleAdminPanel() {
-            const panel = document.getElementById('admin-panel');
-            panel.classList.toggle('hidden');
-        }
-
-        // --- 6. MODAL SYSTEM ---
-        function openModal(title, desc, icon, colorCode) {
-            const modal = document.getElementById('interactive-modal');
-            const mTitle = document.getElementById('modal-title');
-            
-            // Clean up titles that might have (XXXX) classifications
-            let cleanTitle = title.replace(/\(X+\)/, '').trim();
-
-            mTitle.innerHTML = cleanTitle;
-            document.getElementById('modal-desc').innerHTML = desc;
-            document.getElementById('modal-icon').innerText = icon;
-            
-            mTitle.style.color = colorCode;
-            mTitle.style.textShadow = `0 0 15px ${colorCode}`;
-            
-            // If it's a creature, apply difficulty rating text visually if present
-            let match = title.match(/\((X+)\)/);
-            if(match) {
-                 mTitle.innerHTML += `<br><span class="text-xl text-red-500 font-bold tracking-[0.3em] font-sans drop-shadow-none">Klasifikasi Kementerian: ${match[1]}</span>`;
-            }
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            // Small pop animation
-            const content = modal.querySelector('.modal-content');
-            content.classList.remove('scale-95', 'opacity-0');
-            content.classList.add('scale-100', 'opacity-100');
-
-            // Reset scroll position
-            content.querySelector('.overflow-y-auto').scrollTop = 0;
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('interactive-modal');
-            const content = modal.querySelector('.modal-content');
-            
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-95', 'opacity-0');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
-
-        // Add Enter key listener for login
-        document.getElementById('password').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') attemptLogin();
-        });
-        document.getElementById('username').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') document.getElementById('password').focus();
-        });
-
-        // --- 7. MAGIC PARTICLE CANVAS ---
-        function initCanvas() {
-            const canvas = document.getElementById('magic-canvas');
-            const ctx = canvas.getContext('2d');
-            let w = canvas.width = window.innerWidth;
-            let h = canvas.height = window.innerHeight;
-            let particles = [];
-
-            window.addEventListener('resize', () => {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            });
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * w;
-                    this.y = Math.random() * h;
-                    this.size = Math.random() * 2 + 0.5; // very small dust
-                    this.speedY = Math.random() * -0.3 - 0.1; // float up slowly
-                    this.speedX = Math.random() * 0.4 - 0.2; // drift left/right
-                    this.alpha = Math.random() * 0.4 + 0.1;
-                }
-                update() {
-                    this.y += this.speedY;
-                    this.x += this.speedX;
-                    // Reset if out of screen
-                    if (this.y < 0) {
-                        this.y = h;
-                        this.x = Math.random() * w;
-                    }
-                }
-                draw() {
-                    ctx.fillStyle = `rgba(212, 175, 55, ${this.alpha})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            for (let i = 0; i < 100; i++) particles.push(new Particle());
-
-            function animate() {
-                ctx.clearRect(0, 0, w, h);
-                particles.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
+        // Initialize display to Home on load
+        window.onload = () => {
+            navigateTo('home');
+        };
     </script>
 </body>
 </html>
-
 
