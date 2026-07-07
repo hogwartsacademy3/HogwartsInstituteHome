@@ -281,6 +281,20 @@
                         <span class="font-medium tracking-wide">Magical Creatures</span>
                     </button>
                 </li>
+                
+                <!-- NEW SECTION: Hogwarts Institute Lib -->
+                <li>
+                    <button onclick="toggleSubmenu('sub-institute-lib')" class="w-full text-left px-4 py-3 text-gray-300 hover:bg-white/5 rounded-xl transition-all flex items-center justify-between group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-lg bg-gray-800/50 flex items-center justify-center group-hover:bg-fuchsia-900/40 group-hover:text-fuchsia-400"><i class="fas fa-book-journal-whills"></i></div>
+                            <span class="font-medium tracking-wide">Hogwarts Institute Lib</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs opacity-50 group-hover:opacity-100"></i>
+                    </button>
+                    <ul id="sub-institute-lib" class="submenu mt-1 mb-2 space-y-1">
+                        <li><button onclick="navigate('ebooks')" class="nav-btn w-full text-left pl-16 pr-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Ebook Harry Potter</button></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         
@@ -1003,310 +1017,286 @@
                             <img src="https://contentful.harrypotter.com/usf1vwtuqyxm/6ojZMLbgHs47ciri1BXFPI/d225833c15e85b524e17b5013a1b30f8/hippogriff_3_1800x1248.png" alt="Hippogriff" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#121024] to-transparent"></div>
                         </div>
-                        <div class="p-6 md:p-8 relative bg-[#121024]">
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 font-magical">Hippogriff</h3>
-                            <div class="text-[10px] md:text-xs font-bold text-red-500 uppercase tracking-widest mb-4 border border-red-500/30 inline-block px-2 py-1 rounded bg-red-900/20">XXX - Berbahaya</div>
-                            <p class="text-sm text-gray-400 leading-relaxed">Makhluk berdarah panas nan angkuh, berbadan kuda dari pinggang ke bawah namun memiliki kepala, paruh mematikan, serta cakar raksasa seekor elang bersayap lebar. Jangan pernah mendekat tanpa membungkuk menatap matanya terlebih dahulu. Jika mereka tidak membalas hormatmu, mundur perlahan.</p>
+                        <div class="p-6 md:p-8 flex flex-col flex-1 z-10 relative">
+                            <h3 class="text-xl md:text-2xl font-bold text-white font-magical mb-2">Hippogriff</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-1">Makhluk terbang hibrida bertubuh kuda dengan kepala dan sayap elang raksasa. Sangat sombong. Selalu membungkuk terlebih dahulu dan tunggu ia membalas bungkukan sebelum mendekat, atau berisiko tercabik.</p>
+                            <div class="flex items-center gap-2 text-xs font-bold tracking-widest text-orange-400 uppercase">
+                                <i class="fas fa-skull"></i> Klasifikasi: XXX
+                            </div>
                         </div>
                     </div>
-                    <!-- Niffler -->
+
+                    <!-- Thestral -->
                     <div class="glass-card rounded-[2rem] overflow-hidden border border-gray-800 hover:-translate-y-2 transition-transform shadow-xl group">
                         <div class="min-h-[200px] md:h-60 overflow-hidden relative">
-                            <img src="https://contentful.harrypotter.com/usf1vwtuqyxm/5CKiuijqSAyOL3Fv1Q1ujz/095f8d54f099ebdad2f567cadd2f7dbb/niffler_3_1800x1248.png" alt="Niffler" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="https://contentful.harrypotter.com/usf1vwtuqyxm/5fCg93W5uEK68yoiC6UqE2/e979069dfb008d5ed8e268a78cbcf3fa/thestral-main-image.jpg" alt="Thestral" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#121024] to-transparent"></div>
                         </div>
-                        <div class="p-6 md:p-8 relative bg-[#121024]">
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 font-magical">Niffler</h3>
-                            <div class="text-[10px] md:text-xs font-bold text-yellow-500 uppercase tracking-widest mb-4 border border-yellow-500/30 inline-block px-2 py-1 rounded bg-yellow-900/20">XX - Jinak namun Destruktif</div>
-                            <p class="text-sm text-gray-400 leading-relaxed">Berbulu hitam legam, menyerupai platipus perpaduan tikus tanah berbulu. Terkenal amat lembut dan penyayang, namun ketertarikan sihir buta mereka pada apa saja yang berkilau (koin, emas, garpu) membuatnya bisa merobohkan seluruh struktur ruang tamu dalam waktu dua menit untuk menggali ke dasar benda bersinar.</p>
+                        <div class="p-6 md:p-8 flex flex-col flex-1 z-10 relative">
+                            <h3 class="text-xl md:text-2xl font-bold text-white font-magical mb-2">Thestral</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-1">Kuda bersayap kerangka yang sangat langka dan karnivora. Mereka hanya bisa dilihat oleh mereka yang telah menyaksikan kematian secara langsung. Merupakan hewan tunggangan yang sangat setia jika dijinakkan.</p>
+                            <div class="flex items-center gap-2 text-xs font-bold tracking-widest text-red-500 uppercase">
+                                <i class="fas fa-skull"></i> Klasifikasi: XXXX
+                            </div>
                         </div>
                     </div>
-                    <!-- Bowtruckle -->
+
+                    <!-- Dementor -->
                     <div class="glass-card rounded-[2rem] overflow-hidden border border-gray-800 hover:-translate-y-2 transition-transform shadow-xl group">
                         <div class="min-h-[200px] md:h-60 overflow-hidden relative">
-                            <img src="https://contentful.harrypotter.com/usf1vwtuqyxm/9qNXyFbQh39aDlAWEnpty/6a437d9f3d4e3145c5c8bb15da0bb94f/bowtruckle_2_1800x1248.png" alt="Bowtruckle" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="https://contentful.harrypotter.com/usf1vwtuqyxm/1D8pW8e0oWww4M2WAAScw2/2fc36cbf094ad1401f01c90589da76f3/dementor_2_1800x1248.png" alt="Dementor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#121024] to-transparent"></div>
                         </div>
-                        <div class="p-6 md:p-8 relative bg-[#121024]">
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 font-magical">Bowtruckle</h3>
-                            <div class="text-[10px] md:text-xs font-bold text-green-500 uppercase tracking-widest mb-4 border border-green-500/30 inline-block px-2 py-1 rounded bg-green-900/20">XX - Damai (Jika tak diganggu)</div>
-                            <p class="text-sm text-gray-400 leading-relaxed">Makhluk mungil seukuran tangan dewasa penjaga pepohonan khusus (terutama kayu pembuat tongkat sihir). Mereka kamuflase luar biasa sebagai ranting pohon. Sangat pemalu dan cinta damai, namun akan mencungkil mata siapapun dengan jari kayu tajam mereka jika rumah pohon mereka diancam akan ditebang.</p>
+                        <div class="p-6 md:p-8 flex flex-col flex-1 z-10 relative">
+                            <h3 class="text-xl md:text-2xl font-bold text-white font-magical mb-2">Dementor</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-1">Makhluk tak berjiwa yang memakan kebahagiaan manusia, menyebabkan keputusasaan sedingin es di sekitarnya. Serangan pamungkas mereka, "Kecupan Dementor", akan menyedot jiwa korbannya melalui mulut.</p>
+                            <div class="flex items-center gap-2 text-xs font-bold tracking-widest text-purple-500 uppercase">
+                                <i class="fas fa-skull"></i> Klasifikasi: XXXXX
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-            
-            <footer class="mt-16 md:mt-20 border-t border-gray-800/50 pt-6 md:pt-8 pb-12 text-center text-gray-500 text-xs md:text-sm">
-                <i class="fas fa-bolt text-hogwarts-gold mb-2"></i>
-                <p>&copy; Hogwarts Institute of Witchcraft and Wizardry. Hidden from muggles.</p>
-            </footer>
+
+            <!-- PAGE: EBOOKS -->
+            <section id="ebooks" class="page">
+                <div class="text-center mb-10 md:mb-12">
+                    <span class="text-hogwarts-gold text-xs md:text-sm tracking-widest uppercase mb-2 block">Koleksi Terlarang</span>
+                    <h1 class="text-3xl md:text-5xl text-white font-magical mb-4 text-glow">Hogwarts Institute Lib</h1>
+                    <p class="text-gray-400 text-sm md:text-lg">Koleksi e-book perjalanan magis Harry Potter. Klik pada buku manapun untuk mengunduhnya ke dalam perangkat sihir Anda (Format EPUB).</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                    <!-- Book 1 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter1.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-hogwarts-gold/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104842.jpg" alt="Harry Potter and the Philosopher's Stone" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-hogwarts-gold to-yellow-600 text-black rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-hogwarts-gold transition-colors font-magical">Harry Potter and the Philosopher's Stone</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-hogwarts-gold/50 mr-1"></i> Buku I</span>
+                        </div>
+                    </a>
+
+                    <!-- Book 2 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter2.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-green-500/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104859.jpg" alt="Harry Potter and the Chamber of Secrets" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-green-500 to-green-700 text-white rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(34,197,94,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-green-400 transition-colors font-magical">Harry Potter and the Chamber of Secrets</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-green-500/50 mr-1"></i> Buku II</span>
+                        </div>
+                    </a>
+
+                    <!-- Book 3 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter3.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-purple-500/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104866.jpg" alt="Harry Potter and the Prisoner of Azkaban" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-purple-400 transition-colors font-magical">Harry Potter and the Prisoner of Azkaban</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-purple-500/50 mr-1"></i> Buku III</span>
+                        </div>
+                    </a>
+
+                    <!-- Book 4 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter4.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-blue-500/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104873.jpg" alt="Harry Potter and the Goblet of Fire" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-blue-400 transition-colors font-magical">Harry Potter and the Goblet of Fire</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-blue-500/50 mr-1"></i> Buku IV</span>
+                        </div>
+                    </a>
+
+                    <!-- Book 5 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter5.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-orange-500/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104880.jpg" alt="Harry Potter and the Order of the Phoenix" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-orange-500 to-orange-700 text-white rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(249,115,22,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-orange-400 transition-colors font-magical">Harry Potter and the Order of the Phoenix</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-orange-500/50 mr-1"></i> Buku V</span>
+                        </div>
+                    </a>
+
+                    <!-- Book 6 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter6.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-emerald-500/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104897.jpg" alt="Harry Potter and the Half-Blood Prince" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-emerald-400 transition-colors font-magical">Harry Potter and the Half-Blood Prince</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-emerald-500/50 mr-1"></i> Buku VI</span>
+                        </div>
+                    </a>
+
+                    <!-- Book 7 -->
+                    <a href="https://github.com/hogwartsacademy3/HogwartsInstituteHome/releases/download/v1.0.0/HarryPotter7.epub" download class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 transition-all duration-300 flex flex-col h-full border border-gray-800 hover:border-yellow-300/50 cursor-pointer shadow-lg block">
+                        <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-900 border-b border-gray-800">
+                            <img src="https://www.pottermorepublishing.com/wp-content/covers/web/9781781104903.jpg" alt="Harry Potter and the Deathly Hallows" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                                <div class="bg-gradient-to-r from-yellow-300 to-yellow-600 text-black rounded-full w-14 h-14 flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(253,224,71,0.8)]">
+                                    <i class="fas fa-download text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <h3 class="text-gray-200 font-bold text-sm md:text-base mb-2 leading-snug group-hover:text-yellow-400 transition-colors font-magical">Harry Potter and the Deathly Hallows</h3>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-700/50 pt-2 mt-auto block text-center"><i class="fas fa-bookmark text-yellow-500/50 mr-1"></i> Buku VII</span>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
 
         </div>
     </main>
 
-    <!-- MODULE SCRIPT FOR FIREBASE AND GLOBAL LOGIC -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Variables
-        window.currentUser = null;
-        window.isAdmin = false;
-        
-        window.housePoints = {
-            gryffindor: 350,
-            hufflepuff: 290,
-            ravenclaw: 310,
-            slytherin: 345
-        };
-
-        const loginScreen = document.getElementById('login-screen');
-        const mainContent = document.getElementById('main-content');
-        const sidebar = document.getElementById('sidebar');
-        const userGreeting = document.getElementById('user-greeting');
-        const errorMsg = document.getElementById('login-error');
-
-        // FIREBASE SETUP
-        let db = null;
-        let isFirebaseReady = false;
-        const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'hogwarts-portal-default';
-
-        try {
-            if (typeof window.__firebase_config !== 'undefined' && window.__firebase_config) {
-                const firebaseConfig = JSON.parse(window.__firebase_config);
-                const app = initializeApp(firebaseConfig);
-                const auth = getAuth(app);
-                db = getFirestore(app);
-
-                const initAuth = async () => {
-                    if (typeof window.__initial_auth_token !== 'undefined' && window.__initial_auth_token) {
-                        await signInWithCustomToken(auth, window.__initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                };
-
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        isFirebaseReady = true;
-                        document.getElementById('sync-status').style.opacity = '1'; // Tampilkan status real-time
-                        setupRealtimeListener();
-                    }
-                });
-
-                initAuth();
-            }
-        } catch(e) {
-            console.warn("Penyimpanan cloud sedang dalam mode lokal. Perubahan poin hanya terlihat pada perangkat Anda.", e);
-        }
-
-        // Realtime Listener to sync data
-        function setupRealtimeListener() {
-            if (!db) return;
-            const pointsRef = doc(db, 'artifacts', appId, 'public', 'data', 'house_points', 'current_scores');
-            
-            onSnapshot(pointsRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    window.housePoints = docSnap.data();
-                    window.updatePointsDisplay();
-                } else {
-                    // Jika data belum ada di database, buat awal baru
-                    setDoc(pointsRef, window.housePoints).catch(console.error);
-                }
-            }, (error) => {
-                console.error("Terjadi kesalahan sinkronisasi mantra:", error);
-            });
-        }
-
-        // Exposing specific logic to global window so standard html onclick properties work
-        window.attemptLogin = function() {
-            const userVal = document.getElementById('username').value.trim();
-            const passVal = document.getElementById('password').value;
-            
-            errorMsg.classList.add('hidden');
-
-            if (userVal === '') {
-                errorMsg.querySelector('span').innerText = "Identitas penyihir diperlukan.";
-                errorMsg.classList.remove('hidden');
-                errorMsg.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}], {duration:300});
-                return;
-            }
-
-            if (userVal.toLowerCase() === 'admin' && passVal === 'caputdraconis') {
-                window.currentUser = "Headmaster (Admin)";
-                window.isAdmin = true;
-                window.completeLogin();
-            } else if (passVal === 'caputdraconis') {
-                window.currentUser = userVal;
-                window.isAdmin = false;
-                window.completeLogin();
-            } else {
-                errorMsg.querySelector('span').innerText = "Kredensial atau kata sandi sihir tidak valid.";
-                errorMsg.classList.remove('hidden');
-                errorMsg.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}], {duration:300});
-            }
-        };
-
-        window.completeLogin = function() {
-            loginScreen.style.opacity = '0';
-            
-            setTimeout(() => {
-                loginScreen.classList.add('hidden');
-               
-                sidebar.classList.remove('hidden');
-                sidebar.classList.add('hidden', 'md:flex');
-                
-                mainContent.classList.remove('hidden');
-                
-                userGreeting.innerText = window.isAdmin ? "Otoritas Tinggi Akses Penuh" : `Student: ${window.currentUser}`;
-                if(window.isAdmin) userGreeting.classList.add('text-hogwarts-gold', 'border-hogwarts-gold');
-                
-                if (window.isAdmin) {
-                    document.getElementById('admin-controls').classList.remove('hidden');
-                } else {
-                    document.getElementById('admin-controls').classList.add('hidden');
-                }
-
-                window.updatePointsDisplay();
-                window.navigate('home');
-            }, 700);
-        };
-
-        window.logout = function() {
-            window.currentUser = null;
-            window.isAdmin = false;
-            
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            
-            sidebar.classList.add('hidden', 'md:flex');
-            sidebar.classList.remove('flex', 'absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'bg-[#0a0a12]');
-            mainContent.classList.add('hidden');
-            
-            loginScreen.classList.remove('hidden');
-            
-            requestAnimationFrame(() => {
-                loginScreen.style.opacity = '1';
-            });
-        };
-
-        document.getElementById('password').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                window.attemptLogin();
-            }
-        });
-
-        window.navigate = function(pageId) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(p => {
+    <script>
+        // --- Navigation Logic ---
+        function navigate(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
                 p.classList.remove('active');
             });
-            
-            const target = document.getElementById(pageId);
-            if (target) {
-                target.classList.add('active');
-                mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+            // Show target page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
             }
-
+            
+            // Highlight active navigation button
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-hogwarts-gold');
-            });
-
-            if (window.innerWidth < 768) {
-                const sidebarEl = document.getElementById('sidebar');
-                if (sidebarEl.classList.contains('absolute')) {
-                    window.toggleMobileMenu();
+                btn.classList.remove('text-hogwarts-gold', 'bg-white/5');
+                if(btn.getAttribute('onclick') === `navigate('${pageId}')`) {
+                    btn.classList.add('text-hogwarts-gold', 'bg-white/5');
                 }
-            }
-        };
-
-        window.toggleSubmenu = function(id) {
-            const sub = document.getElementById(id);
-            const icon = sub.previousElementSibling.querySelector('.fa-chevron-down');
+            });
             
-            if (sub.classList.contains('open')) {
-                sub.classList.remove('open');
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                document.querySelectorAll('.submenu').forEach(el => {
-                    if (el.id !== id) {
-                        el.classList.remove('open');
-                        el.previousElementSibling.querySelector('.fa-chevron-down').style.transform = 'rotate(0deg)';
-                    }
-                });
-                sub.classList.add('open');
+            // Close mobile menu if open
+            const sidebar = document.getElementById('sidebar');
+            if(window.innerWidth < 768 && !sidebar.classList.contains('hidden')) {
+                toggleMobileMenu();
+            }
+        }
+
+        // --- Submenu Toggle Logic ---
+        function toggleSubmenu(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('open');
+            // Animate arrow
+            const icon = el.previousElementSibling.querySelector('.fa-chevron-down');
+            if(el.classList.contains('open')) {
                 icon.style.transform = 'rotate(180deg)';
                 icon.style.transition = 'transform 0.3s ease';
-            }
-        };
-
-        window.toggleMobileMenu = function() {
-            const sidebarEl = document.getElementById('sidebar');
-            const navLinks = document.getElementById('nav-links');
-            const logoutBtn = document.getElementById('logout-btn-container');
-            
-            if (sidebarEl.classList.contains('hidden') || !sidebarEl.classList.contains('absolute')) {
-                // Tampilkan Menu Mobile Overlap
-                sidebarEl.classList.remove('hidden', 'md:flex');
-                sidebarEl.classList.add('flex', 'absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'bg-[#0a0a12]');
-                navLinks.classList.remove('hidden');
-                logoutBtn.classList.remove('hidden');
             } else {
-                // Sembunyikan Menu Mobile
-                sidebarEl.classList.add('hidden', 'md:flex');
-                sidebarEl.classList.remove('flex', 'absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'bg-[#0a0a12]');
+                icon.style.transform = 'rotate(0deg)';
             }
-        };
+        }
 
-        window.updatePointsDisplay = function() {
-            // Update big display
-            const displayGryf = document.getElementById('pt-gryffindor');
-            const displayHuff = document.getElementById('pt-hufflepuff');
-            const displayRave = document.getElementById('pt-ravenclaw');
-            const displaySlyt = document.getElementById('pt-slytherin');
-
-            if(displayGryf) displayGryf.innerText = window.housePoints.gryffindor;
-            if(displayHuff) displayHuff.innerText = window.housePoints.hufflepuff;
-            if(displayRave) displayRave.innerText = window.housePoints.ravenclaw;
-            if(displaySlyt) displaySlyt.innerText = window.housePoints.slytherin;
-            
-            // Update Textbox Admin (Bila Admin sedang mengedit)
-            if (window.isAdmin) {
-                // Mencegah field ter-update apabila admin sedang mengetik aktif di dalamnya
-                if (document.activeElement.id !== 'input-gryffindor') document.getElementById('input-gryffindor').value = window.housePoints.gryffindor;
-                if (document.activeElement.id !== 'input-hufflepuff') document.getElementById('input-hufflepuff').value = window.housePoints.hufflepuff;
-                if (document.activeElement.id !== 'input-ravenclaw') document.getElementById('input-ravenclaw').value = window.housePoints.ravenclaw;
-                if (document.activeElement.id !== 'input-slytherin') document.getElementById('input-slytherin').value = window.housePoints.slytherin;
+        // --- Mobile Menu Logic ---
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+                sidebar.classList.add('fixed', 'inset-0');
+            } else {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('fixed', 'inset-0');
             }
-        };
+        }
 
-        window.directUpdatePoints = function(house, value) {
-            if (!window.isAdmin) return;
-            
-            let parsedValue = parseInt(value);
-            if (isNaN(parsedValue)) {
-                parsedValue = 0; 
-            }
-            
-            window.housePoints[house] = parsedValue;
-            
-            // Perubahan Langsung (Lokal)
-            const displayEl = document.getElementById(`pt-${house}`);
-            if (displayEl) {
-                displayEl.innerText = parsedValue;
-                displayEl.style.transform = 'scale(1.1)';
+        // --- Login Authentication (Mock) ---
+        function attemptLogin() {
+            const user = document.getElementById('username').value;
+            // Simple validation to just require a name
+            if(user.trim() !== "") {
+                document.getElementById('user-greeting').innerText = `Penyihir ${user}`;
+                
+                // Fade out login screen
+                document.getElementById('login-screen').classList.add('opacity-0', 'pointer-events-none');
+                
                 setTimeout(() => {
-                    displayEl.style.transform = 'scale(1)';
-                }, 150);
+                    document.getElementById('login-screen').style.display = 'none';
+                    // Show sidebar and main content
+                    document.getElementById('sidebar').classList.remove('hidden');
+                    document.getElementById('main-content').classList.remove('hidden');
+                    document.getElementById('main-content').classList.add('flex');
+                }, 700);
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
             }
+        }
 
-            // Sync Otomatis ke Database (Cloud Firebase)
-            if (isFirebaseReady && db) {
-                const pointsRef = doc(db, 'artifacts', appId, 'public', 'data', 'house_points', 'current_scores');
-                setDoc(pointsRef, window.housePoints, { merge: true }).catch(console.error);
-            }
-        };
+        // --- Logout Logic ---
+        function logout() {
+            location.reload(); // Simple reload to reset state
+        }
+
+        // --- House Cup Logic (Interactive) ---
+        function directUpdatePoints(house, value) {
+            if(value === '') value = 0;
+            document.getElementById(`pt-${house}`).innerText = value;
+            
+            // Show sync status
+            const sync = document.getElementById('sync-status');
+            sync.style.opacity = '1';
+            sync.style.transform = 'scale(1.05)';
+            
+            setTimeout(() => {
+                sync.style.opacity = '0';
+                sync.style.transform = 'scale(1)';
+            }, 2000);
+        }
+        
+        // Initial setup for the page
+        window.onload = () => {
+            // Setup initial points for House Cup
+            document.getElementById('pt-gryffindor').innerText = '450';
+            document.getElementById('pt-hufflepuff').innerText = '320';
+            document.getElementById('pt-ravenclaw').innerText = '410';
+            document.getElementById('pt-slytherin').innerText = '430';
+            
+            // Hidden Admin panel for House Cup (Press Shift + A to open)
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'A' && e.shiftKey) {
+                    document.getElementById('admin-controls').classList.toggle('hidden');
+                }
+            });
+        }
     </script>
 </body>
 </html>
