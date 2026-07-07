@@ -124,7 +124,7 @@
 </head>
 <body class="antialiased h-screen overflow-hidden flex flex-col md:flex-row selection:bg-hogwarts-gold selection:text-black">
 
-    <!-- Login Screen: Added overflow-y-auto and padding so keyboard doesn't hide inputs on mobile -->
+    <!-- Login Screen -->
     <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-cover bg-center transition-opacity duration-700 p-4 overflow-y-auto" style="background-image: url('https://t3.ftcdn.net/jpg/03/26/22/48/360_F_326224870_vB8XRJbWr0qDG5bhAomLjVlKzcUXPdKA.jpg');">
         <div class="absolute inset-0 bg-gradient-to-br from-[#070913]/90 via-[#1e1133]/80 to-[#070913]/95 backdrop-blur-sm"></div>
         
@@ -162,15 +162,16 @@
         </div>
     </div>
 
+    <!-- Sidebar -->
     <aside id="sidebar" class="hidden md:flex flex-col w-full md:w-72 bg-[#0a0a12]/95 backdrop-blur-xl h-full border-r border-gray-800/60 flex-shrink-0 z-40 relative shadow-2xl">
         <div class="p-6 border-b border-gray-800/60 flex justify-between items-center bg-black/40 relative overflow-hidden flex-shrink-0">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-purple-900/20 rounded-full blur-3xl"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-purple-900/20 rounded-full blur-3xl z-0"></div>
             <div class="relative z-10 w-full text-center">
                 <h2 class="text-2xl text-hogwarts-gold font-magical tracking-wider mb-1">Hogwarts</h2>
                 <p id="user-greeting" class="text-sm text-gray-400 truncate bg-gray-900/80 inline-block px-3 py-1 rounded-full border border-gray-700/50">Wizards Welcome</p>
             </div>
-            <!-- Mobile Toggle Close Button -->
-            <button class="md:hidden text-gray-400 hover:text-hogwarts-gold text-2xl absolute right-6 top-6" onclick="toggleMobileMenu()">
+            <!-- FIXED: Added z-50 and p-4 to ensure the hit box works over any other elements in the title -->
+            <button class="md:hidden text-gray-400 hover:text-red-400 text-3xl absolute right-2 top-2 z-50 p-4 cursor-pointer" onclick="toggleMobileMenu()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -302,7 +303,6 @@
             </button>
         </div>
 
-        <!-- Base padding adjusted dynamically for mobile and desktop screens -->
         <div class="p-6 md:p-12 max-w-7xl mx-auto w-full relative z-10">
 
             <!-- PAGE: HOME -->
@@ -383,7 +383,6 @@
                     <p class="text-gray-400 max-w-3xl mx-auto text-base md:text-lg">Penyihir-penyihir purba yang namanya terukir dalam fondasi kastel. Mereka tidak membentuk asrama untuk dibagi, melainkan meletakkan pilar-pilar pelindung dan merajut sihir absolut yang menaungi Hogwarts hingga hari ini. Mereka diselimuti oleh aura gelap dan netral, simbol pengorbanan masa lalu.</p>
                 </div>
                 
-                <!-- Group Photo of Founders -->
                 <div class="w-full mx-auto relative rounded-3xl overflow-hidden mb-12 md:mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-gray-800 group">
                     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#070913]/40 to-[#070913] z-10"></div>
                     <img src="https://placehold.co/1200x500/0a0a0a/404040?text=The+Original+Covenant+of+Thirteen" alt="13 Founders Group Photo" class="w-full min-h-[250px] md:h-[400px] object-cover grayscale opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-1000">
@@ -393,7 +392,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    <!-- Pastikan semua array 13 Pendiri asli tidak hilang -->
                     <script>
                         const foundersData = [
                             { name: "Maxine The Great", title: "Master of Ancient Runes" },
@@ -613,7 +611,6 @@
                     <p class="text-gray-400 text-sm md:text-lg">Persiapkan perkamen dan tinta; masa depan penyihir ditempa di ruang kelas ini.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Pastikan array Kurikulum utuh tidak terhapus -->
                     <script>
                         const subjectsData = [
                             {name: "Mantra (Charms)", icon: "fa-wand-sparkles", color: "text-blue-400", desc: "Seni memanipulasi karakteristik objek, pikiran, dan fenomena. Mengajarkan presisi ayunan dan intonasi mantra agar efek yang dihasilkan sempurna tanpa menyebabkan ledakan."},
@@ -928,60 +925,65 @@
                     <img src="https://pbs.twimg.com/media/EgrLnMsXkAA4DpC.jpg" alt="House Points Hourglasses" class="rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)] h-48 md:h-72 w-full max-w-3xl object-cover border border-gray-700 relative z-10 brightness-110">
                 </div>
 
+                <!-- Live Notification Element -->
+                <div id="sync-status" class="text-center text-xs text-green-400/70 mb-4 opacity-0 transition-opacity font-bold tracking-widest uppercase">
+                    <i class="fas fa-satellite-dish mr-1"></i> Terhubung secara Real-Time ke Penjuru Dunia
+                </div>
+
                 <!-- House Points Display -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10 md:mb-16" id="points-display">
                     <!-- Gryffindor -->
                     <div class="glass-card border border-[#8B0000] p-6 md:p-8 rounded-[2rem] text-center relative overflow-hidden group shadow-[0_0_20px_rgba(139,0,0,0.2)]">
                         <div class="absolute inset-0 bg-gradient-to-b from-[#8B0000]/20 to-transparent opacity-50"></div>
                         <h3 class="text-lg md:text-2xl font-bold text-white relative z-10 mb-2 md:mb-4 font-magical tracking-wider">Gryffindor</h3>
-                        <div class="text-4xl md:text-6xl font-magical text-[#D3A625] relative z-10 drop-shadow-[0_0_10px_rgba(211,166,37,0.5)] transition-all duration-300" id="pt-gryffindor">350</div>
+                        <div class="text-4xl md:text-6xl font-magical text-[#D3A625] relative z-10 drop-shadow-[0_0_10px_rgba(211,166,37,0.5)] transition-all duration-300" id="pt-gryffindor">...</div>
                     </div>
                     <!-- Hufflepuff -->
                     <div class="glass-card border border-[#e0aa0f] p-6 md:p-8 rounded-[2rem] text-center relative overflow-hidden group shadow-[0_0_20px_rgba(224,170,15,0.2)]">
                         <div class="absolute inset-0 bg-gradient-to-b from-[#e0aa0f]/20 to-transparent opacity-50"></div>
                         <h3 class="text-lg md:text-2xl font-bold text-white relative z-10 mb-2 md:mb-4 font-magical tracking-wider">Hufflepuff</h3>
-                        <div class="text-4xl md:text-6xl font-magical text-[#f3ca20] relative z-10 drop-shadow-[0_0_10px_rgba(243,202,32,0.5)] transition-all duration-300" id="pt-hufflepuff">290</div>
+                        <div class="text-4xl md:text-6xl font-magical text-[#f3ca20] relative z-10 drop-shadow-[0_0_10px_rgba(243,202,32,0.5)] transition-all duration-300" id="pt-hufflepuff">...</div>
                     </div>
                     <!-- Ravenclaw -->
                     <div class="glass-card border border-[#0b2956] p-6 md:p-8 rounded-[2rem] text-center relative overflow-hidden group shadow-[0_0_20px_rgba(11,41,86,0.2)]">
                         <div class="absolute inset-0 bg-gradient-to-b from-[#0b2956]/40 to-transparent opacity-50"></div>
                         <h3 class="text-lg md:text-2xl font-bold text-white relative z-10 mb-2 md:mb-4 font-magical tracking-wider">Ravenclaw</h3>
-                        <div class="text-4xl md:text-6xl font-magical text-[#89b4e5] relative z-10 drop-shadow-[0_0_10px_rgba(137,180,229,0.5)] transition-all duration-300" id="pt-ravenclaw">310</div>
+                        <div class="text-4xl md:text-6xl font-magical text-[#89b4e5] relative z-10 drop-shadow-[0_0_10px_rgba(137,180,229,0.5)] transition-all duration-300" id="pt-ravenclaw">...</div>
                     </div>
                     <!-- Slytherin -->
                     <div class="glass-card border border-[#005b38] p-6 md:p-8 rounded-[2rem] text-center relative overflow-hidden group shadow-[0_0_20px_rgba(0,91,56,0.2)]">
                         <div class="absolute inset-0 bg-gradient-to-b from-[#005b38]/30 to-transparent opacity-50"></div>
                         <h3 class="text-lg md:text-2xl font-bold text-white relative z-10 mb-2 md:mb-4 font-magical tracking-wider">Slytherin</h3>
-                        <div class="text-4xl md:text-6xl font-magical text-[#3bb070] relative z-10 drop-shadow-[0_0_10px_rgba(59,176,112,0.5)] transition-all duration-300" id="pt-slytherin">345</div>
+                        <div class="text-4xl md:text-6xl font-magical text-[#3bb070] relative z-10 drop-shadow-[0_0_10px_rgba(59,176,112,0.5)] transition-all duration-300" id="pt-slytherin">...</div>
                     </div>
                 </div>
 
-                <!-- Admin Realtime Controls (Hidden by default, shown if logged in as Admin) -->
+                <!-- Admin Realtime Controls -->
                 <div id="admin-controls" class="hidden bg-gradient-to-b from-gray-900 to-black p-6 md:p-8 rounded-[2rem] border-2 border-hogwarts-gold shadow-[0_0_30px_rgba(212,175,55,0.2)] max-w-4xl mx-auto">
                     <div class="flex items-center gap-4 mb-6 md:mb-8 pb-4 border-b border-gray-800">
                         <i class="fas fa-lock-open text-2xl md:text-3xl text-hogwarts-gold"></i>
                         <div>
                             <h3 class="text-xl md:text-2xl text-hogwarts-gold font-bold font-magical">Panel Modifikasi Otoritas Pusat</h3>
-                            <p class="text-xs md:text-sm text-gray-400">Atur pergerakan kristal jam pasir poin secara langsung melalui angka desimal mutlak.</p>
+                            <p class="text-xs md:text-sm text-gray-400">Poin tersinkronisasi ke seluruh jaringan secara otomatis setelah diketik.</p>
                         </div>
                     </div>
                     
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                         <div>
                             <label class="block text-[10px] md:text-xs uppercase tracking-widest text-red-500 mb-2 font-bold"><i class="fas fa-pen-nib mr-1"></i> Gryffindor</label>
-                            <input type="number" id="input-gryffindor" value="350" oninput="directUpdatePoints('gryffindor', this.value)" class="w-full bg-black border border-red-900/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all">
+                            <input type="number" id="input-gryffindor" oninput="directUpdatePoints('gryffindor', this.value)" class="w-full bg-black border border-red-900/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all">
                         </div>
                         <div>
                             <label class="block text-[10px] md:text-xs uppercase tracking-widest text-yellow-500 mb-2 font-bold"><i class="fas fa-pen-nib mr-1"></i> Hufflepuff</label>
-                            <input type="number" id="input-hufflepuff" value="290" oninput="directUpdatePoints('hufflepuff', this.value)" class="w-full bg-black border border-yellow-700/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all">
+                            <input type="number" id="input-hufflepuff" oninput="directUpdatePoints('hufflepuff', this.value)" class="w-full bg-black border border-yellow-700/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all">
                         </div>
                         <div>
                             <label class="block text-[10px] md:text-xs uppercase tracking-widest text-blue-500 mb-2 font-bold"><i class="fas fa-pen-nib mr-1"></i> Ravenclaw</label>
-                            <input type="number" id="input-ravenclaw" value="310" oninput="directUpdatePoints('ravenclaw', this.value)" class="w-full bg-black border border-blue-900/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                            <input type="number" id="input-ravenclaw" oninput="directUpdatePoints('ravenclaw', this.value)" class="w-full bg-black border border-blue-900/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
                         </div>
                         <div>
                             <label class="block text-[10px] md:text-xs uppercase tracking-widest text-green-500 mb-2 font-bold"><i class="fas fa-pen-nib mr-1"></i> Slytherin</label>
-                            <input type="number" id="input-slytherin" value="345" oninput="directUpdatePoints('slytherin', this.value)" class="w-full bg-black border border-green-900/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all">
+                            <input type="number" id="input-slytherin" oninput="directUpdatePoints('slytherin', this.value)" class="w-full bg-black border border-green-900/80 text-white text-xl md:text-2xl font-magical text-center rounded-xl p-2 md:p-3 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all">
                         </div>
                     </div>
                 </div>
@@ -1042,28 +1044,83 @@
         </div>
     </main>
 
-    <script>
-        // State Management
-        let currentUser = null;
-        let isAdmin = false;
+    <!-- MODULE SCRIPT FOR FIREBASE AND GLOBAL LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Variables
+        window.currentUser = null;
+        window.isAdmin = false;
         
-        // Initial House Points
-        let housePoints = {
+        window.housePoints = {
             gryffindor: 350,
             hufflepuff: 290,
             ravenclaw: 310,
             slytherin: 345
         };
 
-        // DOM Elements
         const loginScreen = document.getElementById('login-screen');
         const mainContent = document.getElementById('main-content');
         const sidebar = document.getElementById('sidebar');
         const userGreeting = document.getElementById('user-greeting');
         const errorMsg = document.getElementById('login-error');
-        
-        // --- Authentication Logic ---
-        function attemptLogin() {
+
+        // FIREBASE SETUP
+        let db = null;
+        let isFirebaseReady = false;
+        const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'hogwarts-portal-default';
+
+        try {
+            if (typeof window.__firebase_config !== 'undefined' && window.__firebase_config) {
+                const firebaseConfig = JSON.parse(window.__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                db = getFirestore(app);
+
+                const initAuth = async () => {
+                    if (typeof window.__initial_auth_token !== 'undefined' && window.__initial_auth_token) {
+                        await signInWithCustomToken(auth, window.__initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                };
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        isFirebaseReady = true;
+                        document.getElementById('sync-status').style.opacity = '1'; // Tampilkan status real-time
+                        setupRealtimeListener();
+                    }
+                });
+
+                initAuth();
+            }
+        } catch(e) {
+            console.warn("Penyimpanan cloud sedang dalam mode lokal. Perubahan poin hanya terlihat pada perangkat Anda.", e);
+        }
+
+        // Realtime Listener to sync data
+        function setupRealtimeListener() {
+            if (!db) return;
+            const pointsRef = doc(db, 'artifacts', appId, 'public', 'data', 'house_points', 'current_scores');
+            
+            onSnapshot(pointsRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    window.housePoints = docSnap.data();
+                    window.updatePointsDisplay();
+                } else {
+                    // Jika data belum ada di database, buat awal baru
+                    setDoc(pointsRef, window.housePoints).catch(console.error);
+                }
+            }, (error) => {
+                console.error("Terjadi kesalahan sinkronisasi mantra:", error);
+            });
+        }
+
+        // Exposing specific logic to global window so standard html onclick properties work
+        window.attemptLogin = function() {
             const userVal = document.getElementById('username').value.trim();
             const passVal = document.getElementById('password').value;
             
@@ -1072,64 +1129,58 @@
             if (userVal === '') {
                 errorMsg.querySelector('span').innerText = "Identitas penyihir diperlukan.";
                 errorMsg.classList.remove('hidden');
-                // Shake effect on error
                 errorMsg.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}], {duration:300});
                 return;
             }
 
             if (userVal.toLowerCase() === 'admin' && passVal === 'caputdraconis') {
-                currentUser = "Headmaster (Admin)";
-                isAdmin = true;
-                completeLogin();
+                window.currentUser = "Headmaster (Admin)";
+                window.isAdmin = true;
+                window.completeLogin();
             } else if (passVal === 'caputdraconis') {
-                currentUser = userVal;
-                isAdmin = false;
-                completeLogin();
+                window.currentUser = userVal;
+                window.isAdmin = false;
+                window.completeLogin();
             } else {
                 errorMsg.querySelector('span').innerText = "Kredensial atau kata sandi sihir tidak valid.";
                 errorMsg.classList.remove('hidden');
                 errorMsg.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}], {duration:300});
             }
-        }
+        };
 
-        function completeLogin() {
+        window.completeLogin = function() {
             loginScreen.style.opacity = '0';
             
             setTimeout(() => {
                 loginScreen.classList.add('hidden');
                 
-                // Set sidebar appropriately
                 sidebar.classList.remove('hidden');
-                sidebar.classList.add('hidden', 'md:flex'); // hidden di mobile, flex di desktop
+                sidebar.classList.add('hidden', 'md:flex');
                 
                 mainContent.classList.remove('hidden');
                 
-                // Update Greeting text
-                userGreeting.innerText = isAdmin ? "Otoritas Tinggi Akses Penuh" : `Student: ${currentUser}`;
-                if(isAdmin) userGreeting.classList.add('text-hogwarts-gold', 'border-hogwarts-gold');
+                userGreeting.innerText = window.isAdmin ? "Otoritas Tinggi Akses Penuh" : `Student: ${window.currentUser}`;
+                if(window.isAdmin) userGreeting.classList.add('text-hogwarts-gold', 'border-hogwarts-gold');
                 
-                // Show Admin Direct Control Input if Admin
-                if (isAdmin) {
+                if (window.isAdmin) {
                     document.getElementById('admin-controls').classList.remove('hidden');
                 } else {
                     document.getElementById('admin-controls').classList.add('hidden');
                 }
 
-                // Initial setup display
-                updatePointsDisplay();
-                navigate('home');
+                window.updatePointsDisplay();
+                window.navigate('home');
             }, 700);
-        }
+        };
 
-        function logout() {
-            currentUser = null;
-            isAdmin = false;
+        window.logout = function() {
+            window.currentUser = null;
+            window.isAdmin = false;
             
-            // Clear inputs
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             
-            sidebar.classList.add('hidden');
+            sidebar.classList.add('hidden', 'md:flex');
             sidebar.classList.remove('flex', 'absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'bg-[#0a0a12]');
             mainContent.classList.add('hidden');
             
@@ -1138,22 +1189,15 @@
             requestAnimationFrame(() => {
                 loginScreen.style.opacity = '1';
             });
-            
-            // Close mobile menu if open
-            if(window.innerWidth < 768 && sidebar.classList.contains('absolute')) {
-                toggleMobileMenu();
-            }
-        }
+        };
 
-        // Add Enter key listener for login
         document.getElementById('password').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                attemptLogin();
+                window.attemptLogin();
             }
         });
 
-        // --- Navigation Logic ---
-        function navigate(pageId) {
+        window.navigate = function(pageId) {
             const pages = document.querySelectorAll('.page');
             pages.forEach(p => {
                 p.classList.remove('active');
@@ -1169,17 +1213,15 @@
                 btn.classList.remove('text-hogwarts-gold');
             });
 
-            // Close mobile menu on navigate
             if (window.innerWidth < 768) {
                 const sidebarEl = document.getElementById('sidebar');
                 if (sidebarEl.classList.contains('absolute')) {
-                    toggleMobileMenu();
+                    window.toggleMobileMenu();
                 }
             }
-        }
+        };
 
-        // --- Sidebar Interactions ---
-        function toggleSubmenu(id) {
+        window.toggleSubmenu = function(id) {
             const sub = document.getElementById(id);
             const icon = sub.previousElementSibling.querySelector('.fa-chevron-down');
             
@@ -1197,61 +1239,74 @@
                 icon.style.transform = 'rotate(180deg)';
                 icon.style.transition = 'transform 0.3s ease';
             }
-        }
+        };
 
-        // Fix to toggle Sidebar visibility cleanly on Mobile
-        function toggleMobileMenu() {
+        window.toggleMobileMenu = function() {
             const sidebarEl = document.getElementById('sidebar');
             const navLinks = document.getElementById('nav-links');
             const logoutBtn = document.getElementById('logout-btn-container');
             
             if (sidebarEl.classList.contains('hidden') || !sidebarEl.classList.contains('absolute')) {
-                // Open Mobile Menu
+                // Tampilkan Menu Mobile Overlap
                 sidebarEl.classList.remove('hidden', 'md:flex');
                 sidebarEl.classList.add('flex', 'absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'bg-[#0a0a12]');
                 navLinks.classList.remove('hidden');
                 logoutBtn.classList.remove('hidden');
             } else {
-                // Close Mobile Menu
+                // Sembunyikan Menu Mobile
                 sidebarEl.classList.add('hidden', 'md:flex');
                 sidebarEl.classList.remove('flex', 'absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'bg-[#0a0a12]');
             }
-        }
+        };
 
-        // --- Admin Points Real-time Logic ---
-        function updatePointsDisplay() {
-            document.getElementById('pt-gryffindor').innerText = housePoints.gryffindor;
-            document.getElementById('pt-hufflepuff').innerText = housePoints.hufflepuff;
-            document.getElementById('pt-ravenclaw').innerText = housePoints.ravenclaw;
-            document.getElementById('pt-slytherin').innerText = housePoints.slytherin;
+        window.updatePointsDisplay = function() {
+            // Update big display
+            const displayGryf = document.getElementById('pt-gryffindor');
+            const displayHuff = document.getElementById('pt-hufflepuff');
+            const displayRave = document.getElementById('pt-ravenclaw');
+            const displaySlyt = document.getElementById('pt-slytherin');
+
+            if(displayGryf) displayGryf.innerText = window.housePoints.gryffindor;
+            if(displayHuff) displayHuff.innerText = window.housePoints.hufflepuff;
+            if(displayRave) displayRave.innerText = window.housePoints.ravenclaw;
+            if(displaySlyt) displaySlyt.innerText = window.housePoints.slytherin;
             
-            if (isAdmin) {
-                document.getElementById('input-gryffindor').value = housePoints.gryffindor;
-                document.getElementById('input-hufflepuff').value = housePoints.hufflepuff;
-                document.getElementById('input-ravenclaw').value = housePoints.ravenclaw;
-                document.getElementById('input-slytherin').value = housePoints.slytherin;
+            // Update Textbox Admin (Bila Admin sedang mengedit)
+            if (window.isAdmin) {
+                // Mencegah field ter-update apabila admin sedang mengetik aktif di dalamnya
+                if (document.activeElement.id !== 'input-gryffindor') document.getElementById('input-gryffindor').value = window.housePoints.gryffindor;
+                if (document.activeElement.id !== 'input-hufflepuff') document.getElementById('input-hufflepuff').value = window.housePoints.hufflepuff;
+                if (document.activeElement.id !== 'input-ravenclaw') document.getElementById('input-ravenclaw').value = window.housePoints.ravenclaw;
+                if (document.activeElement.id !== 'input-slytherin') document.getElementById('input-slytherin').value = window.housePoints.slytherin;
             }
-        }
+        };
 
-        function directUpdatePoints(house, value) {
-            if (!isAdmin) return;
+        window.directUpdatePoints = function(house, value) {
+            if (!window.isAdmin) return;
             
             let parsedValue = parseInt(value);
             if (isNaN(parsedValue)) {
                 parsedValue = 0; 
             }
             
-            housePoints[house] = parsedValue;
+            window.housePoints[house] = parsedValue;
             
+            // Perubahan Langsung (Lokal)
             const displayEl = document.getElementById(`pt-${house}`);
-            displayEl.innerText = parsedValue;
-            
-            displayEl.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                displayEl.style.transform = 'scale(1)';
-            }, 150);
-        }
+            if (displayEl) {
+                displayEl.innerText = parsedValue;
+                displayEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    displayEl.style.transform = 'scale(1)';
+                }, 150);
+            }
 
+            // Sync Otomatis ke Database (Cloud Firebase)
+            if (isFirebaseReady && db) {
+                const pointsRef = doc(db, 'artifacts', appId, 'public', 'data', 'house_points', 'current_scores');
+                setDoc(pointsRef, window.housePoints, { merge: true }).catch(console.error);
+            }
+        };
     </script>
 </body>
 </html>
